@@ -91,9 +91,9 @@ class TMDb:
         self.current_page = result['page']
         return movies
 
-    def similar(self, id):
+    def similar(self, id, page=1):
         movies = []
-        result = self._call('movie/' + str(id) + '/similar', '')
+        result = self._call('movie/' + str(id) + '/similar', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
         self.total_pages = result['total_pages']
         self.current_page = result['page']
