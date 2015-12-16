@@ -1,4 +1,4 @@
-import json
+import json, simplejson
 import pprint
 from urllib import quote_plus, urlopen
 
@@ -20,6 +20,9 @@ class Movie:
 
     def get_poster(self):
         return self.movie_data['poster_path']
+
+    def get_vote_average(self):
+        return self.movie_data['vote_average']
 
 
 class TMDb:
