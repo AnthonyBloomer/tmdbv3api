@@ -62,36 +62,31 @@ class TMDb:
     def now_playing(self, page=1):
         movies = []
         result = self._call('movie/now-playing', 'page=' + str(page))
-        for result in result['results']:
-            movies.append(Movie(result))
+        [movies.append(Movie(res)) for res in result['results']]
         return movies
 
     def top_rated(self, page=1):
         movies = []
         result = self._call('movie/top-rated', 'page=' + str(page))
-        for result in result['results']:
-            movies.append(Movie(result))
+        [movies.append(Movie(res)) for res in result['results']]
         return movies
 
     def upcoming(self, page=1):
         movies = []
         result = self._call('movie/upcoming', 'page=' + str(page))
-        for result in result['results']:
-            movies.append(Movie(result))
+        [movies.append(Movie(res)) for res in result['results']]
         return movies
 
     def popular(self, page=1):
         movies = []
         result = self._call('movie/popular', 'page=' + str(page))
-        for result in result['results']:
-            movies.append(Movie(result))
+        [movies.append(Movie(res)) for res in result['results']]
         return movies
 
     def search(self, term):
         movies = []
         result = self._call('search/movie', 'query=' + quote_plus(term))
-        for result in result['results']:
-            movies.append(Movie(result))
+        [movies.append(Movie(res)) for res in result['results']]
         return movies
 
     def _call(self, action, append_to_response):
