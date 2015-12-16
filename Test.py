@@ -16,7 +16,17 @@ for movie in popular:
 
 search = tmdb.search('Mad Max')
 
-while tmdb.current_page < tmdb.total_pages:
+for movie in search:
+    print movie.get_id()
+    print movie.get_title()
+    print movie.get_overview()
+    print movie.get_poster()
+    print movie.get_vote_average()
+
+top_rated = tmdb.top_rated(page=2)
+max = 0
+
+while tmdb.current_page < tmdb.total_pages and max != 5:
     search = tmdb.top_rated(page=tmdb.current_page + 1)
     for movie in search:
         print movie.get_id()
@@ -24,3 +34,5 @@ while tmdb.current_page < tmdb.total_pages:
         print movie.get_overview()
         print movie.get_poster()
         print movie.get_vote_average()
+
+    max += 1
