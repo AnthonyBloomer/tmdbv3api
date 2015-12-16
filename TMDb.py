@@ -1,4 +1,5 @@
 import json
+import pprint
 from urllib import quote_plus, urlopen
 
 
@@ -91,12 +92,13 @@ class TMDb:
 
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response
-        print url
+
         response = urlopen(url)
 
         data = json.loads(response.read())
 
         if self.debug:
-            print data
+            pprint.pprint(data)
+            print 'URL: ' + url
 
         return data
