@@ -83,9 +83,9 @@ class TMDb:
         self.current_page = result['page']
         return movies
 
-    def search(self, term):
+    def search(self, term, page=1):
         movies = []
-        result = self._call('search/movie', 'query=' + quote_plus(term))
+        result = self._call('search/movie', 'query=' + quote_plus(term) + '&page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
         self.total_pages = result['total_pages']
         self.current_page = result['page']
