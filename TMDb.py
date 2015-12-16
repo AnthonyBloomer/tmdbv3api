@@ -24,6 +24,21 @@ class Movie:
     def get_vote_average(self):
         return self.movie_data['vote_average']
 
+    def get_vote_count(self):
+        return self.movie_data['vote_count']
+
+    def get_popularity(self):
+        return self.movie_data['popularity']
+
+    def get_release_date(self):
+        return self.movie_data['release_date']
+
+    def get_original_language(self):
+        return self.movie_data['original_language']
+
+    def get_original_title(self):
+        return self.movie_data['original_title']
+
 
 class TMDb:
     URL = "http://api.themoviedb.org/3/"
