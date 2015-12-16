@@ -1,4 +1,4 @@
-import json, simplejson
+import json
 import pprint
 from urllib import quote_plus, urlopen
 
