@@ -36,3 +36,9 @@ while tmdb.current_page < tmdb.total_pages and max != 5:
         print movie.get_vote_average()
 
     max += 1
+
+similar = tmdb.similar(777)
+
+for result in similar:
+    print result.get_title()
+    print result.get_overview()
