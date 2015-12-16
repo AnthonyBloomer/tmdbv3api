@@ -91,6 +91,14 @@ class TMDb:
         self.current_page = result['page']
         return movies
 
+    def similar(self, id):
+        movies = []
+        result = self._call('movie/' + str(id) + '/similar', '')
+        [movies.append(Movie(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return movies
+
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response
 
