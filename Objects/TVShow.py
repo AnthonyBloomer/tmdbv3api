@@ -4,8 +4,8 @@ import json
 class TVShow:
     tvdata = []
 
-    def __init__(self, tvdata):
-        self.tvdata = tvdata
+    def __init__(self, movie_data):
+        self.tvdata = movie_data
 
     def get_id(self):
         return self.tvdata['id']
@@ -18,6 +18,9 @@ class TVShow:
 
     def get_poster(self):
         return self.tvdata['poster_path']
+
+    def get_backdrop_path(self):
+        return self.tvdata['backdrop_path']
 
     def get_vote_average(self):
         return self.tvdata['vote_average']
