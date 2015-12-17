@@ -1,3 +1,6 @@
+import json
+
+
 class Movie:
     movie_data = []
 
@@ -33,3 +36,6 @@ class Movie:
 
     def get_original_title(self):
         return self.movie_data['original_title']
+
+    def get_json(self):
+        return json.dumps(self.movie_data)
