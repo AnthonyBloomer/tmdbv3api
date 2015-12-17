@@ -34,8 +34,8 @@ class TVShow:
     def get_original_language(self):
         return self.tv_data['original_language']
 
-    def get_original_title(self):
-        return self.tv_data['original_title']
+    def get_original_name(self):
+        return self.tv_data['original_name']
 
     def get_json(self):
         return json.dumps(self.tv_data)
