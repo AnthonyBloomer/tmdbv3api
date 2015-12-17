@@ -2,6 +2,7 @@ import json
 import pprint
 from urllib import quote_plus, urlopen
 from Movie import Movie
+from TVShow import TVShow
 
 
 class TMDb:
@@ -56,7 +57,7 @@ class TMDb:
         return self.current_page
 
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
-        return Movie(self._call('movie/' + movie_id, append_to_response))
+        return Movie(self._call('movie/' + str(movie_id), append_to_response))
 
     def now_playing(self, page=1):
         movies = []
@@ -105,6 +106,9 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
+
+    def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
+        return TVShow(self._call('tv/' + str(show_id), append_to_response))
 
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
