@@ -52,5 +52,11 @@ class TVShow:
     def get_original_name(self):
         return self.tvdata['original_name']
 
+    def get_status(self):
+        return self.tvdata['status']
+
+    def get_type(self):
+        return self.tvdata['type']
+
     def get_json(self):
         return json.dumps(self.tvdata)
