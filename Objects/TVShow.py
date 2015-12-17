@@ -2,40 +2,40 @@ import json
 
 
 class TVShow:
-    tv_data = []
+    tvdata = []
 
-    def __init__(self, movie_data):
-        self.tv_data = movie_data
+    def __init__(self, tvdata):
+        self.tvdata = tvdata
 
     def get_id(self):
-        return self.tv_data['id']
+        return self.tvdata['id']
 
     def get_name(self):
-        return self.tv_data['name']
+        return self.tvdata['name']
 
     def get_overview(self):
-        return self.tv_data['overview']
+        return self.tvdata['overview']
 
     def get_poster(self):
-        return self.tv_data['poster_path']
+        return self.tvdata['poster_path']
 
     def get_vote_average(self):
-        return self.tv_data['vote_average']
+        return self.tvdata['vote_average']
 
     def get_vote_count(self):
-        return self.tv_data['vote_count']
+        return self.tvdata['vote_count']
 
     def get_popularity(self):
-        return self.tv_data['popularity']
+        return self.tvdata['popularity']
 
     def get_release_date(self):
-        return self.tv_data['release_date']
+        return self.tvdata['release_date']
 
     def get_original_language(self):
-        return self.tv_data['original_language']
+        return self.tvdata['original_language']
 
     def get_original_name(self):
-        return self.tv_data['original_name']
+        return self.tvdata['original_name']
 
     def get_json(self):
-        return json.dumps(self.tv_data)
+        return json.dumps(self.tvdata)
