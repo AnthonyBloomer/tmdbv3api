@@ -6,6 +6,8 @@ from Objects.Movie import Movie
 
 from Objects.TVShow import TVShow
 
+from Objects.Person import Person
+
 
 # http://docs.themoviedb.apiary.io
 class TMDb:
@@ -139,6 +141,10 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return shows
+
+    # Get the general person information for a specific id.
+    def get_person(self, id, append_to_response="append_to_response=trailers,images,casts,translations"):
+        return Person(self._call('person/' + str(id), append_to_response))
 
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
