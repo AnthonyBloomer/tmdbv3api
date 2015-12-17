@@ -51,7 +51,7 @@ for result in show:
     
 similar = tmdb.similar_shows(1396)
 
-for movie in similar:
-    print movie.get_name()
-    print movie.get_overview()
+for show in similar:
+    print show.get_name()
+    print show.get_overview()
 
