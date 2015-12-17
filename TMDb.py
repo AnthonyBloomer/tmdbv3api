@@ -16,7 +16,7 @@ class TMDb:
     current_page = 0
     total_pages = 0
 
-    def __init__(self, apikey, debug=False, language=''):
+    def __init__(self, apikey, debug=False, language='en'):
         self._set_key(apikey)
         self._set_debug(debug)
         self._set_lang(language)
