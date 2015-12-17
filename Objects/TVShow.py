@@ -16,6 +16,18 @@ class TVShow:
     def get_overview(self):
         return self.tvdata['overview']
 
+    def get_first_air_date(self):
+        return self.tvdata['first_air_date']
+
+    def get_last_air_date(self):
+        return self.tvdata['last_air_date']
+
+    def get_number_of_episodes(self):
+        return self.tvdata['number_of_episodes']
+
+    def get_number_of_seasons(self):
+        return self.tvdata['number_of_seasons']
+
     def get_poster(self):
         return self.tvdata['poster_path']
 
