@@ -7,21 +7,22 @@ from Movie import Movie
 class TMDb:
     URL = "http://api.themoviedb.org/3/"
 
-    api_key = ""
+    api_key = ''
     debug = False
-    lang = "en"
+    lang = ''
 
     config = []
 
     current_page = 0
     total_pages = 0
 
-    def __init__(self, apikey, debug):
-        self.set_key(apikey)
-        self.set_debug(debug)
-        self.set_config()
+    def __init__(self, apikey, debug=False, language=''):
+        self._set_key(apikey)
+        self._set_debug(debug)
+        self._set_lang(language)
+        self._set_config()
 
-    def set_config(self):
+    def _set_config(self):
         self.config = self._call('configuration', '')
 
     def get_config(self):
@@ -30,16 +31,22 @@ class TMDb:
     def get_image_url(self, size='original'):
         return self.config['images']['base_url'] + size
 
-    def set_key(self, apikey):
+    def _set_lang(self, lang):
+        self.lang = lang
+
+    def _get_lang(self):
+        return self.lang
+
+    def _set_key(self, apikey):
         self.api_key = apikey
 
-    def get_key(self):
+    def _get_key(self):
         return self.api_key
 
-    def set_debug(self, debug):
+    def _set_debug(self, debug):
         self.debug = debug
 
-    def get_debug(self):
+    def _get_debug(self):
         return self.debug
 
     def get_total_pages(self):
@@ -100,7 +107,7 @@ class TMDb:
         return movies
 
     def _call(self, action, append_to_response):
-        url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response
+        url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
 
         response = urlopen(url)
 
