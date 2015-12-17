@@ -19,6 +19,9 @@ class Movie:
     def get_poster(self):
         return self.movie_data['poster_path']
 
+    def get_backdrop_path(self):
+        return self.movie_data['backdrop_path']
+
     def get_vote_average(self):
         return self.movie_data['vote_average']
 
