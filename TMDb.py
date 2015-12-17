@@ -131,6 +131,15 @@ class TMDb:
         self.current_page = result['page']
         return shows
 
+    # Get the similar TV shows for a specific tv id.
+    def similar_shows(self, id, page=1):
+        shows = []
+        result = self._call('tv/' + str(id) + '/similar', 'page=' + str(page))
+        [shows.append(TVShow(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return shows
+
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
 
