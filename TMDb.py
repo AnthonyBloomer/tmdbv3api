@@ -6,7 +6,7 @@ from Objects.Movie import Movie
 
 from Objects.TVShow import TVShow
 
-
+# http://docs.themoviedb.apiary.io
 class TMDb:
     URL = "http://api.themoviedb.org/3/"
 
@@ -57,10 +57,12 @@ class TMDb:
 
     def get_current_page(self):
         return self.current_page
-
+    
+    # Get the basic movie information for a specific movie id.
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return Movie(self._call('movie/' + str(movie_id), append_to_response))
-
+    
+    # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
         movies = []
         result = self._call('movie/now-playing', 'page=' + str(page))
@@ -68,7 +70,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes. This list refreshes every day.
     def top_rated(self, page=1):
         movies = []
         result = self._call('movie/top-rated', 'page=' + str(page))
@@ -76,7 +79,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Get the list of upcoming movies by release date. This list refreshes every day.
     def upcoming(self, page=1):
         movies = []
         result = self._call('movie/upcoming', 'page=' + str(page))
@@ -84,7 +88,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Get the list of popular movies on The Movie Database. This list refreshes every day.
     def popular(self, page=1):
         movies = []
         result = self._call('movie/popular', 'page=' + str(page))
@@ -92,7 +97,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Search for movies by title.
     def search(self, term, page=1):
         movies = []
         result = self._call('search/movie', 'query=' + quote_plus(term) + '&page=' + str(page))
@@ -100,7 +106,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Get the similar movies for a specific movie id.
     def similar(self, id, page=1):
         movies = []
         result = self._call('movie/' + str(id) + '/similar', 'page=' + str(page))
@@ -108,7 +115,8 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return movies
-
+    
+    # Get the primary information about a TV series by id.
     def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return TVShow(self._call('tv/' + str(show_id), append_to_response))
 
