@@ -42,3 +42,9 @@ similar = tmdb.similar(777)
 for result in similar:
     print result.get_title()
     print result.get_overview()
+
+show = tmdb.search_tv('Breaking Bad')
+
+for result in show:
+    print result.get_name()
+    print result.get_overview()
