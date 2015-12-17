@@ -65,6 +65,7 @@ class TMDb:
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return Movie(self._call('movie/' + str(movie_id), append_to_response))
 
+    # Get the latest movie id.
     def get_latest_movie(self):
         return Movie(self._call('movie/latest', ''))
 
@@ -127,6 +128,7 @@ class TMDb:
     def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return TVShow(self._call('tv/' + str(show_id), append_to_response))
 
+    # Get the latest TV show id.
     def get_latest_tv_show(self):
         return TVShow(self._call('tv/latest', ''))
 
