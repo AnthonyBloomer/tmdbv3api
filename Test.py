@@ -55,3 +55,7 @@ for show in similar:
     print show.get_name()
     print show.get_overview()
 
+person = tmdb.get_person(12)
+
+print person.get_name()
+print person.get_biography()
