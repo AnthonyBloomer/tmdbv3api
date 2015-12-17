@@ -154,6 +154,15 @@ class TMDb:
     def get_person(self, id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return Person(self._call('person/' + str(id), append_to_response))
 
+    # Search for people by name.
+    def search_person(self, term, page=1):
+        people = []
+        result = self._call('search/person', 'query=' + quote_plus(term) + '&page=' + str(page))
+        [people.append(Person(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return people
+
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
 
