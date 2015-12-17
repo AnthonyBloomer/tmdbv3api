@@ -1,6 +1,6 @@
 from TMDb import TMDb
 
-tmdb = TMDb(apikey="", debug=True)
+tmdb = TMDb(apikey="", debug=True, language="en")
 
 print tmdb.config
 
