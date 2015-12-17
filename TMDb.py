@@ -1,8 +1,10 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-from Movie import Movie
-from TVShow import TVShow
+
+from Objects.Movie import Movie
+
+from Objects.TVShow import TVShow
 
 
 class TMDb:
