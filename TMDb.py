@@ -72,7 +72,8 @@ class TMDb:
         self.current_page = result['page']
         return movies
 
-    # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes. This list refreshes every day.
+    # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes.
+    # This list refreshes every day.
     def top_rated(self, page=1):
         movies = []
         result = self._call('movie/top-rated', 'page=' + str(page))
