@@ -65,6 +65,9 @@ class TMDb:
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return Movie(self._call('movie/' + str(movie_id), append_to_response))
 
+    def get_latest_movie(self):
+        return Movie(self._call('movie/latest', ''))
+
     # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
         movies = []
@@ -123,6 +126,9 @@ class TMDb:
     # Get the primary information about a TV series by id.
     def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return TVShow(self._call('tv/' + str(show_id), append_to_response))
+
+    def get_latest_tv_show(self):
+        return TVShow(self._call('tv/latest', ''))
 
     # Search for TV shows by title.
     def search_tv(self, term, page=1):
