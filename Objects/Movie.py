@@ -10,6 +10,9 @@ class Movie:
     def get_id(self):
         return self.movie_data['id']
 
+    def adult(self):
+        return self.movie_data['adult']
+
     def get_title(self):
         return self.movie_data['title']
 
@@ -39,6 +42,9 @@ class Movie:
 
     def get_original_title(self):
         return self.movie_data['original_title']
+
+    def belongs_to_collection(self):
+        return self.movie_data['belongs_to_collection']
 
     def get_json(self):
         return json.dumps(self.movie_data)
