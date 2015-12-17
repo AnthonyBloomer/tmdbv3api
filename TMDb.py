@@ -122,6 +122,15 @@ class TMDb:
     def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return TVShow(self._call('tv/' + str(show_id), append_to_response))
 
+    # Search for TV shows by title.
+    def search_tv(self, term, page=1):
+        shows = []
+        result = self._call('search/tv', 'query=' + quote_plus(term) + '&page=' + str(page))
+        [shows.append(TVShow(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return shows
+
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
 
