@@ -4,8 +4,6 @@ tmdb = TMDb(apikey="", debug=True, language="en")
 
 print tmdb.config
 
-print tmdb.get_image_url()
-
 popular = tmdb.popular()
 
 for movie in popular:
