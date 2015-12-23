@@ -34,9 +34,6 @@ class TMDb:
     def get_config(self):
         return self.config
 
-    def get_image_url(self, size='original'):
-        return self.config['images']['base_url'] + size
-
     def _set_lang(self, lang):
         self.lang = lang
 
