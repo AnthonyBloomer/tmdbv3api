@@ -32,15 +32,6 @@ class TMDb:
     def get_config(self):
         return self.config
 
-    def _get_lang(self):
-        return self.lang
-
-    def _get_key(self):
-        return self.api_key
-
-    def _get_debug(self):
-        return self.debug
-
     def get_total_pages(self):
         return self.total_pages
 
