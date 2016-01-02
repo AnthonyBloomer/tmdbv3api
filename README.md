@@ -14,7 +14,7 @@ Get a list of popular movies.
 ```python
 
 from TMDb import TMDb
-tmdb = TMDb(apikey="your-api-key", debug=True, language="en")
+tmdb = TMDb(api_key="your-api-key", debug=False, lang="en")
 
 popular = tmdb.popular()
 
