@@ -20,10 +20,10 @@ class TMDb:
     current_page = 0
     total_pages = 0
 
-    def __init__(self, apikey, debug=False, language='en'):
-        self._set_key(apikey)
-        self._set_debug(debug)
-        self._set_lang(language)
+    def __init__(self, api_key, debug=False, lang='en'):
+        self.api_key = api_key
+        self.debug = debug
+        self.lang = lang
         self._set_config()
 
     def _set_config(self):
@@ -32,20 +32,11 @@ class TMDb:
     def get_config(self):
         return self.config
 
-    def _set_lang(self, lang):
-        self.lang = lang
-
     def _get_lang(self):
         return self.lang
 
-    def _set_key(self, apikey):
-        self.api_key = apikey
-
     def _get_key(self):
         return self.api_key
-
-    def _set_debug(self, debug):
-        self.debug = debug
 
     def _get_debug(self):
         return self.debug
@@ -144,7 +135,7 @@ class TMDb:
         self.total_pages = result['total_pages']
         self.current_page = result['page']
         return shows
-    
+
     # Get the list of popular TV shows. This list refreshes every day.
     def popular_shows(self, page=1):
         shows = []
@@ -154,8 +145,8 @@ class TMDb:
         self.current_page = result['page']
         return shows
 
-    # Get the list of top rated TV shows. 
-    # By default, this list will only include TV shows that have 2 or more votes. 
+    # Get the list of top rated TV shows.
+    # By default, this list will only include TV shows that have 2 or more votes.
     # This list refreshes every day.
 
     def top_rated_shows(self, page=1):
