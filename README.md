@@ -19,10 +19,10 @@ tmdb = TMDb(api_key="your-api-key", debug=False, lang="en")
 popular = tmdb.popular()
 
 for movie in popular:
-    print movie.get_id()
-    print movie.get_title()
-    print movie.get_overview()
-    print movie.get_poster()
+    print movie.id()
+    print movie.title()
+    print movie.overview()
+    print movie.poster()
             
 ```
 Search for a movie by name.
@@ -31,11 +31,11 @@ Search for a movie by name.
 search = tmdb.search('Mad Max')
 
 for movie in search:
-    print movie.get_id()
-    print movie.get_title()
-    print movie.get_overview()
-    print movie.get_poster()
-    print movie.get_vote_average()
+    print movie.id()
+    print movie.title()
+    print movie.overview()
+    print movie.poster()
+    print movie.vote_average()
 ```
 
 Get a list of similar movies for a given movie ID.
@@ -44,8 +44,8 @@ Get a list of similar movies for a given movie ID.
 similar = tmdb.similar(777)
 
 for result in similar:
-    print result.get_title()
-    print result.get_overview()
+    print result.title()
+    print result.overview()
 ```
 
 Search for a TV show by name.
@@ -54,8 +54,8 @@ Search for a TV show by name.
 show = tmdb.search_tv('Breaking Bad')
 
 for result in show:
-    print result.get_name()
-    print result.get_overview()
+    print result.name()
+    print result.overview()
 ```
 
 Get a list of similar TV shows for a given TV Show ID.
@@ -64,8 +64,8 @@ Get a list of similar TV shows for a given TV Show ID.
 similar = tmdb.similar_shows(1396)
 
 for show in similar:
-    print show.get_name()
-    print show.get_overview()
+    print show.name()
+    print show.overview()
 ```
 
 Get actor information for a given ID.
@@ -73,8 +73,8 @@ Get actor information for a given ID.
 ```python
 person = tmdb.get_person(12)
 
-print person.get_name()
-print person.get_biography()
+print person.name()
+print person.biography()
 ```
 
 ### Supported Methods
