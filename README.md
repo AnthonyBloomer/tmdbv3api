@@ -92,6 +92,8 @@ print person.get_biography()
 - **/tv/id**
 - **/tv/latest**
 - **/tv/id/similar** 
+- **/tv/top_rated**
+- **/tv/popular**
 
 #### People
 
