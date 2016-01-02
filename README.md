@@ -76,3 +76,29 @@ person = tmdb.get_person(12)
 print person.get_name()
 print person.get_biography()
 ```
+
+### Supported Methods
+
+#### Movies
+- **/movie/latest** 
+- **/movie/now_playing**
+- **/movie/top_rated**
+- **/movie/upcoming**
+- **/movie/id**
+- **/movie/id/similar**
+
+#### TV
+
+- **/tv/id**
+- **/tv/latest**
+- **/tv/id/similar** 
+
+#### People
+
+- **/person/id**
+
+#### Search
+
+- **/search/movie**
+- **/search/tv**
+- **/search/person**
