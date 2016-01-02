@@ -3,9 +3,7 @@ import pprint
 from urllib import quote_plus, urlopen
 
 from Objects.Movie import Movie
-
 from Objects.TVShow import TVShow
-
 from Objects.Person import Person
 
 
@@ -142,6 +140,27 @@ class TMDb:
     def similar_shows(self, id, page=1):
         shows = []
         result = self._call('tv/' + str(id) + '/similar', 'page=' + str(page))
+        [shows.append(TVShow(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return shows
+    
+    # Get the list of popular TV shows. This list refreshes every day.
+    def popular_shows(self, page=1):
+        shows = []
+        result = self._call('tv/popular', 'page=' + str(page))
+        [shows.append(TVShow(res)) for res in result['results']]
+        self.total_pages = result['total_pages']
+        self.current_page = result['page']
+        return shows
+
+    # Get the list of top rated TV shows. 
+    # By default, this list will only include TV shows that have 2 or more votes. 
+    # This list refreshes every day.
+
+    def top_rated_shows(self, page=1):
+        shows = []
+        result = self._call('tv/top_rated', 'page=' + str(page))
         [shows.append(TVShow(res)) for res in result['results']]
         self.total_pages = result['total_pages']
         self.current_page = result['page']
