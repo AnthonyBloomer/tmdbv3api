@@ -149,8 +149,8 @@ class TMDb:
         return shows
 
     # Get the general person information for a specific id.
-    def get_person(self, id, append_to_response="append_to_response=trailers,images,casts,translations"):
-        return Person(self._call('person/' + str(id), append_to_response))
+    def get_person(self, id):
+        return Person(self._call('person/' + str(id), ''))
 
     # Search for people by name.
     def search_person(self, term, page=1):
