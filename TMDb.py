@@ -1,11 +1,9 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-
 from Objects.Movie import Movie
 from Objects.TVShow import TVShow
 from Objects.Person import Person
-
 
 # http://docs.themoviedb.apiary.io
 class TMDb:
@@ -28,12 +26,6 @@ class TMDb:
 
     def get_config(self):
         return self.config
-
-    def get_total_pages(self):
-        return self.total_pages
-
-    def get_current_page(self):
-        return self.current_page
 
     # Get the basic movie information for a specific movie id.
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
