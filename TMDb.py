@@ -17,9 +17,6 @@ class TMDb:
 
     config = []
 
-    current_page = 0
-    total_pages = 0
-
     def __init__(self, api_key, debug=False, lang='en'):
         self.api_key = api_key
         self.debug = debug
@@ -51,8 +48,6 @@ class TMDb:
         movies = []
         result = self._call('movie/now-playing', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes.
@@ -61,8 +56,6 @@ class TMDb:
         movies = []
         result = self._call('movie/top-rated', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Get the list of upcoming movies by release date. This list refreshes every day.
@@ -70,8 +63,6 @@ class TMDb:
         movies = []
         result = self._call('movie/upcoming', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Get the list of popular movies on The Movie Database. This list refreshes every day.
@@ -79,8 +70,6 @@ class TMDb:
         movies = []
         result = self._call('movie/popular', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Search for movies by title.
@@ -88,8 +77,6 @@ class TMDb:
         movies = []
         result = self._call('search/movie', 'query=' + quote_plus(term) + '&page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Get the similar movies for a specific movie id.
@@ -97,8 +84,6 @@ class TMDb:
         movies = []
         result = self._call('movie/' + str(id) + '/similar', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return movies
 
     # Get the primary information about a TV series by id.
@@ -114,8 +99,6 @@ class TMDb:
         shows = []
         result = self._call('search/tv', 'query=' + quote_plus(term) + '&page=' + str(page))
         [shows.append(TVShow(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return shows
 
     # Get the similar TV shows for a specific tv id.
@@ -123,8 +106,6 @@ class TMDb:
         shows = []
         result = self._call('tv/' + str(id) + '/similar', 'page=' + str(page))
         [shows.append(TVShow(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return shows
 
     # Get the list of popular TV shows. This list refreshes every day.
@@ -132,8 +113,6 @@ class TMDb:
         shows = []
         result = self._call('tv/popular', 'page=' + str(page))
         [shows.append(TVShow(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return shows
 
     # Get the list of top rated TV shows.
@@ -144,8 +123,6 @@ class TMDb:
         shows = []
         result = self._call('tv/top_rated', 'page=' + str(page))
         [shows.append(TVShow(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return shows
 
     # Get the general person information for a specific id.
@@ -157,17 +134,12 @@ class TMDb:
         people = []
         result = self._call('search/person', 'query=' + quote_plus(term) + '&page=' + str(page))
         [people.append(Person(res)) for res in result['results']]
-        self.total_pages = result['total_pages']
-        self.current_page = result['page']
         return people
 
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
-
         response = urlopen(url)
-
         data = json.loads(response.read())
-
         if self.debug:
             pprint.pprint(data)
             print 'URL: ' + url
