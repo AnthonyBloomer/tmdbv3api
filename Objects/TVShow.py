@@ -4,8 +4,8 @@ import json
 class TVShow:
     tvdata = []
 
-    def __init__(self, movie_data):
-        self.tvdata = movie_data
+    def __init__(self, tvdata):
+        self.tvdata = tvdata
 
     def id(self):
         return self.tvdata['id']
