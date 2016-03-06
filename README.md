@@ -3,10 +3,10 @@ Python wrapper for The Movie Database (TMDb) API.
 
 To use this wrapper you will need to get an API key from TMDB. 
 
-Register an account here:
+Register an account:
 https://www.themoviedb.org/account/signup
 
-Check out the API documentation here: 
+Check out the API documentation: 
 https://docs.themoviedb.apiary.io
 
 ### Examples
