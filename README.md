@@ -1,7 +1,7 @@
 # tmdb
 Python wrapper for The Movie Database (TMDb) API.
 
-To use this wrapper you will need to get an API key from TMDB. 
+To use this wrapper you will need to get an API key from TMDb.
 
 Register an account:
 https://www.themoviedb.org/account/signup
