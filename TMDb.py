@@ -1,9 +1,7 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-from Objects.Movie import Movie
-from Objects.TVShow import TVShow
-from Objects.Person import Person
+from Objects import TVShow, Movie, Person
 
 # http://docs.themoviedb.apiary.io
 class TMDb:
