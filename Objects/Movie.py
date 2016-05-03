@@ -42,6 +42,9 @@ class Movie:
 
     def original_title(self):
         return self.movie_data['original_title']
+        
+    def revenue(self):
+        return self.movie_data['revenue']
 
     def belongs_to_collection(self):
         return self.movie_data['belongs_to_collection']
