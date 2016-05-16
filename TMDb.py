@@ -36,7 +36,7 @@ class TMDb:
     # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
         movies = []
-        result = self._call('movie/now-playing', 'page=' + str(page))
+        result = self._call('movie/now_playing', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
         return movies
 
@@ -44,7 +44,7 @@ class TMDb:
     # This list refreshes every day.
     def top_rated(self, page=1):
         movies = []
-        result = self._call('movie/top-rated', 'page=' + str(page))
+        result = self._call('movie/top_rated', 'page=' + str(page))
         [movies.append(Movie(res)) for res in result['results']]
         return movies
 
