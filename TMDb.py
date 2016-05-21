@@ -7,12 +7,6 @@ from Objects import TVShow, Movie, Person
 class TMDb:
     URL = "http://api.themoviedb.org/3/"
 
-    api_key = ''
-    debug = False
-    lang = ''
-
-    config = []
-
     def __init__(self, api_key, debug=False, lang='en'):
         self.api_key = api_key
         self.debug = debug
