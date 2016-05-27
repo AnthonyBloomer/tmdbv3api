@@ -1,7 +1,8 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-from Objects import TVShow, Movie, Person
+from objects import TVShow, Movie, Person
+
 
 # http://docs.themoviedb.apiary.io
 class TMDb:
@@ -12,6 +13,7 @@ class TMDb:
         self.debug = debug
         self.lang = lang
         self._set_config()
+        self.data = []
 
     def _set_config(self):
         self.config = self._call('configuration', '')
@@ -29,46 +31,40 @@ class TMDb:
 
     # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
-        movies = []
         result = self._call('movie/now_playing', 'page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes.
     # This list refreshes every day.
     def top_rated(self, page=1):
-        movies = []
         result = self._call('movie/top_rated', 'page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Get the list of upcoming movies by release date. This list refreshes every day.
     def upcoming(self, page=1):
-        movies = []
         result = self._call('movie/upcoming', 'page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Get the list of popular movies on The Movie Database. This list refreshes every day.
     def popular(self, page=1):
-        movies = []
         result = self._call('movie/popular', 'page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Search for movies by title.
     def search(self, term, page=1):
-        movies = []
         result = self._call('search/movie', 'query=' + quote_plus(term) + '&page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Get the similar movies for a specific movie id.
     def similar(self, id, page=1):
-        movies = []
         result = self._call('movie/' + str(id) + '/similar', 'page=' + str(page))
-        [movies.append(Movie(res)) for res in result['results']]
-        return movies
+        [self.data.append(Movie(res)) for res in result['results']]
+        return self.data
 
     # Get the primary information about a TV series by id.
     def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
@@ -80,34 +76,29 @@ class TMDb:
 
     # Search for TV shows by title.
     def search_tv(self, term, page=1):
-        shows = []
         result = self._call('search/tv', 'query=' + quote_plus(term) + '&page=' + str(page))
-        [shows.append(TVShow(res)) for res in result['results']]
-        return shows
+        [self.data.append(TVShow(res)) for res in result['results']]
+        return self.data
 
     # Get the similar TV shows for a specific tv id.
     def similar_shows(self, id, page=1):
-        shows = []
         result = self._call('tv/' + str(id) + '/similar', 'page=' + str(page))
-        [shows.append(TVShow(res)) for res in result['results']]
-        return shows
+        [self.data.append(TVShow(res)) for res in result['results']]
+        return self.data
 
     # Get the list of popular TV shows. This list refreshes every day.
     def popular_shows(self, page=1):
-        shows = []
         result = self._call('tv/popular', 'page=' + str(page))
-        [shows.append(TVShow(res)) for res in result['results']]
-        return shows
+        [self.data.append(TVShow(res)) for res in result['results']]
+        return self.data
 
     # Get the list of top rated TV shows.
     # By default, this list will only include TV shows that have 2 or more votes.
     # This list refreshes every day.
 
     def top_rated_shows(self, page=1):
-        shows = []
         result = self._call('tv/top_rated', 'page=' + str(page))
-        [shows.append(TVShow(res)) for res in result['results']]
-        return shows
+        return [self.data.append(TVShow(res)) for res in result['results']]
 
     # Get the general person information for a specific id.
     def get_person(self, id):
@@ -115,10 +106,9 @@ class TMDb:
 
     # Search for people by name.
     def search_person(self, term, page=1):
-        people = []
         result = self._call('search/person', 'query=' + quote_plus(term) + '&page=' + str(page))
-        [people.append(Person(res)) for res in result['results']]
-        return people
+        [self.data.append(Person(res)) for res in result['results']]
+        return self.data
 
     def _call(self, action, append_to_response):
         url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
@@ -127,5 +117,4 @@ class TMDb:
         if self.debug:
             pprint.pprint(data)
             print 'URL: ' + url
-
         return data
