@@ -98,7 +98,8 @@ class TMDb:
 
     def top_rated_shows(self, page=1):
         result = self._call('tv/top_rated', 'page=' + str(page))
-        return [self.data.append(TVShow(res)) for res in result['results']]
+        [self.data.append(TVShow(res)) for res in result['results']]
+        return self.data
 
     # Get the general person information for a specific id.
     def get_person(self, id):
