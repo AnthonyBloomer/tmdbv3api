@@ -3,8 +3,6 @@ from TMDb import TMDb
 
 
 class TMDbTests(unittest.TestCase):
-    api = ''
-
     def setUp(self):
         self.api = TMDb(api_key='', debug=False, lang='en')
 
