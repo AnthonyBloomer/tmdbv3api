@@ -1,7 +1,7 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-from objects import TVShow, Movie, Person
+from data import TVShow, Movie, Person
 
 
 # http://docs.themoviedb.apiary.io
@@ -98,8 +98,7 @@ class TMDb:
 
     def top_rated_shows(self, page=1):
         result = self._call('tv/top_rated', 'page=' + str(page))
-        [self.data.append(TVShow(res)) for res in result['results']]
-        return self.data
+        return [self.data.append(TVShow(res)) for res in result['results']]
 
     # Get the general person information for a specific id.
     def get_person(self, id):

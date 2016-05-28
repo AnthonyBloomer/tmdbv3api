@@ -10,26 +10,33 @@ class TMDbTests(unittest.TestCase):
 
     def test_get_movie(self):
         movie = self.api.get_movie(111)
-        self.assertIsNotNone(movie)
+        print movie.title()
 
     def test_get_latest_movie(self):
         movie = self.api.get_latest_movie()
-        self.assertIsNotNone(movie)
+        print movie.title()
 
     def test_now_playing(self):
         movies = self.api.now_playing()
-        self.assertIsNotNone(movies)
+        for now_playing in movies:
+            print now_playing.title()
 
     def test_top_rated(self):
         movies = self.api.top_rated()
+        for top_rated in movies:
+            print top_rated.title()
         self.assertIsNotNone(movies)
 
     def test_upcoming(self):
         upcoming = self.api.upcoming()
+        for movie in upcoming:
+            print movie.title()
         self.assertIsNotNone(upcoming)
 
     def test_popular(self):
         popular = self.api.popular()
+        for movie in popular:
+            print movie.title()
         self.assertIsNotNone(popular)
 
     def test_search(self):
@@ -70,6 +77,8 @@ class TMDbTests(unittest.TestCase):
 
     def test_search_person(self):
         search = self.api.search_person('Al Pacino')
+        for result in search:
+            print result.name()
         self.assertIsNotNone(search)
 
 
