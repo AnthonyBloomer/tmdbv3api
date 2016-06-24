@@ -1,154 +1,9 @@
 import json
 import pprint
 from urllib import quote_plus, urlopen
-
-
-class TVShow:
-    tvdata = []
-
-    def __init__(self, tvdata):
-        self.tvdata = tvdata
-
-    def id(self):
-        return self.tvdata['id']
-
-    def name(self):
-        return self.tvdata['name']
-
-    def overview(self):
-        return self.tvdata['overview']
-
-    def first_air_date(self):
-        return self.tvdata['first_air_date']
-
-    def last_air_date(self):
-        return self.tvdata['last_air_date']
-
-    def number_of_episodes(self):
-        return self.tvdata['number_of_episodes']
-
-    def number_of_seasons(self):
-        return self.tvdata['number_of_seasons']
-
-    def poster(self):
-        return self.tvdata['poster_path']
-
-    def backdrop_path(self):
-        return self.tvdata['backdrop_path']
-
-    def vote_average(self):
-        return self.tvdata['vote_average']
-
-    def vote_count(self):
-        return self.tvdata['vote_count']
-
-    def popularity(self):
-        return self.tvdata['popularity']
-
-    def release_date(self):
-        return self.tvdata['release_date']
-
-    def original_language(self):
-        return self.tvdata['original_language']
-
-    def original_name(self):
-        return self.tvdata['original_name']
-
-    def status(self):
-        return self.tvdata['status']
-
-    def type(self):
-        return self.tvdata['type']
-
-    def json(self):
-        return json.dumps(self.tvdata)
-
-
-class Person:
-    persondata = []
-
-    def __init__(self, persondata):
-        self.persondata = persondata
-
-    def id(self):
-        return self.persondata['id']
-
-    def name(self):
-        return self.persondata['name']
-
-    def biography(self):
-        return self.persondata['biography']
-
-    def birthday(self):
-        return self.persondata['birthday']
-
-    def deathday(self):
-        return self.persondata['deathday']
-
-    def profilepath(self):
-        return self.persondata['profile_path']
-
-    def place_of_birth(self):
-        return self.persondata['place_of_birth']
-
-    def homepage(self):
-        return self.persondata['homepage']
-
-    def json(self):
-        return json.dumps(self.persondata)
-
-
-class Movie:
-    movie_data = []
-
-    def __init__(self, movie_data):
-        self.movie_data = movie_data
-
-    def id(self):
-        return self.movie_data['id']
-
-    def adult(self):
-        return self.movie_data['adult']
-
-    def title(self):
-        return self.movie_data['title']
-
-    def overview(self):
-        return self.movie_data['overview']
-
-    def poster(self):
-        return self.movie_data['poster_path']
-
-    def backdrop_path(self):
-        return self.movie_data['backdrop_path']
-
-    def vote_average(self):
-        return self.movie_data['vote_average']
-
-    def vote_count(self):
-        return self.movie_data['vote_count']
-
-    def popularity(self):
-        return self.movie_data['popularity']
-
-    def release_date(self):
-        return self.movie_data['release_date']
-
-    def original_language(self):
-        return self.movie_data['original_language']
-
-    def original_title(self):
-        return self.movie_data['original_title']
-
-    def revenue(self):
-        return self.movie_data['revenue']
-
-    def belongs_to_collection(self):
-        return self.movie_data['belongs_to_collection']
-
-    def json(self):
-        return json.dumps(self.movie_data)
-
+from objects.movie import Movie
+from objects.tv_show import TVShow
+from objects.person import Person
 
 # http://docs.themoviedb.apiary.io
 class TMDb:
@@ -178,7 +33,7 @@ class TMDb:
     # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
         result = self._call('movie/now_playing', 'page=' + str(page))
-        [self.data.append(Movie(res)) for res in result['results']]
+        [self.data.append((res)) for res in result['results']]
         return self.data
 
     # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes.
