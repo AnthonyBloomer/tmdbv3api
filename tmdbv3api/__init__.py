@@ -33,7 +33,7 @@ class TMDb:
     # Get the list of movies playing that have been, or are being released this week. This list refreshes every day.
     def now_playing(self, page=1):
         result = self._call('movie/now_playing', 'page=' + str(page))
-        [self.data.append((res)) for res in result['results']]
+        [self.data.append(Movie(res)) for res in result['results']]
         return self.data
 
     # Get the list of top rated movies. By default, this list will only include movies that have 50 or more votes.
