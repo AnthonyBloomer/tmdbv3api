@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Tmdbv3api by AnthonyBloomer</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Tmdbv3api</h1>
+        <p>Python wrapper for The Movie Database (TMDb) API</p>
+
+        <p class="view"><a href="https://github.com/AnthonyBloomer/tmdbv3api">View the Project on GitHub <small>AnthonyBloomer/tmdbv3api</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/AnthonyBloomer/tmdbv3api/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/AnthonyBloomer/tmdbv3api/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/AnthonyBloomer/tmdbv3api">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="tmdbv3api" class="anchor" href="#tmdbv3api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tmdbv3api</h1>
+
+<p>Python wrapper for The Movie Database (TMDb) API.</p>
+
+<p>To use this wrapper you will need to get an API key from TMDb.</p>
+
+<p>Register an account:
+<a href="https://www.themoviedb.org/account/signup">https://www.themoviedb.org/account/signup</a></p>
+
+<p>Check out the API documentation: 
+<a href="https://docs.themoviedb.apiary.io">https://docs.themoviedb.apiary.io</a></p>
+
+<h3>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install</h3>
+
+<pre><code>pip install tmdbv3api
+</code></pre>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
+
+<p>Get a list of popular movies.</p>
+
+<div class="highlight highlight-source-python"><pre>
+<span class="pl-k">from</span> tmdbv3api <span class="pl-k">import</span> TMDb
+tmdb <span class="pl-k">=</span> TMDb(<span class="pl-v">api_key</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>your_api_key<span class="pl-pds">"</span></span>, <span class="pl-v">debug</span><span class="pl-k">=</span><span class="pl-c1">False</span>, <span class="pl-v">lang</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>en<span class="pl-pds">"</span></span>)
+
+popular <span class="pl-k">=</span> tmdb.popular()
+
+<span class="pl-k">for</span> movie <span class="pl-k">in</span> popular:
+    <span class="pl-c1">print</span> movie.id()
+    <span class="pl-c1">print</span> movie.title()
+    <span class="pl-c1">print</span> movie.overview()
+    <span class="pl-c1">print</span> movie.poster()
+</pre></div>
+
+<p>Search for a movie by name.</p>
+
+<div class="highlight highlight-source-python"><pre>search <span class="pl-k">=</span> tmdb.search(<span class="pl-s"><span class="pl-pds">'</span>Mad Max<span class="pl-pds">'</span></span>)
+
+<span class="pl-k">for</span> movie <span class="pl-k">in</span> search:
+    <span class="pl-c1">print</span> movie.id()
+    <span class="pl-c1">print</span> movie.title()
+    <span class="pl-c1">print</span> movie.overview()
+    <span class="pl-c1">print</span> movie.poster()
+    <span class="pl-c1">print</span> movie.vote_average()</pre></div>
+
+<p>Get a list of similar movies for a given movie ID.</p>
+
+<div class="highlight highlight-source-python"><pre>similar <span class="pl-k">=</span> tmdb.similar(<span class="pl-c1">777</span>)
+
+<span class="pl-k">for</span> result <span class="pl-k">in</span> similar:
+    <span class="pl-c1">print</span> result.title()
+    <span class="pl-c1">print</span> result.overview()</pre></div>
+
+<p>Search for a TV show by name.</p>
+
+<div class="highlight highlight-source-python"><pre>show <span class="pl-k">=</span> tmdb.search_tv(<span class="pl-s"><span class="pl-pds">'</span>Breaking Bad<span class="pl-pds">'</span></span>)
+
+<span class="pl-k">for</span> result <span class="pl-k">in</span> show:
+    <span class="pl-c1">print</span> result.name()
+    <span class="pl-c1">print</span> result.overview()</pre></div>
+
+<p>Get a list of similar TV shows for a given TV Show ID.</p>
+
+<div class="highlight highlight-source-python"><pre>similar <span class="pl-k">=</span> tmdb.similar_shows(<span class="pl-c1">1396</span>)
+
+<span class="pl-k">for</span> show <span class="pl-k">in</span> similar:
+    <span class="pl-c1">print</span> show.name()
+    <span class="pl-c1">print</span> show.overview()</pre></div>
+
+<p>Get actor information for a given ID.</p>
+
+<div class="highlight highlight-source-python"><pre>person <span class="pl-k">=</span> tmdb.get_person(<span class="pl-c1">12</span>)
+
+<span class="pl-c1">print</span> person.name()
+<span class="pl-c1">print</span> person.biography()</pre></div>
+
+<h3>
+<a id="supported-methods" class="anchor" href="#supported-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Methods</h3>
+
+<h4>
+<a id="movies" class="anchor" href="#movies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Movies</h4>
+
+<ul>
+<li>
+<strong>/movie/latest</strong> </li>
+<li><strong>/movie/now_playing</strong></li>
+<li><strong>/movie/top_rated</strong></li>
+<li><strong>/movie/upcoming</strong></li>
+<li><strong>/movie/id</strong></li>
+<li><strong>/movie/id/similar</strong></li>
+</ul>
+
+<h4>
+<a id="tv" class="anchor" href="#tv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TV</h4>
+
+<ul>
+<li><strong>/tv/id</strong></li>
+<li><strong>/tv/latest</strong></li>
+<li>
+<strong>/tv/id/similar</strong> </li>
+<li><strong>/tv/top_rated</strong></li>
+<li><strong>/tv/popular</strong></li>
+</ul>
+
+<h4>
+<a id="people" class="anchor" href="#people" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>People</h4>
+
+<ul>
+<li><strong>/person/id</strong></li>
+</ul>
+
+<h4>
+<a id="search" class="anchor" href="#search" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search</h4>
+
+<ul>
+<li><strong>/search/movie</strong></li>
+<li><strong>/search/tv</strong></li>
+<li><strong>/search/person</strong></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/AnthonyBloomer">AnthonyBloomer</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
