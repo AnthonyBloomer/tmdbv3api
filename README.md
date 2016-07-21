@@ -62,8 +62,8 @@ Search for a TV show by name.
 show = tmdb.search_tv('Breaking Bad')
 
 for result in show:
-    print result.name()
-    print result.overview()
+    print result.name
+    print result.overview
 ```
 
 Get a list of similar TV shows for a given TV Show ID.
