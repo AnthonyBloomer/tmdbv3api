@@ -17,7 +17,7 @@ pip install tmdbv3api
 
 ### Examples
 
-Get a list of popular movies.
+Get the list of popular movies on The Movie Database. This list refreshes every day.
 
 ```python
 
@@ -33,7 +33,7 @@ for movie in popular:
     print movie.poster_path
             
 ```
-Search for a movie by name.
+Search for movies by title.
 
 ```python
 search = tmdb.search('Mad Max')
@@ -46,7 +46,7 @@ for movie in search:
     print movie.vote_average
 ```
 
-Get a list of similar movies for a given movie ID.
+Get the similar movies for a specific movie id.
 
 ```python
 similar = tmdb.similar(777)
@@ -56,7 +56,7 @@ for result in similar:
     print result.overview
 ```
 
-Search for a TV show by name.
+Search for TV shows by title.
 
 ```python
 show = tmdb.search_tv('Breaking Bad')
@@ -66,7 +66,7 @@ for result in show:
     print result.overview
 ```
 
-Get a list of similar TV shows for a given TV Show ID.
+Get the similar TV shows for a specific tv id.
 
 ```python
 similar = tmdb.similar_shows(1396)
@@ -76,7 +76,7 @@ for show in similar:
     print show.overview
 ```
 
-Get actor information for a given ID.
+Get the general person information for a specific id.
 
 ```python
 person = tmdb.get_person(12)
