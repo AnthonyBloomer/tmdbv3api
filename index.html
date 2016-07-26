@@ -50,7 +50,7 @@
 <h3>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
 
-<p>Get a list of popular movies.</p>
+<p>Get the list of popular movies on The Movie Database. This list refreshes every day.</p>
 
 <div class="highlight highlight-source-python"><pre>
 <span class="pl-k">from</span> tmdbv3api <span class="pl-k">import</span> TMDb
@@ -59,53 +59,53 @@ tmdb <span class="pl-k">=</span> TMDb(<span class="pl-v">api_key</span><span cla
 popular <span class="pl-k">=</span> tmdb.popular()
 
 <span class="pl-k">for</span> movie <span class="pl-k">in</span> popular:
-    <span class="pl-c1">print</span> movie.id()
-    <span class="pl-c1">print</span> movie.title()
-    <span class="pl-c1">print</span> movie.overview()
-    <span class="pl-c1">print</span> movie.poster()
+    <span class="pl-c1">print</span> movie.id
+    <span class="pl-c1">print</span> movie.title
+    <span class="pl-c1">print</span> movie.overview
+    <span class="pl-c1">print</span> movie.poster_path
 </pre></div>
 
-<p>Search for a movie by name.</p>
+<p>Search for movies by title.</p>
 
 <div class="highlight highlight-source-python"><pre>search <span class="pl-k">=</span> tmdb.search(<span class="pl-s"><span class="pl-pds">'</span>Mad Max<span class="pl-pds">'</span></span>)
 
 <span class="pl-k">for</span> movie <span class="pl-k">in</span> search:
-    <span class="pl-c1">print</span> movie.id()
-    <span class="pl-c1">print</span> movie.title()
-    <span class="pl-c1">print</span> movie.overview()
-    <span class="pl-c1">print</span> movie.poster()
-    <span class="pl-c1">print</span> movie.vote_average()</pre></div>
+    <span class="pl-c1">print</span> movie.id
+    <span class="pl-c1">print</span> movie.title
+    <span class="pl-c1">print</span> movie.overview
+    <span class="pl-c1">print</span> movie.poster_path
+    <span class="pl-c1">print</span> movie.vote_average</pre></div>
 
-<p>Get a list of similar movies for a given movie ID.</p>
+<p>Get the similar movies for a specific movie id.</p>
 
 <div class="highlight highlight-source-python"><pre>similar <span class="pl-k">=</span> tmdb.similar(<span class="pl-c1">777</span>)
 
 <span class="pl-k">for</span> result <span class="pl-k">in</span> similar:
-    <span class="pl-c1">print</span> result.title()
-    <span class="pl-c1">print</span> result.overview()</pre></div>
+    <span class="pl-c1">print</span> result.title
+    <span class="pl-c1">print</span> result.overview</pre></div>
 
-<p>Search for a TV show by name.</p>
+<p>Search for TV shows by title.</p>
 
 <div class="highlight highlight-source-python"><pre>show <span class="pl-k">=</span> tmdb.search_tv(<span class="pl-s"><span class="pl-pds">'</span>Breaking Bad<span class="pl-pds">'</span></span>)
 
 <span class="pl-k">for</span> result <span class="pl-k">in</span> show:
-    <span class="pl-c1">print</span> result.name()
-    <span class="pl-c1">print</span> result.overview()</pre></div>
+    <span class="pl-c1">print</span> result.name
+    <span class="pl-c1">print</span> result.overview</pre></div>
 
-<p>Get a list of similar TV shows for a given TV Show ID.</p>
+<p>Get the similar TV shows for a specific tv id.</p>
 
 <div class="highlight highlight-source-python"><pre>similar <span class="pl-k">=</span> tmdb.similar_shows(<span class="pl-c1">1396</span>)
 
 <span class="pl-k">for</span> show <span class="pl-k">in</span> similar:
-    <span class="pl-c1">print</span> show.name()
-    <span class="pl-c1">print</span> show.overview()</pre></div>
+    <span class="pl-c1">print</span> show.name
+    <span class="pl-c1">print</span> show.overview</pre></div>
 
-<p>Get actor information for a given ID.</p>
+<p>Get the general person information for a specific id.</p>
 
 <div class="highlight highlight-source-python"><pre>person <span class="pl-k">=</span> tmdb.get_person(<span class="pl-c1">12</span>)
 
-<span class="pl-c1">print</span> person.name()
-<span class="pl-c1">print</span> person.biography()</pre></div>
+<span class="pl-c1">print</span> person.name
+<span class="pl-c1">print</span> person.biography</pre></div>
 
 <h3>
 <a id="supported-methods" class="anchor" href="#supported-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Methods</h3>
