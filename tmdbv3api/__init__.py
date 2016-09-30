@@ -14,14 +14,10 @@ class TMDb:
         self.api_key = api_key
         self.debug = debug
         self.lang = lang
-        self._set_config()
         self.data = []
 
-    def _set_config(self):
-        self.config = self._call('configuration', '')
-
     def get_config(self):
-        return self.config
+        return self._call('configuration', '')
 
     # Get the basic movie information for a specific movie id.
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
