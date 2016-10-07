@@ -4,7 +4,7 @@ import unittest
 from tmdbv3api import TMDb
 
 
-class DaftTests(unittest.TestCase):
+class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb('')
 
