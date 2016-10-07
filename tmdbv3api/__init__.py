@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 import pprint
 from urllib import quote_plus, urlopen
