@@ -18,7 +18,6 @@ class TMDb:
         self.api_key = api_key
         self.debug = debug
         self.lang = lang
-        self.data = []
 
     def get_config(self):
         return self._call('configuration', '')
