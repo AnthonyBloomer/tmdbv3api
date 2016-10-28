@@ -33,6 +33,16 @@ for movie in popular:
     print movie.poster_path
             
 ```
+
+Get the primary information about a movie.
+
+```python
+movie = tmdb.get_movie('343611')
+print movie.title
+print movie.overview
+print movie.popularity
+```
+
 Search for movies by title.
 
 ```python
