@@ -161,7 +161,7 @@ class TMDb:
         return arr
 
     def _call(self, action, append_to_response):
-        url = self.URL + action + '?api_key=' + self.api_key + '&' + append_to_response + '&language=' + self.lang
+        url = '%s%s?api_key=%s&%s&language=%s' % (self.URL, action, self.api_key, append_to_response, self.lang)
         response = urlopen(url)
         data = json.loads(response.read())
         if self.debug:
