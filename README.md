@@ -127,3 +127,8 @@ print person.biography
 - **/search/movie**
 - **/search/tv**
 - **/search/person**
+
+#### Discover
+
+- **/discover/movie**
+- **/discover/tv**
