@@ -104,6 +104,11 @@ print person.biography
 - **/movie/upcoming**
 - **/movie/id**
 - **/movie/id/similar**
+- **/movie/id/recommendations**
+- **/movie/id/videos**
+- **/movie/id/reviews**
+- **/movie/id/lists**
+
 
 #### TV
 
