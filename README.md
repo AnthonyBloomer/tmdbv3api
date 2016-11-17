@@ -95,6 +95,22 @@ print person.name
 print person.biography
 ```
 
+Discover movies by different types of data like average rating, number of votes, genres and certifications. 
+
+```python
+discover = tmdb.discover_movies({
+    'primary_release_year': '2015',
+    'with_genres': '28',
+    'page': '1',
+    'vote_average.gte': '8'
+
+})
+
+for result in discover:
+    print result.title
+    print result.overview
+```
+
 ### Supported Methods
 
 #### Movies
