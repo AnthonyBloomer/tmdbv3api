@@ -2,7 +2,7 @@
 
 import json
 import pprint
-from urllib import quote_plus, urlopen
+from urllib import quote_plus, urlopen, urlencode
 
 
 class obj:
@@ -45,9 +45,21 @@ class TMDb:
         [arr.append(obj(**res)) for res in result['results']]
         return arr
 
-    def get_movie_recommendations(self, id, page=1):
+    def get_movie_recommendations(self, movie_id, page=1):
         arr = []
-        result = self._call('movie/%s/recommendations' % id, 'page=' + str(page))
+        result = self._call('movie/%s/recommendations' % movie_id, 'page=' + str(page))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
+    def discover_movies(self, params):
+        arr = []
+        result = self._call('discover/movie/', urlencode(params))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
+    def discover_tv_shows(self, params):
+        arr = []
+        result = self._call('discover/tv/', urlencode(params))
         [arr.append(obj(**res)) for res in result['results']]
         return arr
 
