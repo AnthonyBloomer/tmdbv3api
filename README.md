@@ -111,6 +111,20 @@ for result in discover:
     print result.overview
 ```
 
+Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates.
+
+```python
+discover = tmdb.discover_tv_shows({
+    'with_genres': '16',
+    'vote_average.gte': '8',
+    'page': '1'
+})
+
+for result in discover:
+    print result.name
+    print result.overview
+```
+
 ### Supported Methods
 
 #### Movies
