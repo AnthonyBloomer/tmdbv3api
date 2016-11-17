@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='tmdbv3api',
-      version='0.2.1',
+      version='0.2.2',
       description='A simple wrapper for the TMDb API.',
       url='https://github.com/AnthonyBloomer/tmdbv3api',
       author='Anthony Bloomer',
