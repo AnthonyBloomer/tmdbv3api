@@ -26,6 +26,31 @@ class TMDb:
     def get_movie(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         return obj(**self._call('movie/' + str(movie_id), append_to_response))
 
+    # Get the user reviews for a movie
+    def get_movie_reviews(self, id, page=1):
+        arr = []
+        result = self._call('movie/%s/reviews' % id, 'page=' + str(page))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
+    def get_movie_lists(self, id, page=1):
+        arr = []
+        result = self._call('movie/%s/lists' % id, 'page=' + str(page))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
+    def get_movie_videos(self, id, page=1):
+        arr = []
+        result = self._call('movie/%s/videos' % id, 'page=' + str(page))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
+    def get_movie_recommendations(self, id, page=1):
+        arr = []
+        result = self._call('movie/%s/recommendations' % id, 'page=' + str(page))
+        [arr.append(obj(**res)) for res in result['results']]
+        return arr
+
     # Get the latest movie id.
     def get_latest_movie(self):
         return obj(**self._call('movie/latest', ''))
