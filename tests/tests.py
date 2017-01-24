@@ -2,7 +2,6 @@
 
 import unittest
 from tmdbv3api import TMDb
-import pprint
 
 
 class TMDbTests(unittest.TestCase):
@@ -26,55 +25,83 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(videos[0], 'id'))
 
     def test_get_movie_recommendations(self):
-        pass
+        recs = self.tmdb.get_movie_recommendations(111)
+        self.assertTrue(hasattr(recs[0], 'id'))
 
     def test_discover_movies(self):
-        pass
+        discover = self.tmdb.discover_movies({
+            'primary_release_year': '2015',
+            'with_genres': '28',
+            'page': '1',
+            'vote_average.gte': '8'
+
+        })
+        self.assertTrue(hasattr(discover[0], 'id'))
 
     def test_discover_tv_shows(self):
-        pass
+        discover = self.tmdb.discover_tv_shows({
+            'with_genres': '16',
+            'vote_average.gte': '8',
+            'page': '1'
+        })
+        self.assertTrue(hasattr(discover[0], 'id'))
 
     def test_get_latest_movie(self):
-        pass
+        videos = self.tmdb.get_latest_movie()
+        self.assertTrue(hasattr(videos, 'id'))
 
     def test_now_playing(self):
-        pass
+        now_playing = self.tmdb.now_playing()
+        self.assertTrue(hasattr(now_playing[0], 'id'))
 
     def test_top_rated(self):
-        pass
+        top_rated = self.tmdb.top_rated()
+        self.assertTrue(hasattr(top_rated[0], 'id'))
 
     def test_upcoming(self):
-        pass
+        upcoming = self.tmdb.upcoming()
+        self.assertTrue(hasattr(upcoming[0], 'id'))
 
     def test_popular(self):
-        pass
+        popular = self.tmdb.popular()
+        self.assertTrue(hasattr(popular[0], 'id'))
 
     def test_search(self):
-        pass
+        search = self.tmdb.search('Mad Max')
+        self.assertTrue(hasattr(search[0], 'id'))
 
     def test_similar(self):
-        pass
+        similar = self.tmdb.similar(111)
+        self.assertTrue(hasattr(similar[0], 'id'))
 
     def test_get_tv_show(self):
-        pass
+        show = self.tmdb.get_tv_show(12)
+        self.assertTrue(hasattr(show, 'id'))
 
     def test_get_latest_tv_show(self):
-        pass
+        latest_tv = self.tmdb.get_latest_tv_show()
+        self.assertTrue(hasattr(latest_tv, 'id'))
 
     def test_search_tv(self):
-        pass
+        search_tv = self.tmdb.search_tv('Sunny')
+        self.assertTrue(hasattr(search_tv[0], 'id'))
 
     def test_similar_shows(self):
-        pass
+        similar = self.tmdb.similar(222)
+        self.assertTrue(hasattr(similar[0], 'id'))
 
     def test_popular_shows(self):
-        pass
+        popular = self.tmdb.popular_shows()
+        self.assertTrue(hasattr(popular[0], 'id'))
 
     def test_top_rated_shows(self):
-        pass
+        top_rated = self.tmdb.top_rated_shows()
+        self.assertTrue(hasattr(top_rated[0], 'id'))
 
     def test_get_person(self):
-        pass
+        person = self.tmdb.get_person(234)
+        self.assertTrue(hasattr(person, 'id'))
 
     def test_search_person(self):
-        pass
+        search_person = self.tmdb.search_person('Bryan')
+        self.assertTrue(hasattr(search_person[0], 'id'))
