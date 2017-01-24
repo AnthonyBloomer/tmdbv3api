@@ -30,7 +30,8 @@ class TMDb:
     def get_movie_reviews(self, id, page=1):
         arr = []
         result = self._call('movie/%s/reviews' % id, 'page=' + str(page))
-        [arr.append(obj(**res)) for res in result['results']]
+        if result['total_results'] > 0:
+            [arr.append(obj(**res)) for res in result['results']]
         return arr
 
     def get_movie_lists(self, id, page=1):
@@ -164,6 +165,8 @@ class TMDb:
         url = '%s%s?api_key=%s&%s&language=%s' % (self.URL, action, self.api_key, append_to_response, self.lang)
         response = urlopen(url)
         data = json.loads(response.read())
+        if 'status_code' in data and data['status_code'] == 34:
+            raise Exception('The resource you requested could not be found.')
         if self.debug:
             pprint.pprint(data)
             print 'URL: ' + url

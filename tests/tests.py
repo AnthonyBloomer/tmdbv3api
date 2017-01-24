@@ -2,23 +2,28 @@
 
 import unittest
 from tmdbv3api import TMDb
+import pprint
 
 
 class TMDbTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb('')
+        self.tmdb = TMDb('', debug=True)
 
     def test_get_movie(self):
-        pass
+        movie = self.tmdb.get_movie(111)
+        self.assertEqual(movie.title, 'Scarface')
 
     def test_get_movie_reviews(self):
-        pass
+        movie = self.tmdb.get_movie_reviews(12)
+        self.assertTrue(movie)
 
     def test_get_movie_lists(self):
-        pass
+        lists = self.tmdb.get_movie_lists(111)
+        self.assertTrue(hasattr(lists[0], 'description'))
 
     def test_get_movie_videos(self):
-        pass
+        videos = self.tmdb.get_movie_videos(111)
+        self.assertTrue(hasattr(videos[0], 'id'))
 
     def test_get_movie_recommendations(self):
         pass
