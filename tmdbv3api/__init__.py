@@ -161,12 +161,29 @@ class TMDb:
         [arr.append(obj(**res)) for res in result['results']]
         return arr
 
+    # Raise a custom TMDb exception if the status code of the response isn't 200.
+    @staticmethod
+    def raise_tmdb_exception(status_code):
+        exceptions = [
+            {
+                'id': 34,
+                'status': 'The resource you requested could not be found.'
+            }
+        ]
+
+        for exception in exceptions:
+            if exception['id'] == status_code:
+                raise Exception(exception['status'])
+
+        # If the exception status isn't found, just raise an empty exception.
+        raise Exception('An error occurred when making that request.')
+
     def _call(self, action, append_to_response):
         url = '%s%s?api_key=%s&%s&language=%s' % (self.URL, action, self.api_key, append_to_response, self.lang)
         response = urlopen(url)
         data = json.loads(response.read())
-        if 'status_code' in data and data['status_code'] == 34:
-            raise Exception('The resource you requested could not be found.')
+        if 'status_code' in data and 'status_code' != 200:
+            self.raise_tmdb_exception(data['status_code'])
         if self.debug:
             pprint.pprint(data)
             print 'URL: ' + url
