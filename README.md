@@ -98,31 +98,47 @@ print person.biography
 Discover movies by different types of data like average rating, number of votes, genres and certifications. 
 
 ```python
-discover = tmdb.discover_movies({
-    'primary_release_year': '2015',
-    'with_genres': '28',
-    'page': '1',
-    'vote_average.gte': '8'
 
+# What movies are in theatres?
+
+movie = self.tmdb.discover_movies({
+    'primary_release_date.gte': '2017-01-20',
+    'primary_release_date.lte': '2017-01-25'
 })
 
-for result in discover:
-    print result.title
-    print result.overview
+# What are the most popular movies?
+
+movie = self.tmdb.discover_movies({
+    'sort_by': 'popularity.desc'
+})
+
+# What are the most popular kids movies?
+
+movie = self.tmdb.discover_movies({
+    'certification_country': 'US',
+    'certification.lte': 'G',
+    'sort_by': 'popularity.desc'
+})
+
 ```
 
 Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates.
 
 ```python
-discover = tmdb.discover_tv_shows({
-    'with_genres': '16',
-    'vote_average.gte': '8',
-    'page': '1'
+# What are the most popular TV shows?
+
+show = self.tmdb.discover_tv_shows({
+    'sort_by': 'popularity.desc'
 })
 
-for result in discover:
-    print result.name
-    print result.overview
+# What are the best dramas?
+
+show = self.tmdb.discover_tv_shows({
+    'with_genres': 18,
+    'sort_by': 'vote_average.desc',
+    'vote_count.gte': 10
+})
+
 ```
 
 ### Supported Methods
