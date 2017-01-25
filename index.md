@@ -33,6 +33,16 @@ for movie in popular:
     print movie.poster_path
             
 ```
+
+Get the primary information about a movie.
+
+```python
+movie = tmdb.get_movie('343611')
+print movie.title
+print movie.overview
+print movie.popularity
+```
+
 Search for movies by title.
 
 ```python
@@ -85,6 +95,52 @@ print person.name
 print person.biography
 ```
 
+Discover movies by different types of data like average rating, number of votes, genres and certifications. 
+
+```python
+
+# What movies are in theatres?
+
+movie = self.tmdb.discover_movies({
+    'primary_release_date.gte': '2017-01-20',
+    'primary_release_date.lte': '2017-01-25'
+})
+
+# What are the most popular movies?
+
+movie = self.tmdb.discover_movies({
+    'sort_by': 'popularity.desc'
+})
+
+# What are the most popular kids movies?
+
+movie = self.tmdb.discover_movies({
+    'certification_country': 'US',
+    'certification.lte': 'G',
+    'sort_by': 'popularity.desc'
+})
+
+```
+
+Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates.
+
+```python
+# What are the most popular TV shows?
+
+show = self.tmdb.discover_tv_shows({
+    'sort_by': 'popularity.desc'
+})
+
+# What are the best dramas?
+
+show = self.tmdb.discover_tv_shows({
+    'with_genres': 18,
+    'sort_by': 'vote_average.desc',
+    'vote_count.gte': 10
+})
+
+```
+
 ### Supported Methods
 
 #### Movies
@@ -94,6 +150,11 @@ print person.biography
 - **/movie/upcoming**
 - **/movie/id**
 - **/movie/id/similar**
+- **/movie/id/recommendations**
+- **/movie/id/videos**
+- **/movie/id/reviews**
+- **/movie/id/lists**
+
 
 #### TV
 
@@ -112,3 +173,8 @@ print person.biography
 - **/search/movie**
 - **/search/tv**
 - **/search/person**
+
+#### Discover
+
+- **/discover/movie**
+- **/discover/tv**
