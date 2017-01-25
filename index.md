@@ -37,7 +37,7 @@ for movie in popular:
 Get the primary information about a movie.
 
 ```python
-movie = tmdb.get_movie('343611')
+movie = tmdb.get_movie(343611)
 print movie.title
 print movie.overview
 print movie.popularity
