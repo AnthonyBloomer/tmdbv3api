@@ -101,20 +101,20 @@ Discover movies by different types of data like average rating, number of votes,
 
 # What movies are in theatres?
 
-movie = self.tmdb.discover_movies({
+movie = tmdb.discover_movies({
     'primary_release_date.gte': '2017-01-20',
     'primary_release_date.lte': '2017-01-25'
 })
 
 # What are the most popular movies?
 
-movie = self.tmdb.discover_movies({
+movie = tmdb.discover_movies({
     'sort_by': 'popularity.desc'
 })
 
 # What are the most popular kids movies?
 
-movie = self.tmdb.discover_movies({
+movie = tmdb.discover_movies({
     'certification_country': 'US',
     'certification.lte': 'G',
     'sort_by': 'popularity.desc'
@@ -127,13 +127,13 @@ Discover TV shows by different types of data like average rating, number of vote
 ```python
 # What are the most popular TV shows?
 
-show = self.tmdb.discover_tv_shows({
+show = tmdb.discover_tv_shows({
     'sort_by': 'popularity.desc'
 })
 
 # What are the best dramas?
 
-show = self.tmdb.discover_tv_shows({
+show = tmdb.discover_tv_shows({
     'with_genres': 18,
     'sort_by': 'vote_average.desc',
     'vote_count.gte': 10
