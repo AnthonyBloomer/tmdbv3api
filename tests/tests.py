@@ -53,11 +53,14 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(len(discover) > 0)
         self.assertTrue(hasattr(discover[0], 'id'))
         movie = discover[0]
+
+        has_genre = False
         for genre_id in movie.genre_ids:
             if genre_id == 28:
-                self.assertTrue(True)
+                has_genre = True
 
         self.assertTrue(movie.vote_average >= 8)
+        self.assertTrue(has_genre)
 
     def test_discover_tv_shows(self):
         discover = self.tmdb.discover_tv_shows({
@@ -68,11 +71,13 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(len(discover) > 0)
         self.assertTrue(hasattr(discover[0], 'id'))
         movie = discover[0]
+        has_genre = False
         for genre_id in movie.genre_ids:
             if genre_id == 16:
-                self.assertTrue(True)
+                has_genre = True
 
         self.assertTrue(movie.vote_average >= 8)
+        self.assertTrue(has_genre)
 
     def test_get_latest_movie(self):
         videos = self.tmdb.get_latest_movie()
