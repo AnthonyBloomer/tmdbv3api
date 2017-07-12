@@ -11,10 +11,19 @@ class TMDbTests(unittest.TestCase):
     def test_get_movie(self):
         movie = self.tmdb.get_movie(111)
         self.assertEqual(movie.title, 'Scarface')
+        self.assertEqual(movie.id, 111)
+        self.assertTrue(hasattr(movie, 'title'))
+        self.assertTrue(hasattr(movie, 'overview'))
+        self.assertTrue(hasattr(movie, 'id'))
 
     def test_get_movie_reviews(self):
-        movie = self.tmdb.get_movie_reviews(12)
-        self.assertTrue(movie)
+        search = self.tmdb.search("Mad Max")
+        first = search[0]
+        reviews = self.tmdb.get_movie_reviews(first.id)
+        self.assertTrue(len(reviews) > 0)
+        for review in reviews:
+            self.assertTrue(hasattr(review, 'id'))
+            self.assertTrue(hasattr(review, 'content'))
 
     def test_get_movie_lists(self):
         lists = self.tmdb.get_movie_lists(111)
