@@ -15,7 +15,6 @@ You can install tmdbv3api using pip.
 
 ```
 $ pip install tmdbv3api
-
 ```
 
 ### Usage
