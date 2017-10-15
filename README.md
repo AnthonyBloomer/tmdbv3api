@@ -22,7 +22,7 @@ Get the list of popular movies on The Movie Database. This list refreshes every 
 ```python
 
 from tmdbv3api import TMDb, Movie, TV, Person, Discover
-tmdb = TMDb(debug=False, lang="en")
+tmdb = TMDb()
 tmdb.api_key = 'YOUR_API_KEY'
 
 movie = Movie()

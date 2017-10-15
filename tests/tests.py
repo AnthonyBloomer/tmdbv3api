@@ -6,7 +6,7 @@ from tmdbv3api import TMDb, Movie, Discover, TV, Person
 
 class TMDbTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb(debug=True, language='en')
+        self.tmdb = TMDb()
         self.tmdb.api_key = ''
         self.movie = Movie()
         self.discover = Discover()
