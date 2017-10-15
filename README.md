@@ -22,13 +22,16 @@ $ pip install tmdbv3api
 The first step is to initialize a TMDb object and set your API Key.
 
 ```python
+from tmdbv3api import TMDb
 tmdb = TMDb()
 tmdb.api_key = 'YOUR_API_KEY'
 ```
 
-Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. For example:
+Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. For example, to retreieve movie recommendations for a given movie id:
 
 ```python
+from tmdbv3api import Movie
+
 movie = Movie()
 
 recommendations = movie.get_movie_recommendations(movie_id=111)
@@ -38,6 +41,8 @@ for recommendation in recommendations:
     print recommendation.overview
 
 ```
+
+The objects currently implemented are Movie, TV, Person and Discover.
 
 
 ### Examples
