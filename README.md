@@ -21,45 +21,47 @@ Get the list of popular movies on The Movie Database. This list refreshes every 
 
 ```python
 
-from tmdbv3api import TMDb
-tmdb = TMDb(api_key="your_api_key", debug=False, lang="en")
+from tmdbv3api import TMDb, Movie, TV, Person, Discover
+tmdb = TMDb(debug=False, lang="en")
+tmdb.api_key = 'YOUR_API_KEY'
 
-popular = tmdb.popular()
+movie = Movie()
+popular = movie.popular()
 
-for movie in popular:
-    print movie.id
-    print movie.title
-    print movie.overview
-    print movie.poster_path
+for p in popular:
+    print p.id
+    print p.title
+    print p.overview
+    print p.poster_path
             
 ```
 
 Get the primary information about a movie.
 
 ```python
-movie = tmdb.get_movie(343611)
-print movie.title
-print movie.overview
-print movie.popularity
+m = movie.get_movie(343611)
+print m.title
+print m.overview
+print m.popularity
 ```
 
 Search for movies by title.
 
 ```python
-search = tmdb.search('Mad Max')
+search = movie.search('Mad Max')
 
-for movie in search:
-    print movie.id
-    print movie.title
-    print movie.overview
-    print movie.poster_path
-    print movie.vote_average
+for res in search:
+    print res.id
+    print res.title
+    print res.overview
+    print res.poster_path
+    print res.vote_average
 ```
 
 Get the similar movies for a specific movie id.
 
 ```python
-similar = tmdb.similar(777)
+similar = movie.similar(777)
 
 for result in similar:
     print result.title
@@ -69,7 +71,8 @@ for result in similar:
 Search for TV shows by title.
 
 ```python
-show = tmdb.search_tv('Breaking Bad')
+tv = TV()
+show = tv.search_tv('Breaking Bad')
 
 for result in show:
     print result.name
@@ -79,7 +82,7 @@ for result in show:
 Get the similar TV shows for a specific tv id.
 
 ```python
-similar = tmdb.similar_shows(1396)
+similar = tv.similar_shows(1396)
 
 for show in similar:
     print show.name
@@ -89,10 +92,11 @@ for show in similar:
 Get the general person information for a specific id.
 
 ```python
-person = tmdb.get_person(12)
+person = Person()
+p = person.get_person(12)
 
-print person.name
-print person.biography
+print p.name
+print p.biography
 ```
 
 Discover movies by different types of data like average rating, number of votes, genres and certifications. 
@@ -101,20 +105,21 @@ Discover movies by different types of data like average rating, number of votes,
 
 # What movies are in theatres?
 
-movie = tmdb.discover_movies({
+discover = Discover()
+movie = discover.discover_movies({
     'primary_release_date.gte': '2017-01-20',
     'primary_release_date.lte': '2017-01-25'
 })
 
 # What are the most popular movies?
 
-movie = tmdb.discover_movies({
+movie = discover.discover_movies({
     'sort_by': 'popularity.desc'
 })
 
 # What are the most popular kids movies?
 
-movie = tmdb.discover_movies({
+movie = discover.discover_movies({
     'certification_country': 'US',
     'certification.lte': 'G',
     'sort_by': 'popularity.desc'
@@ -127,13 +132,13 @@ Discover TV shows by different types of data like average rating, number of vote
 ```python
 # What are the most popular TV shows?
 
-show = tmdb.discover_tv_shows({
+show = discover.discover_tv_shows({
     'sort_by': 'popularity.desc'
 })
 
 # What are the best dramas?
 
-show = tmdb.discover_tv_shows({
+show = discover.discover_tv_shows({
     'with_genres': 18,
     'sort_by': 'vote_average.desc',
     'vote_count.gte': 10
