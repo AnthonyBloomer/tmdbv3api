@@ -1,5 +1,5 @@
 # tmdbv3api
-Python wrapper for The Movie Database (TMDb) API.
+A lightweight Python wrapper for The Movie Database (TMDb) API. This library allows users to interact with the API and retrieve data on movies, TV shows and actors. 
 
 Register an account:
 https://www.themoviedb.org/account/signup
@@ -9,22 +9,43 @@ https://docs.themoviedb.apiary.io
 
 ### Install
 
+tmdbv3api is available on the Python Package Index (PyPI) at https://pypi.python.org/pypi/tmdbv3api
+
+You can install tmdbv3api using pip.
+
 ```
-pip install tmdbv3api
+$ pip install tmdbv3api
+
 ```
+
+### Usage
+
+The first step is to initialize a TMDb object and set your API Key.
+
+```python
+tmdb = TMDb()
+tmdb.api_key = 'YOUR_API_KEY'
+```
+
+Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. For example:
+
+```python
+movie = Movie()
+
+recommendations = movie.get_movie_recommendations(movie_id=111)
+
+for recommendation in recommendations:
+    print recommendation.title
+    print recommendation.overview
+
+```
+
 
 ### Examples
 
 Get the list of popular movies on The Movie Database. This list refreshes every day.
 
 ```python
-
-from tmdbv3api import TMDb, Movie, TV, Person, Discover
-
-# The first step is to initialize a TMDb object and set your API Key.
-tmdb = TMDb()
-tmdb.api_key = 'YOUR_API_KEY'
-
 
 movie = Movie()
 popular = movie.popular()
@@ -41,6 +62,7 @@ Get the primary information about a movie.
 
 ```python
 m = movie.get_movie(343611)
+
 print m.title
 print m.overview
 print m.popularity
