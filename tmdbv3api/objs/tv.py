@@ -1,7 +1,11 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
 from tmdbv3api.endpoints import Endpoint
-from urllib import quote_plus
+
+try:
+    from urllib import quote
+except ImportError:
+    from urllib.parse import quote
 
 
 class TV(TMDb):
@@ -28,7 +32,7 @@ class TV(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.SEARCH_TV, 'query=' + quote_plus(term) + '&page=' + str(page)))
+        return self._get_obj(self._call(Endpoint.SEARCH_TV, 'query=' + quote(term) + '&page=' + str(page)))
 
     def similar_shows(self, id, page=1):
         """

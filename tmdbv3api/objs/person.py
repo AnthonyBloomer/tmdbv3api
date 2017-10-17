@@ -1,7 +1,10 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
 from tmdbv3api.endpoints import Endpoint
-from urllib import quote_plus
+try:
+    from urllib import quote
+except ImportError:
+    from urllib.parse import quote
 
 
 class Person(TMDb):
@@ -20,4 +23,4 @@ class Person(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.SEARCH_PERSON, 'query=' + quote_plus(term) + '&page=' + str(page)))
+        return self._get_obj(self._call(Endpoint.SEARCH_PERSON, 'query=' + quote(term) + '&page=' + str(page)))

@@ -1,6 +1,10 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.endpoints import Endpoint
-from urllib import urlencode
+
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 
 class Discover(TMDb):
@@ -14,7 +18,8 @@ class Discover(TMDb):
 
     def discover_tv_shows(self, params):
         """
-        Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates.
+        Discover TV shows by different types of data like average rating, number of votes, genres,
+        the network they aired on and air dates.
         :param params:
         :return:
         """

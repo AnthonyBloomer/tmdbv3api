@@ -1,7 +1,11 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.endpoints import Endpoint
 from tmdbv3api.as_obj import AsObj
-from urllib import quote_plus
+
+try:
+    from urllib import quote
+except ImportError:
+    from urllib.parse import quote
 
 
 class Movie(TMDb):
@@ -96,7 +100,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.SEARCH_MOVIE, "query=" + quote_plus(term) + "&page=" + str(page)))
+        return self._get_obj(self._call(Endpoint.SEARCH_MOVIE, "query=" + quote(term) + "&page=" + str(page)))
 
     def similar(self, id, page=1):
         """

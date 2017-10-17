@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import os
+import sys
 from tmdbv3api import TMDb, Movie, Discover, TV, Person
 
 
 class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
-        self.tmdb.api_key = ''
+        try:
+            self.tmdb.api_key = os.environ['api_key']
+        except KeyError:
+            print("Please set the environment variable for the API key.")
+            sys.exit(0)
+
         self.movie = Movie()
         self.discover = Discover()
         self.tv = TV()

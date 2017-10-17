@@ -27,7 +27,14 @@ tmdb = TMDb()
 tmdb.api_key = 'YOUR_API_KEY'
 ```
 
-Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. For example, to retreieve movie recommendations for a given movie id:
+Alternatively, you can export your API key as an environment variable.
+
+```bash
+$ export api_key='YOUR_API_KEY'
+```
+
+Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. 
+For example, to retrieve movie recommendations for a given movie id:
 
 ```python
 from tmdbv3api import Movie
@@ -37,8 +44,8 @@ movie = Movie()
 recommendations = movie.get_movie_recommendations(movie_id=111)
 
 for recommendation in recommendations:
-    print recommendation.title
-    print recommendation.overview
+    print(recommendation.title)
+    print(recommendation.overview)
 
 ```
 
@@ -55,10 +62,10 @@ movie = Movie()
 popular = movie.popular()
 
 for p in popular:
-    print p.id
-    print p.title
-    print p.overview
-    print p.poster_path
+    print(p.id)
+    print(p.title)
+    print(p.overview)
+    print(p.poster_path)
             
 ```
 
@@ -67,9 +74,9 @@ Get the primary information about a movie.
 ```python
 m = movie.get_movie(343611)
 
-print m.title
-print m.overview
-print m.popularity
+print(m.title)
+print(m.overview)
+print(m.popularity)
 ```
 
 Search for movies by title.
@@ -78,11 +85,11 @@ Search for movies by title.
 search = movie.search('Mad Max')
 
 for res in search:
-    print res.id
-    print res.title
-    print res.overview
-    print res.poster_path
-    print res.vote_average
+    print(res.id)
+    print(res.title)
+    print(res.overview)
+    print(res.poster_path)
+    print(res.vote_average)
 ```
 
 Get the similar movies for a specific movie id.
@@ -91,8 +98,8 @@ Get the similar movies for a specific movie id.
 similar = movie.similar(777)
 
 for result in similar:
-    print result.title
-    print result.overview
+    print(result.title)
+    print(result.overview)
 ```
 
 Search for TV shows by title.
@@ -102,8 +109,8 @@ tv = TV()
 show = tv.search_tv('Breaking Bad')
 
 for result in show:
-    print result.name
-    print result.overview
+    print(result.name)
+    print(result.overview)
 ```
 
 Get the similar TV shows for a specific tv id.
@@ -112,18 +119,18 @@ Get the similar TV shows for a specific tv id.
 similar = tv.similar_shows(1396)
 
 for show in similar:
-    print show.name
-    print show.overview
+    print(show.name)
+    print(show.overview)
 ```
 
 Get the general person information for a specific id.
 
 ```python
 person = Person()
-p = person.get_person(12)
+p = person.get_by_id(12)
 
-print p.name
-print p.biography
+print(p.name)
+print(p.biography)
 ```
 
 Discover movies by different types of data like average rating, number of votes, genres and certifications. 
@@ -172,6 +179,23 @@ show = discover.discover_tv_shows({
 })
 
 ```
+
+### Running Tests
+
+You can run the tests via the command line. You must export your TMDb API key as an environment variable. From the 
+command line run:
+
+```bash
+$ export api_key='YOUR_API_KEY'
+```
+
+Then run:
+
+```bash
+$ python -m unittest discover tests/
+```
+
+
 
 ### Supported Methods
 
