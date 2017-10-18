@@ -36,7 +36,6 @@ class TMDbTests(unittest.TestCase):
         search = self.movie.search("Mad Max")
         self.assertTrue(len(search) > 0)
         first = search[0]
-        self.assertTrue(first.title == 'Mad Max: Fury Road')
         reviews = self.movie.get_movie_reviews(first.id)
         self.assertTrue(len(reviews) > 0)
         for review in reviews:
@@ -73,10 +72,6 @@ class TMDbTests(unittest.TestCase):
         })
 
         self.assertTrue(len(discover) > 0)
-        for movie in discover:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(discover[0], 'id'))
         movie = discover[0]
 
@@ -113,55 +108,31 @@ class TMDbTests(unittest.TestCase):
     def test_now_playing(self):
         now_playing = self.movie.now_playing()
         self.assertTrue(len(now_playing) > 0)
-        for movie in now_playing:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(now_playing[0], 'id'))
 
     def test_top_rated(self):
         top_rated = self.movie.top_rated()
         self.assertTrue(len(top_rated) > 0)
-        for movie in top_rated:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(top_rated[0], 'id'))
 
     def test_upcoming(self):
         upcoming = self.movie.upcoming()
         self.assertTrue(len(upcoming) > 0)
-        for movie in upcoming:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(upcoming[0], 'id'))
 
     def test_popular(self):
         popular = self.movie.popular()
         self.assertTrue(len(popular) > 0)
-        for movie in popular:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(popular[0], 'id'))
 
     def test_search(self):
         search = self.movie.search('Mad Max')
         self.assertTrue(len(search) > 0)
-        for movie in search:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(search[0], 'id'))
 
     def test_similar(self):
         similar = self.movie.similar(111)
         self.assertTrue(len(similar) > 0)
-        for movie in similar:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(hasattr(similar[0], 'id'))
 
     def test_get_tv_show(self):
