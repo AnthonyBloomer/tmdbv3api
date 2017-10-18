@@ -2,7 +2,7 @@ title: Tmdbv3api
 description: Python wrapper for The Movie Database (TMDb) API
 google_analytics: UA-83559405-6
 show_downloads: true
-theme: jekyll-theme-midnight
+theme: jekyll-theme-architect
 
 gems:
   - jekyll-mentions
