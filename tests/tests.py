@@ -3,18 +3,14 @@
 import unittest
 import os
 import sys
+import math
 from tmdbv3api import TMDb, Movie, Discover, TV, Person
 
 
 class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
-        try:
-            self.tmdb.api_key = os.environ['api_key']
-        except KeyError:
-            print("Please set the environment variable for the API key.")
-            sys.exit(0)
-
+        self.tmdb.api_key = os.environ['api_key']
         self.movie = Movie()
         self.discover = Discover()
         self.tv = TV()
@@ -22,9 +18,6 @@ class TMDbTests(unittest.TestCase):
 
     def test_get_movie(self):
         movie = self.movie.get_movie(111)
-        print(movie.title)
-        print(movie.id)
-        print(movie.overview)
         self.assertIsNotNone(movie)
         self.assertEqual(movie.title, 'Scarface')
         self.assertEqual(movie.id, 111)
@@ -55,10 +48,6 @@ class TMDbTests(unittest.TestCase):
 
     def test_get_movie_recommendations(self):
         recs = self.movie.get_movie_recommendations(111)
-        for movie in recs:
-            print(movie.title)
-            print(movie.id)
-            print(movie.overview)
         self.assertTrue(len(recs) > 0)
         self.assertTrue(hasattr(recs[0], 'id'))
 
@@ -79,8 +68,7 @@ class TMDbTests(unittest.TestCase):
         for genre_id in movie.genre_ids:
             if genre_id == 28:
                 has_genre = True
-
-        self.assertTrue(movie.vote_average >= 8)
+        self.assertTrue(math.ceil(movie.vote_average) >= 8)
         self.assertTrue(has_genre)
 
     def test_discover_tv_shows(self):
@@ -96,8 +84,7 @@ class TMDbTests(unittest.TestCase):
         for genre_id in movie.genre_ids:
             if genre_id == 16:
                 has_genre = True
-
-        self.assertTrue(movie.vote_average >= 8)
+        self.assertTrue(math.ceil(movie.vote_average) >= 8)
         self.assertTrue(has_genre)
 
     def test_get_latest_movie(self):
