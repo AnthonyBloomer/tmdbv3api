@@ -1,6 +1,7 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
 from tmdbv3api.endpoints import Endpoint
+
 try:
     from urllib import quote
 except ImportError:
