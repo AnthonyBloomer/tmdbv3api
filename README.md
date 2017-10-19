@@ -41,7 +41,7 @@ from tmdbv3api import Movie
 
 movie = Movie()
 
-recommendations = movie.get_movie_recommendations(movie_id=111)
+recommendations = movie.recommendations(movie_id=111)
 
 for recommendation in recommendations:
     print(recommendation.title)
@@ -72,7 +72,7 @@ for p in popular:
 Get the primary information about a movie.
 
 ```python
-m = movie.get_movie(343611)
+m = movie.details(343611)
 
 print(m.title)
 print(m.overview)
@@ -106,7 +106,7 @@ Search for TV shows by title.
 
 ```python
 tv = TV()
-show = tv.search_tv('Breaking Bad')
+show = tv.search('Breaking Bad')
 
 for result in show:
     print(result.name)
@@ -116,7 +116,7 @@ for result in show:
 Get the similar TV shows for a specific tv id.
 
 ```python
-similar = tv.similar_shows(1396)
+similar = tv.similar(1396)
 
 for show in similar:
     print(show.name)
@@ -127,7 +127,7 @@ Get the general person information for a specific id.
 
 ```python
 person = Person()
-p = person.get_by_id(12)
+p = person.details(12)
 
 print(p.name)
 print(p.biography)

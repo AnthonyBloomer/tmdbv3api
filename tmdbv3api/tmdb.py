@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import requests
-from .endpoints import Endpoint
 from .as_obj import AsObj
 import os
 
 
 class TMDb(object):
     def __init__(self, debug=False, language='en'):
+        self._base = 'http://api.themoviedb.org/3'
         self._api_key = ''
         self._debug = debug
         self._language = language
@@ -38,7 +38,7 @@ class TMDb(object):
         self._language = language
 
     def get_config(self):
-        return self._call(Endpoint.CONFIGURATION, '')
+        return self._call('/configuration', '')
 
     @staticmethod
     def _get_obj(result):
@@ -47,8 +47,7 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
-        url = "%s%s?api_key=%s&%s&language=%s" % (
-            Endpoint.BASE, action, self.api_key, append_to_response, self.language)
+        url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
         req = requests.get(url)
 

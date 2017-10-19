@@ -2,7 +2,6 @@
 
 import unittest
 import os
-import sys
 import math
 from tmdbv3api import TMDb, Movie, Discover, TV, Person
 
@@ -17,7 +16,7 @@ class TMDbTests(unittest.TestCase):
         self.person = Person()
 
     def test_get_movie(self):
-        movie = self.movie.get_movie(111)
+        movie = self.movie.details(111)
         self.assertIsNotNone(movie)
         self.assertEqual(movie.title, 'Scarface')
         self.assertEqual(movie.id, 111)
@@ -29,25 +28,25 @@ class TMDbTests(unittest.TestCase):
         search = self.movie.search("Mad Max")
         self.assertTrue(len(search) > 0)
         first = search[0]
-        reviews = self.movie.get_movie_reviews(first.id)
+        reviews = self.movie.reviews(first.id)
         self.assertTrue(len(reviews) > 0)
         for review in reviews:
             self.assertTrue(hasattr(review, 'id'))
             self.assertTrue(hasattr(review, 'content'))
 
     def test_get_movie_lists(self):
-        lists = self.movie.get_movie_lists(111)
+        lists = self.movie.lists(111)
         self.assertTrue(len(lists) > 0)
         self.assertTrue(hasattr(lists[0], 'description'))
         self.assertTrue(hasattr(lists[0], 'name'))
 
     def test_get_movie_videos(self):
-        videos = self.movie.get_movie_videos(111)
+        videos = self.movie.videos(111)
         self.assertTrue(len(videos) > 0)
         self.assertTrue(hasattr(videos[0], 'id'))
 
     def test_get_movie_recommendations(self):
-        recs = self.movie.get_movie_recommendations(111)
+        recs = self.movie.recommendations(111)
         self.assertTrue(len(recs) > 0)
         self.assertTrue(hasattr(recs[0], 'id'))
 
@@ -88,7 +87,7 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(has_genre)
 
     def test_get_latest_movie(self):
-        videos = self.movie.get_latest_movie()
+        videos = self.movie.latest()
         self.assertIsNotNone(videos)
         self.assertTrue(hasattr(videos, 'id'))
 
@@ -123,32 +122,32 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(similar[0], 'id'))
 
     def test_get_tv_show(self):
-        show = self.tv.get_tv_show(12)
+        show = self.tv.details(12)
         self.assertIsNotNone(show)
         self.assertTrue(hasattr(show, 'id'))
 
     def test_get_latest_tv_show(self):
-        latest_tv = self.tv.get_latest_tv_show()
+        latest_tv = self.tv.latest()
         self.assertIsNotNone(latest_tv)
         self.assertTrue(hasattr(latest_tv, 'id'))
 
     def test_search_tv(self):
-        search_tv = self.tv.search_tv('Sunny')
+        search_tv = self.tv.search('Sunny')
         self.assertTrue(len(search_tv) > 0)
         self.assertTrue(hasattr(search_tv[0], 'id'))
 
     def test_popular_shows(self):
-        popular = self.tv.popular_shows()
+        popular = self.tv.popular()
         self.assertTrue(len(popular) > 0)
         self.assertTrue(hasattr(popular[0], 'id'))
 
     def test_top_rated_shows(self):
-        top_rated = self.tv.top_rated_shows()
+        top_rated = self.tv.top_rated()
         self.assertTrue(len(top_rated) > 0)
         self.assertTrue(hasattr(top_rated[0], 'id'))
 
     def test_get_person(self):
-        person = self.person.get_by_id(234)
+        person = self.person.details(234)
         self.assertIsNotNone(person)
         self.assertTrue(hasattr(person, 'id'))
 

@@ -1,6 +1,5 @@
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
-from tmdbv3api.endpoints import Endpoint
 
 try:
     from urllib import quote
@@ -9,52 +8,61 @@ except ImportError:
 
 
 class TV(TMDb):
-    def get_tv_show(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
+    URLS = {
+        'details': '/tv/%s',
+        'latest': '/tv/latest',
+        'search_tv': '/search/tv',
+        'popular': '/tv/popular',
+        'top_rated': '/tv/top_rated',
+        'similar': '/tv/%s/similar'
+    }
+
+    def details(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
         """
         Get the primary TV show details by id.
         :param show_id:
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(Endpoint.TV_SHOW % str(show_id), append_to_response))
+        return AsObj(**self._call(self.URLS['details'] % str(show_id), append_to_response))
 
-    def get_latest_tv_show(self):
+    def latest(self):
         """
         Get the most newly created TV show. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(Endpoint.TV_LATEST, ''))
+        return AsObj(**self._call(self.URLS['latest'], ''))
 
-    def search_tv(self, term, page=1):
+    def search(self, term, page=1):
         """
         Search for a TV show.
         :param term:
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.SEARCH_TV, 'query=' + quote(term) + '&page=' + str(page)))
+        return self._get_obj(self._call(self.URLS['search_tv'], 'query=' + quote(term) + '&page=' + str(page)))
 
-    def similar_shows(self, id, page=1):
+    def similar(self, id, page=1):
         """
         Get the primary TV show details by id.
         :param id:
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.TV_SIMILAR % id, 'page=' + str(page)))
+        return self._get_obj(self._call(self.URLS['similar'] % str(id), 'page=' + str(page)))
 
-    def popular_shows(self, page=1):
+    def popular(self, page=1):
         """
         Get a list of the current popular TV shows on TMDb. This list updates daily.
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.TV_POPULAR, 'page=' + str(page)))
+        return self._get_obj(self._call(self.URLS['popular'], 'page=' + str(page)))
 
-    def top_rated_shows(self, page=1):
+    def top_rated(self, page=1):
         """
         Get a list of the top rated TV shows on TMDb.
         :param page:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.TV_TOP_RATED, 'page=' + str(page)))
+        return self._get_obj(self._call(self.URLS['top_rated'], 'page=' + str(page)))

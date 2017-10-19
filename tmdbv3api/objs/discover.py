@@ -1,5 +1,4 @@
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.endpoints import Endpoint
 
 try:
     from urllib import urlencode
@@ -8,13 +7,18 @@ except ImportError:
 
 
 class Discover(TMDb):
+    URLS = {
+        'movies': '/discover/movie',
+        'tv': '/discover/tv'
+    }
+
     def discover_movies(self, params):
         """
         Discover movies by different types of data like average rating, number of votes, genres and certifications.
         :param params:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.DISCOVER_MOVIES, urlencode(params)))
+        return self._get_obj(self._call(self.URLS['movies'], urlencode(params)))
 
     def discover_tv_shows(self, params):
         """
@@ -23,4 +27,4 @@ class Discover(TMDb):
         :param params:
         :return:
         """
-        return self._get_obj(self._call(Endpoint.DISCOVER_TV, urlencode(params)))
+        return self._get_obj(self._call(self.URLS['tv'], urlencode(params)))
