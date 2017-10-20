@@ -8,7 +8,7 @@ except ImportError:
 
 
 class Person(TMDb):
-    URLS = {
+    _urls = {
         'details': '/person/%s',
         'search_people': '/search/person'
     }
@@ -19,7 +19,7 @@ class Person(TMDb):
         :param id:
         :return:
         """
-        return AsObj(**self._call(self.URLS['details'] % str(id), ''))
+        return AsObj(**self._call(self._urls['details'] % str(id), ''))
 
     def search(self, term, page=1):
         """
@@ -28,4 +28,4 @@ class Person(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['search_people'], 'query=' + quote(term) + '&page=' + str(page)))
+        return self._get_obj(self._call(self._urls['search_people'], 'query=' + quote(term) + '&page=' + str(page)))

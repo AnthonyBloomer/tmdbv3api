@@ -7,7 +7,7 @@ except ImportError:
 
 
 class Discover(TMDb):
-    URLS = {
+    _urls = {
         'movies': '/discover/movie',
         'tv': '/discover/tv'
     }
@@ -18,7 +18,7 @@ class Discover(TMDb):
         :param params:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['movies'], urlencode(params)))
+        return self._get_obj(self._call(self._urls['movies'], urlencode(params)))
 
     def discover_tv_shows(self, params):
         """
@@ -27,4 +27,4 @@ class Discover(TMDb):
         :param params:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['tv'], urlencode(params)))
+        return self._get_obj(self._call(self._urls['tv'], urlencode(params)))

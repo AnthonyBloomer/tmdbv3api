@@ -8,7 +8,7 @@ except ImportError:
 
 
 class Movie(TMDb):
-    URLS = {
+    _urls = {
         'details': '/movie/%s',
         'reviews': '/movie/%s/reviews',
         'lists': '/movie/%s/lists',
@@ -30,7 +30,7 @@ class Movie(TMDb):
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self.URLS['details'] % movie_id, append_to_response))
+        return AsObj(**self._call(self._urls['details'] % movie_id, append_to_response))
 
     def reviews(self, movie_id, page=1):
         """
@@ -39,7 +39,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['reviews'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['reviews'] % movie_id, 'page=' + str(page)))
 
     def lists(self, movie_id, page=1):
         """
@@ -48,7 +48,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['lists'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['lists'] % movie_id, 'page=' + str(page)))
 
     def videos(self, id, page=1):
         """
@@ -57,7 +57,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['videos'] % id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['videos'] % id, 'page=' + str(page)))
 
     def recommendations(self, movie_id, page=1):
         """
@@ -66,14 +66,14 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['recommendations'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['recommendations'] % movie_id, 'page=' + str(page)))
 
     def latest(self):
         """
         Get the most newly created movie. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self.URLS['latest'], ''))
+        return AsObj(**self._call(self._urls['latest'], ''))
 
     def now_playing(self, page=1):
         """
@@ -81,7 +81,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['now_playing'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['now_playing'], 'page=' + str(page)))
 
     def top_rated(self, page=1):
         """
@@ -89,7 +89,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['top_rated'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['top_rated'], 'page=' + str(page)))
 
     def upcoming(self, page=1):
         """
@@ -97,7 +97,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['upcoming'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['upcoming'], 'page=' + str(page)))
 
     def popular(self, page=1):
         """
@@ -105,7 +105,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['popular'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['popular'], 'page=' + str(page)))
 
     def search(self, term, page=1):
         """
@@ -114,7 +114,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['search_movie'], "query=" + quote(term) + "&page=" + str(page)))
+        return self._get_obj(self._call(self._urls['search_movie'], "query=" + quote(term) + "&page=" + str(page)))
 
     def similar(self, id, page=1):
         """
@@ -123,4 +123,4 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self.URLS['similar'] % id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['similar'] % id, 'page=' + str(page)))
