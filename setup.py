@@ -46,7 +46,7 @@ class PublishCommand(Command):
 
 
 setup(name='tmdbv3api',
-      version='0.4',
+      version='0.5',
       description='A simple wrapper for the TMDb API.',
       long_description=long_descr,
       url='https://github.com/AnthonyBloomer/tmdbv3api',
