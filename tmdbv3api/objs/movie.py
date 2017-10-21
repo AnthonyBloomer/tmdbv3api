@@ -20,7 +20,9 @@ class Movie(TMDb):
         'upcoming': '/movie/upcoming',
         'popular': '/movie/popular',
         'search_movie': '/search/movie',
-        'similar': '/movie/%s/similar'
+        'similar': '/movie/%s/similar',
+        'credits': '/movie/%s/credits',
+        'images': '/movie/%s/images'
     }
 
     def details(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations"):
@@ -31,6 +33,14 @@ class Movie(TMDb):
         :return:
         """
         return AsObj(**self._call(self._urls['details'] % movie_id, append_to_response))
+
+    def credits(self, movie_id):
+        """
+        Get the cast and crew for a movie.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['credits'] % movie_id, ''))
 
     def reviews(self, movie_id, page=1):
         """
@@ -116,11 +126,19 @@ class Movie(TMDb):
         """
         return self._get_obj(self._call(self._urls['search_movie'], "query=" + quote(term) + "&page=" + str(page)))
 
-    def similar(self, id, page=1):
+    def similar(self, movie_id, page=1):
         """
         Get a list of similar movies.
-        :param id:
+        :param movie_id:
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['similar'] % id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['similar'] % movie_id, 'page=' + str(page)))
+
+    def images(self, movie_id):
+        """
+        Get the images that belong to a movie.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['images'] % movie_id, ''))

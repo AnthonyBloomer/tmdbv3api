@@ -13,13 +13,13 @@ class Person(TMDb):
         'search_people': '/search/person'
     }
 
-    def details(self, id):
+    def details(self, person_id):
         """
         Get the primary person details by id.
-        :param id:
+        :param person_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(id), ''))
+        return AsObj(**self._call(self._urls['details'] % str(person_id), ''))
 
     def search(self, term, page=1):
         """

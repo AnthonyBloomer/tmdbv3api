@@ -51,7 +51,7 @@ class TMDb(object):
 
         req = requests.get(url)
 
-        if req.status_code != 200:
+        if not req.ok:
             req.raise_for_status()
 
         json = req.json()
