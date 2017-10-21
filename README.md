@@ -1,6 +1,7 @@
 # tmdbv3api
 
 [![Build Status](https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master)](https://travis-ci.org/AnthonyBloomer/tmdbv3api)
+[![codecov](https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg)](https://codecov.io/gh/AnthonyBloomer/tmdbv3api)
 
 A lightweight Python wrapper for The Movie Database (TMDb) API. This library allows users to interact with the API and retrieve data on movies, TV shows and actors. 
 
