@@ -56,7 +56,7 @@ recommendations for a given movie id:
         print(recommendation.title)
         print(recommendation.overview)
 
-The objects currently implemented are Movie, TV, Person and Discover.
+The objects currently implemented are Movie, TV, Person, Collection and Discover.
 
 Examples
 ~~~~~~~~
@@ -247,6 +247,12 @@ Discover
 
 -  **/discover/movie**
 -  **/discover/tv**
+
+Collection
+^^^^^^^^^^
+
+- **/collection/id/details**
+- **/collection/id/images**
 
 .. |Build Status| image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
    :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
