@@ -3,7 +3,7 @@
 import unittest
 import os
 import math
-from tmdbv3api import TMDb, Movie, Discover, TV, Person
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection
 
 
 class TMDbTests(unittest.TestCase):
@@ -14,6 +14,7 @@ class TMDbTests(unittest.TestCase):
         self.discover = Discover()
         self.tv = TV()
         self.person = Person()
+        self.collection = Collection()
 
     def test_get_movie(self):
         movie = self.movie.details(111)
@@ -155,3 +156,17 @@ class TMDbTests(unittest.TestCase):
         search_person = self.person.search('Bryan')
         self.assertTrue(len(search_person) > 0)
         self.assertTrue(hasattr(search_person[0], 'id'))
+
+    def test_collection_details(self):
+        c = Collection()
+        details = c.details(10)
+        self.assertEquals(details.name, 'Star Wars Collection')
+        self.assertEquals(details.id, 10)
+        self.assertTrue(hasattr(details, 'overview'))
+        self.assertTrue(hasattr(details, 'poster_path'))
+
+    def test_collection_images(self):
+        c = Collection()
+        images = c.images(10)
+        self.assertTrue(hasattr(images, 'backdrops'))
+        self.assertTrue(hasattr(images, 'posters'))
