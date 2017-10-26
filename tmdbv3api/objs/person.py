@@ -10,22 +10,47 @@ except ImportError:
 class Person(TMDb):
     _urls = {
         'details': '/person/%s',
-        'search_people': '/search/person'
+        'search_people': '/search/person',
+        'popular': '/person/popular',
+        'latest': '/person/latest',
+        'images': '/person/%s/images'
     }
 
     def details(self, person_id):
         """
         Get the primary person details by id.
-        :param person_id:
+        :param person_id: int
         :return:
         """
         return AsObj(**self._call(self._urls['details'] % str(person_id), ''))
 
+    def images(self, person_id):
+        """
+        Get the images for a person.
+        :param person_id: int
+        :return:
+        """
+        return AsObj(**self._call(self._urls['images'] % str(person_id), ''))
+
+    def latest(self):
+        """
+        Get the most newly created person. This is a live response and will continuously change.
+        :return:
+        """
+        return AsObj(**self._call(self._urls['latest'], ''))
+
     def search(self, term, page=1):
         """
         Search for people.
-        :param term:
-        :param page:
+        :param term: string
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls['search_people'], 'query=' + quote(term) + '&page=' + str(page)))
+
+    def popular(self, page=1):
+        """
+        Get the list of popular people on TMDb. This list updates daily.
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['popular'], 'page=' + str(page)))

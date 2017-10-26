@@ -170,3 +170,22 @@ class TMDbTests(unittest.TestCase):
         images = c.images(10)
         self.assertTrue(hasattr(images, 'backdrops'))
         self.assertTrue(hasattr(images, 'posters'))
+
+    def test_popular_people(self):
+        popular = self.person.popular()
+        self.assertTrue(len(popular) > 0)
+        first = popular[0]
+        self.assertTrue(hasattr(first, 'name'))
+        self.assertTrue(hasattr(first, 'known_for'))
+
+    def test_latest_person(self):
+        latest_person = self.person.latest()
+        self.assertIsNotNone(latest_person)
+        self.assertTrue(hasattr(latest_person, 'name'))
+        self.assertTrue(hasattr(latest_person, 'id'))
+
+    def test_person_images(self):
+        images = self.person.images(11)
+        self.assertIsNotNone(images)
+        self.assertTrue(hasattr(images, 'profiles'))
+        self.assertTrue(hasattr(images, 'id'))
