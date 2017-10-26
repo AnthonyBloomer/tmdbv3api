@@ -4,3 +4,4 @@ from .objs.discover import Discover
 from .objs.person import Person
 from .objs.tv import TV
 from .objs.collection import Collection
+from .objs.company import Company

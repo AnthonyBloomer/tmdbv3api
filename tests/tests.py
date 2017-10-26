@@ -3,7 +3,7 @@
 import unittest
 import os
 import math
-from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company
 
 
 class TMDbTests(unittest.TestCase):
@@ -15,6 +15,7 @@ class TMDbTests(unittest.TestCase):
         self.tv = TV()
         self.person = Person()
         self.collection = Collection()
+        self.company = Company()
 
     def test_get_movie(self):
         movie = self.movie.details(111)
@@ -189,3 +190,15 @@ class TMDbTests(unittest.TestCase):
         self.assertIsNotNone(images)
         self.assertTrue(hasattr(images, 'profiles'))
         self.assertTrue(hasattr(images, 'id'))
+
+    def test_company_details(self):
+        c = self.company.details(1)
+        self.assertTrue(hasattr(c, 'name'))
+        self.assertEquals(c.name, 'Lucasfilm')
+
+    def test_company_movies(self):
+        company = self.company.movies(1)
+        self.assertTrue(len(company) > 0)
+        first = company[0]
+        self.assertTrue(hasattr(first, 'title'))
+        self.assertTrue(hasattr(first, 'overview'))

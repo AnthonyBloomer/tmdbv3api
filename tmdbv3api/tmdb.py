@@ -47,6 +47,10 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
+
+        if self.api_key is None:
+            raise Exception("No API key found.")
+
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
         req = requests.get(url)
