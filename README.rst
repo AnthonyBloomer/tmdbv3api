@@ -3,8 +3,8 @@ tmdbv3api
 
 |Build Status| |codecov|
 
-A lightweight Python wrapper for The Movie Database (TMDb) API. This
-library allows users to easily interact with the TMDb API and retrieve data on
+A lightweight Python library for The Movie Database (TMDb) API. This
+library allows you to easily interact with the TMDb API and retrieve data on
 movies, TV shows and actors.
 
 Register an account: https://www.themoviedb.org/account/signup
