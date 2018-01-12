@@ -7,5 +7,5 @@ tmdb.api_key = ''
 popular = tmdb.popular()
 
 for p in popular:
-    print p.title
-    print p.overview
+    print(p.title)
+    print(p.overview)
