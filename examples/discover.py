@@ -13,5 +13,5 @@ show = discover.discover_tv_shows({
 })
 
 for p in show:
-    print p.name
-    print p.overview
+    print(p.name)
+    print(p.overview)
