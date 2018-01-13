@@ -56,8 +56,6 @@ recommendations for a given movie id:
         print(recommendation.title)
         print(recommendation.overview)
 
-The objects currently implemented are Movie, TV, Person, Collection and Discover.
-
 Examples
 ~~~~~~~~
 
@@ -204,55 +202,6 @@ Then run:
 
     $ python -m unittest discover tests/
 
-Supported Methods
-~~~~~~~~~~~~~~~~~
-
-Movies
-^^^^^^
-
--  **/movie/latest**
--  **/movie/now\_playing**
--  **/movie/top\_rated**
--  **/movie/upcoming**
--  **/movie/id**
--  **/movie/id/similar**
--  **/movie/id/recommendations**
--  **/movie/id/videos**
--  **/movie/id/reviews**
--  **/movie/id/lists**
-
-TV
-^^
-
--  **/tv/id**
--  **/tv/latest**
--  **/tv/id/similar**
--  **/tv/top\_rated**
--  **/tv/popular**
-
-People
-^^^^^^
-
--  **/person/id**
-
-Search
-^^^^^^
-
--  **/search/movie**
--  **/search/tv**
--  **/search/person**
-
-Discover
-^^^^^^^^
-
--  **/discover/movie**
--  **/discover/tv**
-
-Collection
-^^^^^^^^^^
-
-- **/collection/id/details**
-- **/collection/id/images**
 
 .. |Build Status| image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
    :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
