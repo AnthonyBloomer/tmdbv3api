@@ -1,10 +1,12 @@
-from tmdbv3api import TMDb
+from tmdbv3api import TMDb, Movie
 
 tmdb = TMDb()
 
 tmdb.api_key = ''
 
-popular = tmdb.popular()
+movie = Movie()
+
+popular = movie.popular()
 
 for p in popular:
     print(p.title)

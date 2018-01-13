@@ -3,7 +3,7 @@
 import requests
 from .as_obj import AsObj
 import os
-
+import pprint
 
 class TMDb(object):
     def __init__(self, debug=False, language='en'):
@@ -41,9 +41,9 @@ class TMDb(object):
         return self._call('/configuration', '')
 
     @staticmethod
-    def _get_obj(result):
+    def _get_obj(result, key="results"):
         arr = []
-        [arr.append(AsObj(**res)) for res in result['results']]
+        [arr.append(AsObj(**res)) for res in result[key]]
         return arr
 
     def _call(self, action, append_to_response):
@@ -59,6 +59,11 @@ class TMDb(object):
             req.raise_for_status()
 
         json = req.json()
+
+        pprint.pprint(json)
+
+        if self.debug:
+            pprint.pprint(json)
 
         if 'errors' in json:
             raise Exception(json['errors'])

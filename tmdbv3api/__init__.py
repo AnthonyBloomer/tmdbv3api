@@ -5,3 +5,4 @@ from .objs.person import Person
 from .objs.tv import TV
 from .objs.collection import Collection
 from .objs.company import Company
+from .objs.genre import Genre
