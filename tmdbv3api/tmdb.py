@@ -55,17 +55,13 @@ class TMDb(object):
 
         req = requests.get(url)
 
-        if self.debug:
-            print("URL: " + req.url)
-
         if not req.ok:
             req.raise_for_status()
 
         json = req.json()
 
-        pprint.pprint(json)
-
         if self.debug:
+            print("URL: " + req.url)
             pprint.pprint(json)
 
         if 'errors' in json:
