@@ -55,6 +55,9 @@ class TMDb(object):
 
         req = requests.get(url)
 
+        if self.debug:
+            print("URL: " + req.url)
+
         if not req.ok:
             req.raise_for_status()
 
