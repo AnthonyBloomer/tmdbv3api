@@ -54,7 +54,7 @@ setup(name='tmdbv3api',
       author_email='ant0@protonmail.ch',
       license='MIT',
       packages=['tmdbv3api', 'tmdbv3api.objs'],
-      keywords=['movies', 'tv', 'tmdb', 'api'],
+      keywords=['movie', 'movie database', 'tmdb', 'wrapper', 'database', 'themoviedb', 'moviedb', 'api'],
       install_requires=[
           'requests'
       ],
