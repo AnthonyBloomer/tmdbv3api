@@ -46,7 +46,7 @@ class PublishCommand(Command):
 
 
 setup(name='tmdbv3api',
-      version='0.5',
+      version='0.6',
       description='A simple wrapper for the TMDb API.',
       long_description=long_descr,
       url='https://github.com/AnthonyBloomer/tmdbv3api',
@@ -54,7 +54,7 @@ setup(name='tmdbv3api',
       author_email='ant0@protonmail.ch',
       license='MIT',
       packages=['tmdbv3api', 'tmdbv3api.objs'],
-      keywords=['movies', 'tv', 'tmdb', 'api'],
+      keywords=['movie', 'movie database', 'tmdb', 'wrapper', 'database', 'themoviedb', 'moviedb', 'api'],
       install_requires=[
           'requests'
       ],

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import requests.exceptions
 from .as_obj import AsObj
 import os
 import pprint
+import time
+
 
 class TMDb(object):
     def __init__(self, debug=False, language='en'):
@@ -47,16 +50,18 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
-
+        time.sleep(3)
         if self.api_key is None:
             raise Exception("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
+        req = None
 
-        req = requests.get(url)
-
-        if not req.ok:
-            req.raise_for_status()
+        try:
+            req = requests.get(url)
+        except requests.exceptions.HTTPError:
+            time.sleep(10)
+            self._call(action, append_to_response)
 
         json = req.json()
 
