@@ -50,6 +50,7 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
+        time.sleep(2)
         if self.api_key is None:
             raise Exception("No API key found.")
 
