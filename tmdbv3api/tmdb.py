@@ -40,9 +40,6 @@ class TMDb(object):
     def language(self, language):
         self._language = language
 
-    def get_config(self):
-        return self._call('/configuration', '')
-
     @staticmethod
     def _get_obj(result, key="results"):
         arr = []
@@ -64,10 +61,6 @@ class TMDb(object):
             self._call(action, append_to_response)
 
         json = req.json()
-
-        if self.debug:
-            print("URL: " + req.url)
-            pprint.pprint(json)
 
         if 'errors' in json:
             raise Exception(json['errors'])

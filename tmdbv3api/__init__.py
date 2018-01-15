@@ -6,3 +6,4 @@ from .objs.tv import TV
 from .objs.collection import Collection
 from .objs.company import Company
 from .objs.genre import Genre
+from .objs.configuration import Configuration
