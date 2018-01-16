@@ -46,23 +46,29 @@ class PublishCommand(Command):
 
 
 setup(name='tmdbv3api',
-      version='0.6',
-      description='A simple wrapper for the TMDb API.',
+      version='0.6.1',
+      description='A lightweight Python library for The Movie Database (TMDb) API.',
       long_description=long_descr,
       url='https://github.com/AnthonyBloomer/tmdbv3api',
       author='Anthony Bloomer',
       author_email='ant0@protonmail.ch',
       license='MIT',
       packages=['tmdbv3api', 'tmdbv3api.objs'],
-      keywords=['movie', 'movie database', 'tmdb', 'wrapper', 'database', 'themoviedb', 'moviedb', 'api'],
+      keywords=['movie', 'tv' 'movie database', 'tmdb', 'wrapper', 'database', 'themoviedb', 'moviedb', 'api'],
       install_requires=[
           'requests'
       ],
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
+          "Topic :: Software Development :: Libraries",
+          'Programming Language :: Python',
           'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3.6'
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
       ],
       cmdclass={
           'publish': PublishCommand,
