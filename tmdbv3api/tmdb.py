@@ -4,7 +4,6 @@ import requests
 import requests.exceptions
 from .as_obj import AsObj
 import os
-import pprint
 import time
 
 
@@ -47,17 +46,20 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
-        time.sleep(2)
         if self.api_key is None:
             raise Exception("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
-        req = None
 
-        try:
-            req = requests.get(url)
-        except requests.exceptions.HTTPError:
-            time.sleep(10)
+        req = requests.get(url)
+        headers = req.headers
+        remaining = int(headers['X-RateLimit-Remaining'])
+        reset = int(headers['X-RateLimit-Reset'])
+
+        if remaining == 0:
+            b = time.time()
+            c = b - reset
+            time.sleep(c)
             self._call(action, append_to_response)
 
         json = req.json()
