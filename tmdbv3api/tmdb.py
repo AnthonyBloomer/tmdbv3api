@@ -3,6 +3,7 @@
 import requests
 import requests.exceptions
 import logging
+from .exceptions import TMDbException, ApiException
 from .as_obj import AsObj
 import os
 import time
@@ -53,7 +54,7 @@ class TMDb(object):
 
     def _call(self, action, append_to_response):
         if self.api_key is None:
-            raise Exception("No API key found.")
+            raise ApiException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
@@ -75,11 +76,13 @@ class TMDb(object):
                 time.sleep(c)
                 self._call(action, append_to_response)
             else:
-                raise Exception("Rate limit reached. Try again in %d seconds." % c)
+                raise TMDbException("Rate limit reached. Try again in %d seconds." % c)
 
         json = req.json()
 
+        if 'status_code' in json and int(json['status_code']) == 7:
+            raise ApiException("Invalid API key: You must be granted a valid key.")
         if 'errors' in json:
-            raise Exception(json['errors'])
+            raise TMDbException(json['errors'])
 
         return json
