@@ -6,7 +6,6 @@ import logging
 from .as_obj import AsObj
 import os
 import time
-import math
 
 log = logging.getLogger()
 
@@ -69,7 +68,7 @@ class TMDb(object):
 
         if self._remaining < 1:
             b = int(time.time())
-            c = math.ceil(b - self._reset)
+            c = self._reset - b
 
             if self._wait_on_rate_limit:
                 log.warning("Rate limit reached. Sleeping for: %d" % c)
