@@ -3,7 +3,7 @@
 import unittest
 import os
 import math
-from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre
 
 
 class TMDbTests(unittest.TestCase):
@@ -202,3 +202,16 @@ class TMDbTests(unittest.TestCase):
         first = company[0]
         self.assertTrue(hasattr(first, 'title'))
         self.assertTrue(hasattr(first, 'overview'))
+
+    def test_config(self):
+        config = Configuration()
+        info = config.info()
+        self.assertIsNotNone(info)
+        self.assertTrue(hasattr(info, 'images'))
+
+    def test_genres(self):
+        genres = Genre()
+        movie_genres = genres.movie_list()
+        self.assertIsNotNone(movie_genres)
+        tv_genres = genres.tv_list()
+        self.assertIsNotNone(tv_genres)
