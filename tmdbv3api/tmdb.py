@@ -12,13 +12,14 @@ log = logging.getLogger()
 
 
 class TMDb(object):
-    def __init__(self, debug=False, language='en'):
+    def __init__(self, debug=False, language='en', wait_on_rate_limit=True):
         self._base = 'http://api.themoviedb.org/3'
         self._api_key = ''
         self._debug = debug
         self._language = language
         self._remaining = 40
         self._reset = None
+        self._wait_on_rate_limit = wait_on_rate_limit
 
     @property
     def api_key(self):
@@ -69,9 +70,13 @@ class TMDb(object):
         if self.remaining < 1:
             b = int(time.time())
             c = math.ceil(b - self._reset)
-            log.warning("Rate limit reached. Sleeping for: %d" % c)
-            time.sleep(c)
-            self._call(action, append_to_response)
+
+            if self._wait_on_rate_limit:
+                log.warning("Rate limit reached. Sleeping for: %d" % c)
+                time.sleep(c)
+                self._call(action, append_to_response)
+            else:
+                raise Exception("Rate limit reached. Try again in %d seconds." % c)
 
         json = req.json()
 

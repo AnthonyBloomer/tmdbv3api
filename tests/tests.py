@@ -161,8 +161,8 @@ class TMDbTests(unittest.TestCase):
     def test_collection_details(self):
         c = Collection()
         details = c.details(10)
-        self.assertEquals(details.name, 'Star Wars Collection')
-        self.assertEquals(details.id, 10)
+        self.assertEqual(details.name, 'Star Wars Collection')
+        self.assertEqual(details.id, 10)
         self.assertTrue(hasattr(details, 'overview'))
         self.assertTrue(hasattr(details, 'poster_path'))
 
@@ -194,7 +194,7 @@ class TMDbTests(unittest.TestCase):
     def test_company_details(self):
         c = self.company.details(1)
         self.assertTrue(hasattr(c, 'name'))
-        self.assertEquals(c.name, 'Lucasfilm')
+        self.assertEqual(c.name, 'Lucasfilm')
 
     def test_company_movies(self):
         company = self.company.movies(1)
