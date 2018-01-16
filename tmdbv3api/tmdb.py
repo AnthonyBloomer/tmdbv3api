@@ -2,9 +2,12 @@
 
 import requests
 import requests.exceptions
+import logging
 from .as_obj import AsObj
 import os
 import time
+
+log = logging.getLogger()
 
 
 class TMDb(object):
@@ -13,6 +16,7 @@ class TMDb(object):
         self._api_key = ''
         self._debug = debug
         self._language = language
+        self._remaining = 40
 
     @property
     def api_key(self):
@@ -53,12 +57,16 @@ class TMDb(object):
 
         req = requests.get(url)
         headers = req.headers
-        remaining = int(headers['X-RateLimit-Remaining'])
+
+        if 'X-RateLimit-Remaining' in headers:
+            self.remaining = int(headers['X-RateLimit-Remaining'])
+
         reset = int(headers['X-RateLimit-Reset'])
 
-        if remaining == 0:
-            b = time.time()
+        if self.remaining < 1:
+            b = int(time.time())
             c = b - reset
+            log.warning("Rate limit reached. Sleeping for: %d" % c)
             time.sleep(c)
             self._call(action, append_to_response)
 
