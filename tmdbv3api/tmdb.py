@@ -62,12 +62,12 @@ class TMDb(object):
         headers = req.headers
 
         if 'X-RateLimit-Remaining' in headers:
-            self.remaining = int(headers['X-RateLimit-Remaining'])
+            self._remaining = int(headers['X-RateLimit-Remaining'])
 
         if 'X-RateLimit-Reset' in headers:
             self._reset = int(headers['X-RateLimit-Reset'])
 
-        if self.remaining < 1:
+        if self._remaining < 1:
             b = int(time.time())
             c = math.ceil(b - self._reset)
 
