@@ -73,7 +73,7 @@ class TMDb(object):
 
             if self._wait_on_rate_limit:
                 log.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
-                time.sleep(c)
+                time.sleep(sleep_time)
                 self._call(action, append_to_response)
             else:
                 raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
