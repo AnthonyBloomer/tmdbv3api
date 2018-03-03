@@ -68,15 +68,15 @@ class TMDb(object):
             self._reset = int(headers['X-RateLimit-Reset'])
 
         if self._remaining < 1:
-            b = int(time.time())
-            c = self._reset - b
+            current_time = int(time.time())
+            sleep_time = self._reset - current_time
 
             if self._wait_on_rate_limit:
-                log.warning("Rate limit reached. Sleeping for: %d" % c)
+                log.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(c)
                 self._call(action, append_to_response)
             else:
-                raise TMDbException("Rate limit reached. Try again in %d seconds." % c)
+                raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
         json = req.json()
 
