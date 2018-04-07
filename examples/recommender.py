@@ -15,10 +15,8 @@ if __name__ == '__main__':
     search = movie.search(args.movie)
     first_result = search[0]
     recommendations = movie.recommendations(first_result.id)
-    count = 0
+    recommendations = recommendations[:int(args.limit)] if recommendations >= args.limit else recommendations
     for recommendation in recommendations:
-        if (count == args.limit):
-            break
         print("%s (%s)" % (recommendation.title, recommendation.release_date))
         count += 1
     
