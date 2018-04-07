@@ -18,7 +18,4 @@ if __name__ == '__main__':
     recommendations = recommendations[:int(args.limit)] if recommendations >= args.limit else recommendations
     for recommendation in recommendations:
         print("%s (%s)" % (recommendation.title, recommendation.release_date))
-        count += 1
-    
-    
-    
+        
