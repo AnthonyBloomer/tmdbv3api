@@ -3,7 +3,7 @@
 import unittest
 import os
 import math
-from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season
 
 
 class TMDbTests(unittest.TestCase):
@@ -16,6 +16,7 @@ class TMDbTests(unittest.TestCase):
         self.person = Person()
         self.collection = Collection()
         self.company = Company()
+        self.season = Season()
 
     def test_get_movie(self):
         movie = self.movie.details(111)
@@ -215,3 +216,16 @@ class TMDbTests(unittest.TestCase):
         self.assertIsNotNone(movie_genres)
         tv_genres = genres.tv_list()
         self.assertIsNotNone(tv_genres)
+
+    def test_season(self):
+        s = self.season.details(1418, 1)
+        self.assertIsNotNone(s)
+        self.assertEqual(s.name, 'Season 1')
+        self.assertEqual(s.id, 3738)
+        self.assertTrue(hasattr(s, 'episodes'))
+        self.assertTrue(hasattr(s, 'overview'))
+        self.assertTrue(hasattr(s, 'id'))
+
+    def test_get_season_changes(self):
+        s = self.season.changes(1418, 1)
+        self.assertIsNotNone(s)

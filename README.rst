@@ -73,7 +73,7 @@ refreshes every day.
         print(p.title)
         print(p.overview)
         print(p.poster_path)
-                
+
 
 Get the primary information about a movie.
 
@@ -128,6 +128,15 @@ Get the similar TV shows for a specific tv id.
     for show in similar:
         print(show.name)
         print(show.overview)
+
+Get the details of TV season for a specific tv id.
+
+.. code:: python
+
+    season = Season()
+    show_season = season.details(1396, 1)
+    print(show_season.air_date)
+    print(len(show_season.episodes))
 
 Get the general person information for a specific id.
 
@@ -185,6 +194,7 @@ of votes, genres, the network they aired on and air dates.
         'sort_by': 'vote_average.desc',
         'vote_count.gte': 10
     })
+
 
 Running Tests
 ~~~~~~~~~~~~~
