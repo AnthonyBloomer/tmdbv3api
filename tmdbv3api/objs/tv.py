@@ -114,3 +114,11 @@ class TV(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['screened_theatrically'] % tv_id, ''))
+        
+    def external_ids(self, id):
+        """
+        Get a list of seasons or episodes that have been screened in a film festival or theatre.
+        :param tv_id:
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['external_ids'] % id, ''), None)

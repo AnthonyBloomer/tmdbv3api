@@ -49,7 +49,10 @@ class TMDb(object):
     @staticmethod
     def _get_obj(result, key="results"):
         arr = []
-        [arr.append(AsObj(**res)) for res in result[key]]
+        if key is not None:
+            [arr.append(AsObj(**res)) for res in result[key]]
+        else:
+            return result
         return arr
 
     def _call(self, action, append_to_response):
