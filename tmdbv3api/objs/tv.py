@@ -19,7 +19,8 @@ class TV(TMDb):
         'videos': '/tv/{tv_id}/videos',
         'airing_today': '/tv/airing_today',
         'on_the_air': '/tv/on_the_air',
-        'screened_theatrically': '/tv/%s/screened_theatrically'
+        'screened_theatrically': '/tv/%s/screened_theatrically',
+        'external_ids': '/tv/%s/external_ids'
     }
 
     def details(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
