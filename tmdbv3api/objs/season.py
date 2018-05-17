@@ -36,7 +36,6 @@ class Season(TMDb):
         """
         return AsObj(**self._call(self._urls['changes'] % str(season_id), append_to_response))
 
-''' Not functional - KeyError: 'results' in line 52 of tmdb.py - I don't have time to look into I only needed details anyways
     def account_states(self, tv_id, season_num):
         """
         Get all of the user ratings for the season's episodes.
@@ -44,7 +43,7 @@ class Season(TMDb):
         :param season_num:
         :return:
         """
-        return self._get_obj(self._call(self._urls['account_states'] % (str(tv_id), str(season_num)), ''))
+        return self._get_obj(self._call(self._urls['account_states'] % (str(tv_id), str(season_num)), ''), None)
 
     def credits(self, tv_id, season_num):
         """
@@ -53,7 +52,7 @@ class Season(TMDb):
         :param season_num:
         :return:
         """
-        return self._get_obj(self._call(self._urls['credits'] % (str(tv_id), str(season_num)), ''))
+        return self._get_obj(self._call(self._urls['credits'] % (str(tv_id), str(season_num)), ''), 'cast')
 
     def external_ids(self, tv_id, season_num):
         """
@@ -62,16 +61,18 @@ class Season(TMDb):
         :param season_num:
         :return:
         """
-        return self._get_obj(self._call(self._urls['external_ids'] % (str(tv_id), str(season_num))))
+        return self._get_obj(self._call(self._urls['external_ids'] % (str(tv_id), str(season_num)), ''), None)
 
     def images(self, tv_id, season_num, page=1):
         """
         Get the images that belong to a TV season.
+        :param page:
         :param tv_id:
         :param season_num:
         :return:
         """
-        return self._get_obj(self._call(self._urls['images'] % (str(tv_id), str(season_num)), 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls['images'] % (str(tv_id), str(season_num)), 'page=' + str(page)),
+                             'posters')
 
     def videos(self, tv_id, season_num, page=1):
         """
@@ -82,4 +83,3 @@ class Season(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['videos'] % (str(tv_id), str(season_num)), 'page=' + str(page)))
-'''

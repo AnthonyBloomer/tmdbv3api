@@ -229,3 +229,25 @@ class TMDbTests(unittest.TestCase):
     def test_get_season_changes(self):
         s = self.season.changes(1418, 1)
         self.assertIsNotNone(s)
+
+    def test_get_season_external_ids(self):
+        s = self.season.external_ids(1418, 1)
+        self.assertIsNotNone(s)
+        self.assertIsNotNone(s['tvdb_id'])
+
+    def test_get_season_videos(self):
+        s = self.season.videos(1418, 1)
+
+    def test_get_season_images(self):
+        s = self.season.images(1418, 1)
+        for l in s:
+            self.assertIsNotNone(l.width)
+            self.assertIsNotNone(l.height)
+
+    def test_get_season_credits(self):
+        s = self.season.credits(1418, 1)
+        for c in s:
+            self.assertIsNotNone(c.name)
+            self.assertIsNotNone(c.character)
+
+

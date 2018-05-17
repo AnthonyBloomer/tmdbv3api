@@ -8,7 +8,8 @@ from .as_obj import AsObj
 import os
 import time
 
-log = logging.getLogger()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class TMDb(object):
@@ -75,13 +76,14 @@ class TMDb(object):
             sleep_time = self._reset - current_time
 
             if self._wait_on_rate_limit:
-                log.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
+                logger.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(sleep_time)
                 self._call(action, append_to_response)
             else:
                 raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
         json = req.json()
+        logger.info(json)
 
         if 'status_code' in json and int(json['status_code']) == 7:
             raise ApiException("Invalid API key: You must be granted a valid key.")
