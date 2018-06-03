@@ -23,7 +23,7 @@ class TV(TMDb):
         'external_ids': '/tv/%s/external_ids'
     }
 
-    def details(self, show_id, append_to_response="append_to_response=trailers,images,casts,translations"):
+    def details(self, show_id, append_to_response="append_to_response=trailers,images,credits,translations"):
         """
         Get the primary TV show details by id.
         :param show_id:
