@@ -85,8 +85,6 @@ class TMDb(object):
         json = req.json()
         logger.info(json)
 
-        if 'status_code' in json and int(json['status_code']) == 7:
-            raise ApiException("Invalid API key: You must be granted a valid key.")
         if 'errors' in json:
             raise TMDbException(json['errors'])
 
