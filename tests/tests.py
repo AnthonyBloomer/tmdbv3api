@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import os
 import math
 from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season
 
