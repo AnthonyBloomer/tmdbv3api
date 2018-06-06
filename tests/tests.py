@@ -2,6 +2,7 @@
 
 import unittest
 import math
+import os
 from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season
 
 
