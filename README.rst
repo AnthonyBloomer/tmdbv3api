@@ -3,9 +3,7 @@ tmdbv3api
 
 |Build Status| |codecov|
 
-A lightweight Python library for The Movie Database (TMDb) API. This
-library allows you to easily interact with the TMDb API and retrieve data on
-movies, TV shows and actors.
+A lightweight Python library for The Movie Database (TMDb) API. The TMDb API is a resource for developers to integrate movie, TV show and cast data along with posters or movie fan art. themoviedb.org is a free and community edited database.
 
 Register an account: https://www.themoviedb.org/account/signup
 
