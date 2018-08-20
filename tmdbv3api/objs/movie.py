@@ -40,7 +40,7 @@ class Movie(TMDb):
         :param movie_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['credits'] % movie_id, ''))
+        return AsObj(**self._call(self._urls['credits'] % movie_id))
 
     def reviews(self, movie_id, page=1):
         """
@@ -83,7 +83,7 @@ class Movie(TMDb):
         Get the most newly created movie. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self._urls['latest'], ''))
+        return AsObj(**self._call(self._urls['latest']))
 
     def now_playing(self, page=1):
         """
@@ -141,4 +141,7 @@ class Movie(TMDb):
         :param movie_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['images'] % movie_id, ''))
+        return AsObj(**self._call(self._urls['images'] % movie_id))
+
+    def __repr__(self):
+        return self.__class__.__name__

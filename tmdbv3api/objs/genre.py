@@ -8,7 +8,10 @@ class Genre(TMDb):
     }
 
     def movie_list(self):
-        return self._get_obj(self._call(self._urls['movie_list'], ''), key='genres')
+        return self._get_obj(self._call(self._urls['movie_list']), key='genres')
 
     def tv_list(self):
-        return self._get_obj(self._call(self._urls['tv_list'], ''), key='genres')
+        return self._get_obj(self._call(self._urls['tv_list']), key='genres')
+
+    def __repr__(self):
+        return self.__class__.__name__

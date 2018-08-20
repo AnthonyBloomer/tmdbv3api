@@ -28,3 +28,6 @@ class Discover(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['tv'], urlencode(params)))
+
+    def __repr__(self):
+        return self.__class__.__name__

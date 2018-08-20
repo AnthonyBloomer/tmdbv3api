@@ -19,7 +19,7 @@ class Collection(TMDb):
         :param collection_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['images'] % str(collection_id), ''))
+        return AsObj(**self._call(self._urls['images'] % str(collection_id)))
 
     def details(self, collection_id):
         """
@@ -27,4 +27,7 @@ class Collection(TMDb):
         :param collection_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(collection_id), ''))
+        return AsObj(**self._call(self._urls['details'] % str(collection_id)))
+
+    def __repr__(self):
+        return self.__class__.__name__
