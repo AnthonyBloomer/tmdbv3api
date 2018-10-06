@@ -22,7 +22,7 @@ class Person(TMDb):
         :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(person_id)))
+        return AsObj(**self._call(self._urls['details'] % str(person_id), ''))
 
     def images(self, person_id):
         """
@@ -30,7 +30,7 @@ class Person(TMDb):
         :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['images'] % str(person_id)))
+        return AsObj(**self._call(self._urls['images'] % str(person_id), ''))
 
     def latest(self):
         """
@@ -54,6 +54,3 @@ class Person(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['popular'], 'page=' + str(page)))
-
-    def __repr__(self):
-        return self.__class__.__name__

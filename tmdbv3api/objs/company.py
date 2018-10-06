@@ -14,7 +14,7 @@ class Company(TMDb):
         :param company_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(company_id)))
+        return AsObj(**self._call(self._urls['details'] % str(company_id), ''))
 
     def movies(self, company_id):
         """
@@ -22,7 +22,4 @@ class Company(TMDb):
         :param company_id: int
         :return:
         """
-        return self._get_obj(self._call(self._urls['movies'] % str(company_id)))
-
-    def __repr__(self):
-        return self.__class__.__name__
+        return self._get_obj(self._call(self._urls['movies'] % str(company_id), ''))
