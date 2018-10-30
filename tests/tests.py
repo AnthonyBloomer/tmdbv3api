@@ -10,6 +10,8 @@ class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
         self.tmdb.api_key = os.environ['api_key']
+        self.tmdb.language = 'en'
+        self.tmdb.debug = True
         self.movie = Movie()
         self.discover = Discover()
         self.tv = TV()
