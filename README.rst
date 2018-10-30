@@ -38,6 +38,13 @@ Alternatively, you can export your API key as an environment variable.
 
     $ export api_key='YOUR_API_KEY'
 
+Other configuration settings include defining your ``language`` and enabling debug mode, for example:
+
+.. code:: python
+
+    tmdb.language = 'en'
+    tmdb.debug = True
+
 Then to communicate with TMDb, create an instance of one of the objects
 and call that instances methods. For example, to retrieve movie
 recommendations for a given movie id:
