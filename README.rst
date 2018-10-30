@@ -38,7 +38,7 @@ Alternatively, you can export your API key as an environment variable.
 
     $ export api_key='YOUR_API_KEY'
 
-Other configuration settings include defining your ``language`` and enabling debug mode, for example:
+Other configuration settings include defining your ``language`` and enabling ``debug`` mode, for example:
 
 .. code:: python
 
