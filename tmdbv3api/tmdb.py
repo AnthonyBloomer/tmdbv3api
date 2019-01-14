@@ -32,20 +32,22 @@ class TMDb(object):
         os.environ['api_key'] = str(api_key)
 
     @property
-    def debug(self):
-        return self._debug
-
-    @debug.setter
-    def debug(self, debug):
-        self._debug = debug
-
-    @property
     def language(self):
+        self._language = os.environ.get('TMDB_LANGUAGE')
         return self._language
 
     @language.setter
     def language(self, language):
-        self._language = language
+        os.environ['TMDB_LANGUAGE'] = language
+
+    @property
+    def debug(self):
+        self._debug = os.environ.get('TMDB_DEBUG_ENABLED')
+        return self._debug
+
+    @debug.setter
+    def debug(self, debug):
+        os.environ['TMDB_DEBUG_ENABLED'] = debug
 
     @staticmethod
     def _get_obj(result, key="results"):
