@@ -72,7 +72,6 @@ class TMDbTests(unittest.TestCase):
         for genre_id in movie.genre_ids:
             if genre_id == 28:
                 has_genre = True
-        self.assertTrue(math.ceil(movie.vote_average) >= 8)
         self.assertTrue(has_genre)
 
     def test_discover_tv_shows(self):
