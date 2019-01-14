@@ -43,11 +43,11 @@ class TMDb(object):
     @property
     def debug(self):
         self._debug = os.environ.get('TMDB_DEBUG_ENABLED')
-        return self._debug
+        return bool(self._debug)
 
     @debug.setter
     def debug(self, debug):
-        os.environ['TMDB_DEBUG_ENABLED'] = debug
+        os.environ['TMDB_DEBUG_ENABLED'] = str(debug)
 
     @staticmethod
     def _get_obj(result, key="results"):
