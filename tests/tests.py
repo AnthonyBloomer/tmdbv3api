@@ -250,4 +250,7 @@ class TMDbTests(unittest.TestCase):
             self.assertIsNotNone(c.name)
             self.assertIsNotNone(c.character)
 
-
+    def test_get_movie_by_external_id(self):
+        ex = self.movie.external(external_id="tt8155288", external_source="imdb_id")
+        res = ex['movie_results'][0]
+        self.assertTrue(res['title'] == "Happy Death Day 2U")

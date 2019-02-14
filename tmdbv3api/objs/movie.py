@@ -23,7 +23,8 @@ class Movie(TMDb):
         'similar': '/movie/%s/similar',
         'credits': '/movie/%s/credits',
         'images': '/movie/%s/images',
-        'keywords': '/movie/%s/keywords'
+        'keywords': '/movie/%s/keywords',
+        'external': '/find/%s'
     }
 
     def keywords(self, movie_id):
@@ -143,6 +144,16 @@ class Movie(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['similar'] % movie_id, 'page=' + str(page)))
+
+    def external(self, external_id, external_source):
+        """
+        The find method makes it easy to search for objects in our database by an external id. For example, an IMDB ID.
+        :param external_id: str
+        :param external_source str
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['external'] % external_id, 'external_source=' + external_source),
+                             key=None)
 
     def images(self, movie_id):
         """

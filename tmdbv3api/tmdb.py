@@ -16,11 +16,11 @@ class TMDb(object):
     def __init__(self, debug=False, language='en', wait_on_rate_limit=True):
         self._base = 'http://api.themoviedb.org/3'
         self._api_key = ''
-        self._debug = debug
-        self._language = language
+        self.debug = debug
+        self.language = language
         self._remaining = 40
         self._reset = None
-        self._wait_on_rate_limit = wait_on_rate_limit
+        self.wait_on_rate_limit = wait_on_rate_limit
 
     @property
     def api_key(self):
@@ -33,8 +33,7 @@ class TMDb(object):
 
     @property
     def language(self):
-        self._language = os.environ.get('TMDB_LANGUAGE')
-        return self._language
+        return os.environ.get('TMDB_LANGUAGE')
 
     @language.setter
     def language(self, language):
@@ -42,8 +41,7 @@ class TMDb(object):
 
     @property
     def debug(self):
-        self._debug = os.environ.get('TMDB_DEBUG_ENABLED')
-        return bool(self._debug)
+        return bool(os.environ.get('TMDB_DEBUG_ENABLED'))
 
     @debug.setter
     def debug(self, debug):
@@ -77,7 +75,7 @@ class TMDb(object):
             current_time = int(time.time())
             sleep_time = self._reset - current_time
 
-            if self._wait_on_rate_limit:
+            if self.wait_on_rate_limit:
                 logger.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(abs(sleep_time))
                 self._call(action, append_to_response)
