@@ -11,44 +11,54 @@ import time
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+TMDB_API_KEY = 'TMDB_API_KEY'
+TMDB_LANGUAGE = 'TMDB_LANGUAGE'
+TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
+TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
+
 
 class TMDb(object):
-    def __init__(self, debug=False, language='en', wait_on_rate_limit=True):
+    def __init__(self):
         self._base = 'http://api.themoviedb.org/3'
-        self._api_key = ''
-        self.debug = debug
-        self.language = language
         self._remaining = 40
         self._reset = None
-        self.wait_on_rate_limit = wait_on_rate_limit
 
     @property
     def api_key(self):
-        self._api_key = os.environ.get('api_key')
-        return self._api_key
+        return os.environ.get(TMDB_API_KEY)
 
     @api_key.setter
     def api_key(self, api_key):
-        os.environ['api_key'] = str(api_key)
+        os.environ[TMDB_API_KEY] = str(api_key)
 
     @property
     def language(self):
-        return os.environ.get('TMDB_LANGUAGE')
+        return os.environ.get(TMDB_LANGUAGE)
 
     @language.setter
     def language(self, language):
-        os.environ['TMDB_LANGUAGE'] = language
+        os.environ[TMDB_LANGUAGE] = language
+
+    @property
+    def wait_on_rate_limit(self):
+        return True if os.environ.get(TMDB_WAIT_ON_RATE_LIMIT) == "True" else False
+
+    @wait_on_rate_limit.setter
+    def wait_on_rate_limit(self, wait_on_rate_limit):
+        os.environ[TMDB_WAIT_ON_RATE_LIMIT] = str(wait_on_rate_limit)
 
     @property
     def debug(self):
-        return bool(os.environ.get('TMDB_DEBUG_ENABLED'))
+        return True if os.environ.get(TMDB_DEBUG_ENABLED) == "True" else False
 
     @debug.setter
     def debug(self, debug):
-        os.environ['TMDB_DEBUG_ENABLED'] = str(debug)
+        os.environ[TMDB_DEBUG_ENABLED] = str(debug)
 
     @staticmethod
     def _get_obj(result, key="results"):
+        if 'success' in result and result['success'] is False:
+            raise Exception(result['status_message'])
         arr = []
         if key is not None:
             [arr.append(AsObj(**res)) for res in result[key]]
@@ -57,7 +67,7 @@ class TMDb(object):
         return arr
 
     def _call(self, action, append_to_response):
-        if self.api_key is None:
+        if self.api_key is None or self.api_key == '':
             raise TMDbException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)

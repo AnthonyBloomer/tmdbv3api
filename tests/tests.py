@@ -9,9 +9,10 @@ from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Co
 class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['api_key']
+        self.tmdb.api_key = os.environ['TMDB_API_KEY']
         self.tmdb.language = 'en'
         self.tmdb.debug = True
+        self.tmdb.wait_on_rate_limit = True
         self.movie = Movie()
         self.discover = Discover()
         self.tv = TV()
