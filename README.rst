@@ -36,7 +36,7 @@ Alternatively, you can export your API key as an environment variable.
 
 .. code:: bash
 
-    $ export api_key='YOUR_API_KEY'
+    $ export TMDB_API_KEY='YOUR_API_KEY'
 
 Other configuration settings include defining your ``language`` and enabling ``debug`` mode, for example:
 
@@ -209,7 +209,7 @@ API key as an environment variable. From the command line run:
 
 .. code:: bash
 
-    $ export api_key='YOUR_API_KEY'
+    $ export TMDB_API_KEY='YOUR_API_KEY'
 
 Then run:
 
