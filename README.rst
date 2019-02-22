@@ -7,7 +7,7 @@ A lightweight Python library for The Movie Database (TMDb) API. The TMDb API is 
 
 Register an account: https://www.themoviedb.org/account/signup
 
-Check out the API documentation: https://docs.themoviedb.apiary.io
+Check out the API documentation: https://developers.themoviedb.org/3/getting-started/introduction
 
 Install
 ~~~~~~~
