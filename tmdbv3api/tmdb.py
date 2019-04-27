@@ -62,10 +62,13 @@ class TMDb(object):
         arr = []
         if key is not None:
             [arr.append(AsObj(**res)) for res in result[key]]
-            result.pop("results")
+            
         else:
             return result
-        return arr,AsObj(**result)
+        if key == "results":
+            result.pop(key)
+            return arr,AsObj(**result)
+        return arr
 
     def _call(self, action, append_to_response):
         if self.api_key is None or self.api_key == '':
