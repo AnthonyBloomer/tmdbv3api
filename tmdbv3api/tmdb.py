@@ -106,9 +106,14 @@ class TMDb(object):
 
         json = req.json()
 
-        os.environ['page'] = str(json['page'])
-        os.environ['total_results'] = str(json['total_results'])
-        os.environ['total_pages'] = str(json['total_pages'])
+        if 'page' in json:
+            os.environ['page'] = str(json['page'])
+
+        if 'total_results' in json:
+            os.environ['total_results'] = str(json['total_results'])
+
+        if 'total_pages' in json:
+            os.environ['total_pages'] = str(json['total_pages'])
 
         if self.debug:
             logger.info(json)
