@@ -12,6 +12,6 @@ class AsObj:
             return encode_str(self.entries['name'])
 
         elif 'title' in self.entries:
-            return encode_str(self.entries['name'])
+            return encode_str(self.entries['title'])
 
         return "TMDb Obj"
