@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import math
 import os
 from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season
 
@@ -20,6 +19,16 @@ class TMDbTests(unittest.TestCase):
         self.collection = Collection()
         self.company = Company()
         self.season = Season()
+
+    def test_get_movie_repr(self):
+        search = self.movie.search("Mad Max")
+        for results in search:
+            print(results)
+
+    def test_get_tv_show_repr(self):
+        search_tv = self.tv.search('Sunny')
+        for results in search_tv:
+            print(results)
 
     def test_get_movie(self):
         movie = self.movie.details(111)
