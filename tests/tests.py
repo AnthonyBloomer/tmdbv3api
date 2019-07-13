@@ -8,7 +8,7 @@ from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Co
 class TMDbTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['TMDB_API_KEY']
+        self.tmdb.api_key = 'e1076b74406e0a7d0efb5318f1b662d0'
         self.tmdb.language = 'en'
         self.tmdb.debug = True
         self.tmdb.wait_on_rate_limit = True
