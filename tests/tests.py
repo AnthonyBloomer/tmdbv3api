@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 import unittest
 import os
@@ -54,6 +54,16 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(len(lists) > 0)
         self.assertTrue(hasattr(lists[0], 'description'))
         self.assertTrue(hasattr(lists[0], 'name'))
+
+    def test_get_movie_credits(self):
+        credits = self.movie.credits(111)
+        print(credits)
+        self.assertIsNotNone(credits)
+
+    def test_get_movie_images(self):
+        images = self.movie.images(111)
+        print(images)
+        self.assertIsNotNone(images)
 
     def test_get_movie_videos(self):
         videos = self.movie.videos(111)
@@ -138,6 +148,31 @@ class TMDbTests(unittest.TestCase):
         show = self.tv.details(12)
         self.assertIsNotNone(show)
         self.assertTrue(hasattr(show, 'id'))
+
+    def test_on_the_air(self):
+        show = self.tv.on_the_air()
+        print(show)
+        self.assertTrue(len(show) > 0)
+
+    def test_airing_today(self):
+        show = self.tv.on_the_air()
+        print(show)
+        self.assertTrue(len(show) > 0)
+
+    def test_tv_videos(self):
+        show = self.tv.videos(1396)
+        print(show)
+        self.assertTrue(len(show) > 0)
+
+    def test_tv_recommendations(self):
+        show = self.tv.recommendations(1396)
+        print(show)
+        self.assertTrue(len(show) > 0)
+
+    def test_external_ids(self):
+        show = self.tv.external_ids(1776)
+        print(show)
+        self.assertEqual(show.imdb_id, 'tt0488262')
 
     def test_get_latest_tv_show(self):
         latest_tv = self.tv.latest()

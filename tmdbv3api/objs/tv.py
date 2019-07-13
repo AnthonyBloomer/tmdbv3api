@@ -16,7 +16,7 @@ class TV(TMDb):
         'top_rated': '/tv/top_rated',
         'similar': '/tv/%s/similar',
         'recommendations': '/tv/%s/recommendations',
-        'videos': '/tv/{tv_id}/videos',
+        'videos': '/tv/%s/videos',
         'airing_today': '/tv/airing_today',
         'on_the_air': '/tv/on_the_air',
         'screened_theatrically': '/tv/%s/screened_theatrically',
@@ -115,11 +115,11 @@ class TV(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls['screened_theatrically'] % tv_id, ''))
-        
+
     def external_ids(self, id):
         """
-        Get a list of seasons or episodes that have been screened in a film festival or theatre.
-        :param tv_id:
+        Get the external ids for a TV show.
+        :param id:
         :return:
         """
-        return self._get_obj(self._call(self._urls['external_ids'] % id, ''), None)
+        return AsObj(**self._call(self._urls['external_ids'] % id, ''))
