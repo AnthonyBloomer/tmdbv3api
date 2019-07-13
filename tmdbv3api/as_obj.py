@@ -8,9 +8,9 @@ class AsObj:
 
     def __repr__(self):
         if 'name' in self.entries:
-            return self.entries['name']
+            return self.entries['name'].encode('utf8')
 
         elif 'title' in self.entries:
-            return self.entries['title']
+            return self.entries['title'].encode('utf8')
 
         return "TMDb Obj"
