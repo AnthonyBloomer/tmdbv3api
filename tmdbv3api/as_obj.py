@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# encoding: utf-8
 
 
 class AsObj:
@@ -8,9 +8,9 @@ class AsObj:
 
     def __repr__(self):
         if 'name' in self.entries:
-            return self.entries['name'].encode('utf8').decode()
+            return self.entries['name']
 
         elif 'title' in self.entries:
-            return self.entries['title'].encode('utf8').decode()
+            return self.entries['title']
 
         return "TMDb Obj"

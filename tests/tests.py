@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# encoding: utf-8
 
 import unittest
 import os
@@ -26,7 +26,7 @@ class TMDbTests(unittest.TestCase):
             print(results)
 
     def test_get_tv_show_repr(self):
-        search_tv = self.tv.search('Sunny')
+        search_tv = self.tv.search('Breaking Bad')
         for results in search_tv:
             print(results)
 
