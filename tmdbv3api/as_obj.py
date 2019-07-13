@@ -1,5 +1,4 @@
-def encode_str(s):
-    return s.encode('utf-8').decode('utf-8')
+# -*- coding: utf-8 -*-
 
 
 class AsObj:
@@ -9,9 +8,9 @@ class AsObj:
 
     def __repr__(self):
         if 'name' in self.entries:
-            return encode_str(self.entries['name'])
+            return self.entries['name']
 
         elif 'title' in self.entries:
-            return encode_str(self.entries['title'])
+            return self.entries['title']
 
         return "TMDb Obj"
