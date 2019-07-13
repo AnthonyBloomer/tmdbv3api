@@ -24,6 +24,18 @@ class TMDb(object):
         self._reset = None
 
     @property
+    def page(self):
+        return os.environ['page']
+
+    @property
+    def total_results(self):
+        return os.environ['total_results']
+
+    @property
+    def total_pages(self):
+        return os.environ['total_pages']
+
+    @property
     def api_key(self):
         return os.environ.get(TMDB_API_KEY)
 
@@ -93,6 +105,11 @@ class TMDb(object):
                 raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
         json = req.json()
+
+        os.environ['page'] = str(json['page'])
+        os.environ['total_results'] = str(json['total_results'])
+        os.environ['total_pages'] = str(json['total_pages'])
+
         if self.debug:
             logger.info(json)
 
