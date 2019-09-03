@@ -2,7 +2,7 @@
 
 import unittest
 import os
-from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season, List
 
 
 class TMDbTests(unittest.TestCase):
@@ -19,6 +19,7 @@ class TMDbTests(unittest.TestCase):
         self.collection = Collection()
         self.company = Company()
         self.season = Season()
+        self.list = List()
 
     def test_get_movie_repr(self):
         search = self.movie.search("Mad Max")
@@ -299,3 +300,9 @@ class TMDbTests(unittest.TestCase):
         ex = self.movie.external(external_id="tt8155288", external_source="imdb_id")
         res = ex['movie_results'][0]
         self.assertTrue(res['title'] == "Happy Death Day 2U")
+
+    def test_get_list(self):
+        list = self.list.details(list_id="112870")
+        self.assertTrue(len(list) > 10)
+        self.assertTrue(hasattr(list[0], 'id'))
+        self.assertTrue(hasattr(list[0], 'title'))
