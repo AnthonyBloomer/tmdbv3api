@@ -8,3 +8,4 @@ from .objs.company import Company
 from .objs.genre import Genre
 from .objs.configuration import Configuration
 from .objs.season import Season
+from .objs.list import List
