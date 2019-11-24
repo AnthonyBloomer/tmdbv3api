@@ -23,14 +23,14 @@ class TV(TMDb):
         'external_ids': '/tv/%s/external_ids'
     }
 
-    def details(self, show_id, append_to_response="append_to_response=trailers,images,credits,translations"):
+    def details(self, show_id, append_to_response='videos,trailers,images,credits,translations'):
         """
         Get the primary TV show details by id.
         :param show_id:
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(show_id), append_to_response))
+        return AsObj(**self._call(self._urls['details'] % str(show_id), 'append_to_response=' + append_to_response))
 
     def latest(self):
         """

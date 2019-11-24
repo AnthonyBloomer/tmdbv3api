@@ -35,14 +35,14 @@ class Movie(TMDb):
         """
         return self._get_obj(self._call(self._urls['keywords'] % movie_id, ''), 'keywords')
 
-    def details(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations,keywords"):
+    def details(self, movie_id, append_to_response='videos,trailers,images,casts,translations,keywords'):
         """
         Get the primary information about a movie.
         :param movie_id:
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % movie_id, append_to_response))
+        return AsObj(**self._call(self._urls['details'] % movie_id, 'append_to_response=' + append_to_response))
 
     def credits(self, movie_id):
         """
