@@ -18,7 +18,7 @@ class Season(TMDb):
         'videos': '/tv/%s/season/%s/videos',
     }
 
-    def details(self, tv_id, season_num, append_to_response="append_to_response=trailers,images,credits,translations"):
+    def details(self, tv_id, season_num, append_to_response='videos,trailers,images,credits,translations'):
         """
         Get the TV season details by id.
         :param tv_id:
@@ -26,15 +26,15 @@ class Season(TMDb):
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % (str(tv_id), str(season_num)), append_to_response))
+        return AsObj(**self._call(self._urls['details'] % (str(tv_id), str(season_num)), 'append_to_response=' + append_to_response))
 
-    def changes(self, season_id, append_to_response="append_to_response=trailers,images,casts,translations"):
+    def changes(self, season_id, append_to_response='videos,trailers,images,casts,translations'):
         """
         Get the changes for a TV season. By default only the last 24 hours are returned.
         :param season_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['changes'] % str(season_id), append_to_response))
+        return AsObj(**self._call(self._urls['changes'] % str(season_id), 'append_to_response=' + append_to_response))
 
     def account_states(self, tv_id, season_num):
         """
