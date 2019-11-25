@@ -273,7 +273,7 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(s, 'id'))
 
     def test_get_season_changes(self):
-        s = self.season.changes(1418, 1)
+        s = self.season.changes(1418)
         self.assertIsNotNone(s)
 
     def test_get_season_external_ids(self):
