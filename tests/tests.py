@@ -2,7 +2,7 @@
 
 import unittest
 import os
-from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season, List
+from tmdbv3api import TMDb, Movie, Discover, TV, Person, Collection, Company, Configuration, Genre, Season, List, Certification
 
 
 class TMDbTests(unittest.TestCase):
@@ -306,3 +306,12 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(len(list) > 10)
         self.assertTrue(hasattr(list[0], 'id'))
         self.assertTrue(hasattr(list[0], 'title'))
+
+    def test_get_certifications(self):
+        certifications = Certification()
+        movie_certifications = certifications.movie_list()
+        print(movie_certifications)
+        self.assertIsNotNone(movie_certifications)
+        tv_certifications = certifications.tv_list()
+        print(tv_certifications)
+        self.assertIsNotNone(tv_certifications)
