@@ -9,7 +9,7 @@ except ImportError:
 
 class Episode(TMDb):
     _urls = {
-        'details': '/tv/%s/season/%s/episode/%s/',
+        'details': '/tv/%s/season/%s/episode/%s',
     }
 
     def details(self, tv_id, season_num, episode_num, append_to_response="trailers,images,casts,translations"):
