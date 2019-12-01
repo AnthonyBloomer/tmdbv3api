@@ -24,7 +24,8 @@ class Movie(TMDb):
         'credits': '/movie/%s/credits',
         'images': '/movie/%s/images',
         'keywords': '/movie/%s/keywords',
-        'external': '/find/%s'
+        'external': '/find/%s',
+        'external_ids': '/movie/%s/external_ids',
     }
 
     def keywords(self, movie_id):
@@ -162,3 +163,11 @@ class Movie(TMDb):
         :return:
         """
         return AsObj(**self._call(self._urls['images'] % movie_id, ''))
+
+    def external_ids(self, movie_id):
+        """
+        Get the external ids for a movie.
+        :param movie_id:
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['external_ids'] % (str(movie_id)), ''), None)
