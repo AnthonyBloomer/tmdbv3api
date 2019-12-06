@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
-import requests
-import requests.exceptions
 import logging
-from .exceptions import TMDbException
-from .as_obj import AsObj
 import os
 import time
+
+import requests
+import requests.exceptions
+
+from .as_obj import AsObj
+from .exceptions import TMDbException
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-TMDB_API_KEY = 'TMDB_API_KEY'
-TMDB_LANGUAGE = 'TMDB_LANGUAGE'
-TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
-TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
-
 
 class TMDb(object):
+    TMDB_API_KEY = 'TMDB_API_KEY'
+    TMDB_LANGUAGE = 'TMDB_LANGUAGE'
+    TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
+    TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
+
     def __init__(self):
         self._base = 'http://api.themoviedb.org/3'
         self._remaining = 40
@@ -37,35 +39,35 @@ class TMDb(object):
 
     @property
     def api_key(self):
-        return os.environ.get(TMDB_API_KEY)
+        return os.environ.get(self.TMDB_API_KEY)
 
     @api_key.setter
     def api_key(self, api_key):
-        os.environ[TMDB_API_KEY] = str(api_key)
+        os.environ[self.TMDB_API_KEY] = str(api_key)
 
     @property
     def language(self):
-        return os.environ.get(TMDB_LANGUAGE)
+        return os.environ.get(self.TMDB_LANGUAGE)
 
     @language.setter
     def language(self, language):
-        os.environ[TMDB_LANGUAGE] = language
+        os.environ[self.TMDB_LANGUAGE] = language
 
     @property
     def wait_on_rate_limit(self):
-        return True if os.environ.get(TMDB_WAIT_ON_RATE_LIMIT) == "True" else False
+        return bool(os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT))
 
     @wait_on_rate_limit.setter
     def wait_on_rate_limit(self, wait_on_rate_limit):
-        os.environ[TMDB_WAIT_ON_RATE_LIMIT] = str(wait_on_rate_limit)
+        os.environ[self.TMDB_WAIT_ON_RATE_LIMIT] = str(wait_on_rate_limit)
 
     @property
     def debug(self):
-        return True if os.environ.get(TMDB_DEBUG_ENABLED) == "True" else False
+        return bool(os.environ.get(self.TMDB_DEBUG_ENABLED))
 
     @debug.setter
     def debug(self, debug):
-        os.environ[TMDB_DEBUG_ENABLED] = str(debug)
+        os.environ[self.TMDB_DEBUG_ENABLED] = str(debug)
 
     @staticmethod
     def _get_obj(result, key="results"):
