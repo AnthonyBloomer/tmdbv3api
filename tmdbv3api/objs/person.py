@@ -16,13 +16,13 @@ class Person(TMDb):
         'images': '/person/%s/images'
     }
 
-    def details(self, person_id):
+    def details(self, person_id, append_to_response='videos,images'):
         """
         Get the primary person details by id.
         :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(person_id), ''))
+        return AsObj(**self._call(self._urls['details'] % str(person_id), 'append_to_response=' + append_to_response))
 
     def images(self, person_id):
         """
