@@ -9,6 +9,7 @@ import requests.exceptions
 
 from .as_obj import AsObj
 from .exceptions import TMDbException
+from functools import lru_cache
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ class TMDb(object):
     TMDB_LANGUAGE = 'TMDB_LANGUAGE'
     TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
     TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
+    REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self):
         self._base = 'http://api.themoviedb.org/3'
@@ -80,13 +82,25 @@ class TMDb(object):
             return result
         return arr
 
-    def _call(self, action, append_to_response):
+    @staticmethod
+    @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
+    def cached_request(url):
+        return requests.get(url)
+
+    def cache_clear(self):
+        return self.cached_request.cache_clear()
+
+    def _call(self, action, append_to_response, cached=True):
         if self.api_key is None or self.api_key == '':
             raise TMDbException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
-        req = requests.get(url)
+        if cached:
+            req = self.cached_request(url)
+        else:
+            req = requests.get(url)
+
         headers = req.headers
 
         if 'X-RateLimit-Remaining' in headers:
@@ -119,6 +133,7 @@ class TMDb(object):
 
         if self.debug:
             logger.info(json)
+            logger.info(self.cached_request.cache_info())
 
         if 'errors' in json:
             raise TMDbException(json['errors'])
