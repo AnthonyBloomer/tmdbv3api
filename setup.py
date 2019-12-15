@@ -69,6 +69,8 @@ setup(name='tmdbv3api',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
+          'Programming Language :: Python :: 3.8',
       ],
       cmdclass={
           'publish': PublishCommand,

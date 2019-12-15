@@ -82,13 +82,13 @@ class TMDb(object):
             return result
         return arr
 
-    def _call(self, action, append_to_response):
+    def _call(self, action, append_to_response, method="GET", data=None):
         if self.api_key is None or self.api_key == '':
             raise TMDbException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
-        req = requests.get(url)
+        req = requests.request(method, url, data=data)
         headers = req.headers
 
         if 'X-RateLimit-Remaining' in headers:
