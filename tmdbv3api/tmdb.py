@@ -24,6 +24,8 @@ class TMDb(object):
         self._base = 'http://api.themoviedb.org/3'
         self._remaining = 40
         self._reset = None
+        if os.environ.get(self.TMDB_LANGUAGE) is None:
+            os.environ[self.TMDB_LANGUAGE] = "en-US"
 
     @property
     def page(self):
