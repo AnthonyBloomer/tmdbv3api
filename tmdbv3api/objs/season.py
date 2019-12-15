@@ -1,10 +1,5 @@
-from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
-
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
+from tmdbv3api.tmdb import TMDb
 
 
 class Season(TMDb):
@@ -26,12 +21,14 @@ class Season(TMDb):
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % (str(tv_id), str(season_num)), 'append_to_response=' + append_to_response))
+        return AsObj(**self._call(self._urls['details'] % (str(tv_id), str(season_num)),
+                                  'append_to_response=' + append_to_response))
 
     def changes(self, season_id, append_to_response='videos,trailers,images,casts,translations'):
         """
         Get the changes for a TV season. By default only the last 24 hours are returned.
-        :param season_id:
+        :param append_to_response: str
+        :param season_id: int
         :return:
         """
         return AsObj(**self._call(self._urls['changes'] % str(season_id), 'append_to_response=' + append_to_response))

@@ -19,6 +19,7 @@ class Person(TMDb):
     def details(self, person_id, append_to_response='videos,images'):
         """
         Get the primary person details by id.
+        :param append_to_response: str
         :param person_id: int
         :return:
         """
