@@ -152,27 +152,22 @@ class TMDbTests(unittest.TestCase):
 
     def test_on_the_air(self):
         show = self.tv.on_the_air()
-        print(show)
         self.assertTrue(len(show) > 0)
 
     def test_airing_today(self):
         show = self.tv.on_the_air()
-        print(show)
         self.assertTrue(len(show) > 0)
 
     def test_tv_videos(self):
         show = self.tv.videos(1396)
-        print(show)
         self.assertTrue(len(show) > 0)
 
     def test_tv_recommendations(self):
         show = self.tv.recommendations(1396)
-        print(show)
         self.assertTrue(len(show) > 0)
 
     def test_external_ids(self):
         show = self.tv.external_ids(1776)
-        print(show)
         self.assertEqual(show.imdb_id, 'tt0488262')
 
     def test_get_latest_tv_show(self):
@@ -310,8 +305,6 @@ class TMDbTests(unittest.TestCase):
     def test_get_certifications(self):
         certifications = Certification()
         movie_certifications = certifications.movie_list()
-        print(movie_certifications)
         self.assertIsNotNone(movie_certifications)
         tv_certifications = certifications.tv_list()
-        print(tv_certifications)
         self.assertIsNotNone(tv_certifications)

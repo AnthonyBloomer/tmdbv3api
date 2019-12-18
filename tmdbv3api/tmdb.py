@@ -26,6 +26,8 @@ class TMDb(object):
         self._base = 'http://api.themoviedb.org/3'
         self._remaining = 40
         self._reset = None
+        if os.environ.get(self.TMDB_LANGUAGE) is None:
+            os.environ[self.TMDB_LANGUAGE] = "en-US"
 
     @property
     def page(self):
@@ -84,23 +86,23 @@ class TMDb(object):
 
     @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
-    def cached_request(url):
-        return requests.get(url)
+    def cached_request(method, url, data):
+        return requests.request(method, url, data=data)
 
     def cache_clear(self):
         return self.cached_request.cache_clear()
 
-    def _call(self, action, append_to_response, cached=True):
+    def _call(self, action, append_to_response, cached=True, method="GET", data=None):
         if self.api_key is None or self.api_key == '':
             raise TMDbException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
         if cached:
-            req = self.cached_request(url)
+            req = self.cached_request(method, url, data)
         else:
-            req = requests.get(url)
-
+            req = requests.request(method, url, data=data)
+            
         headers = req.headers
 
         if 'X-RateLimit-Remaining' in headers:

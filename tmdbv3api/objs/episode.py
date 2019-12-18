@@ -1,11 +1,6 @@
 from tmdbv3api.as_obj import AsObj
 from tmdbv3api.tmdb import TMDb
 
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
-
 
 class Episode(TMDb):
     _urls = {
@@ -26,4 +21,5 @@ class Episode(TMDb):
         :param episode_num:
         :return:
         """
-        return self._get_obj(self._call(self._urls['external_ids'] % (str(tv_id), str(season_num), str(episode_num)), ''), None)
+        return self._get_obj(
+            self._call(self._urls['external_ids'] % (str(tv_id), str(season_num), str(episode_num)), ''), None)
