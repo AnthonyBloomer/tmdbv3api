@@ -55,8 +55,8 @@ class TMDb(object):
 
     @property
     def wait_on_rate_limit(self):
-        if os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT) == "True": return True 
-        else: return False
+        if os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT) == "False": return False 
+        else: return True
 
     @wait_on_rate_limit.setter
     def wait_on_rate_limit(self, wait_on_rate_limit):
