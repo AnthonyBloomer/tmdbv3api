@@ -20,12 +20,14 @@ class TMDb(object):
     TMDB_LANGUAGE = 'TMDB_LANGUAGE'
     TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
     TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
+    TMDB_CACHE_ENABLED = 'TMDB_CACHE_ENABLED'
     REQUEST_CACHE_MAXSIZE = None
 
-    def __init__(self):
+    def __init__(self, obj_cached=True):
         self._base = 'http://api.themoviedb.org/3'
         self._remaining = 40
         self._reset = None
+        self.obj_cached = obj_cached
         if os.environ.get(self.TMDB_LANGUAGE) is None:
             os.environ[self.TMDB_LANGUAGE] = "en-US"
 
@@ -73,6 +75,15 @@ class TMDb(object):
     def debug(self, debug):
         os.environ[self.TMDB_DEBUG_ENABLED] = str(debug)
 
+    @property
+    def cache(self):
+        if os.environ.get(self.TMDB_CACHE_ENABLED) == "False": return False 
+        else: return True
+
+    @cache.setter
+    def cache(self, cache):
+        os.environ[self.TMDB_CACHE_ENABLED] = str(cache)
+
     @staticmethod
     def _get_obj(result, key="results"):
         if 'success' in result and result['success'] is False:
@@ -92,13 +103,13 @@ class TMDb(object):
     def cache_clear(self):
         return self.cached_request.cache_clear()
 
-    def _call(self, action, append_to_response, cached=True, method="GET", data=None):
+    def _call(self, action, append_to_response, call_cached=True, method="GET", data=None):
         if self.api_key is None or self.api_key == '':
             raise TMDbException("No API key found.")
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
-        if cached:
+        if self.cache and self.obj_cached and call_cached:
             req = self.cached_request(method, url, data)
         else:
             req = requests.request(method, url, data=data)
