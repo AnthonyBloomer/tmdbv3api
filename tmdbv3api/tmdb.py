@@ -9,7 +9,11 @@ import requests.exceptions
 
 from .as_obj import AsObj
 from .exceptions import TMDbException
-from functools import lru_cache
+
+try:
+    from functools import lru_cache
+except ImportError:
+    from backports.functools_lru_cache import lru_cache
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -61,8 +65,10 @@ class TMDb(object):
 
     @property
     def wait_on_rate_limit(self):
-        if os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT) == "False": return False 
-        else: return True
+        if os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT) == "False":
+            return False
+        else:
+            return True
 
     @wait_on_rate_limit.setter
     def wait_on_rate_limit(self, wait_on_rate_limit):
@@ -70,8 +76,10 @@ class TMDb(object):
 
     @property
     def debug(self):
-        if os.environ.get(self.TMDB_DEBUG_ENABLED) == "True": return True 
-        else: return False
+        if os.environ.get(self.TMDB_DEBUG_ENABLED) == "True":
+            return True
+        else:
+            return False
 
     @debug.setter
     def debug(self, debug):
@@ -79,8 +87,10 @@ class TMDb(object):
 
     @property
     def cache(self):
-        if os.environ.get(self.TMDB_CACHE_ENABLED) == "False": return False 
-        else: return True
+        if os.environ.get(self.TMDB_CACHE_ENABLED) == "False":
+            return False
+        else:
+            return True
 
     @cache.setter
     def cache(self, cache):
@@ -115,7 +125,7 @@ class TMDb(object):
             req = self.cached_request(method, url, data)
         else:
             req = requests.request(method, url, data=data)
-            
+
         headers = req.headers
 
         if 'X-RateLimit-Remaining' in headers:
