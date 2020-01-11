@@ -21,6 +21,14 @@ class TMDbTests(unittest.TestCase):
         self.season = Season()
         self.list = List()
 
+    def test_get_tv_keywords(self):
+        keywords = self.tv.keywords(1396)
+        self.assertGreater(len(keywords), 0)
+
+    def test_get_tv_reviews(self):
+        reviews = self.tv.reviews(1396)
+        self.assertGreater(len(reviews), 0)
+
     def test_get_movie_repr(self):
         search = self.movie.search("Mad Max")
         for results in search:

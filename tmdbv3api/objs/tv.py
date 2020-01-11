@@ -20,7 +20,10 @@ class TV(TMDb):
         'airing_today': '/tv/airing_today',
         'on_the_air': '/tv/on_the_air',
         'screened_theatrically': '/tv/%s/screened_theatrically',
-        'external_ids': '/tv/%s/external_ids'
+        'external_ids': '/tv/%s/external_ids',
+        'reviews': '/tv/%s/reviews',
+        'keywords': '/tv/%s/keywords'
+
     }
 
     def details(self, show_id, append_to_response='videos,trailers,images,credits,translations'):
@@ -123,3 +126,20 @@ class TV(TMDb):
         :return:
         """
         return AsObj(**self._call(self._urls['external_ids'] % id, ''))
+
+    def keywords(self, tv_id):
+        """
+        Get the keywords that have been added to a TV show.
+        :param tv_id: int
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['keywords'] % tv_id, ''))
+
+    def reviews(self, tv_id, page=1):
+        """
+        Get the reviews for a TV show.
+        :param page: int
+        :param tv_id: int
+        :return:
+        """
+        return self._get_obj(self._call(self._urls['reviews'] % tv_id, 'page=' + str(page)))
