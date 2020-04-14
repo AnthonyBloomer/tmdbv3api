@@ -30,7 +30,7 @@ Usage
 
 The first step is to initialize a TMDb object and set your API Key.
 
-``` {.python}
+``` python
 from tmdbv3api import TMDb
 tmdb = TMDb()
 tmdb.api_key = 'YOUR_API_KEY'
@@ -38,14 +38,14 @@ tmdb.api_key = 'YOUR_API_KEY'
 
 Alternatively, you can export your API key as an environment variable.
 
-``` {.bash}
+``` bash
 $ export TMDB_API_KEY='YOUR_API_KEY'
 ```
 
 Other configuration settings include defining your `language` and
 enabling `debug` mode, for example:
 
-``` {.python}
+``` python
 tmdb.language = 'en'
 tmdb.debug = True
 ```
@@ -54,7 +54,7 @@ Then to communicate with TMDb, create an instance of one of the objects
 and call that instances methods. For example, to retrieve movie
 recommendations for a given movie id:
 
-``` {.python}
+``` python
 from tmdbv3api import Movie
 
 movie = Movie()
@@ -72,7 +72,7 @@ Examples
 Get the list of popular movies on The Movie Database. This list
 refreshes every day.
 
-``` {.python}
+``` python
 movie = Movie()
 popular = movie.popular()
 
@@ -85,7 +85,7 @@ for p in popular:
 
 Get the primary information about a movie.
 
-``` {.python}
+``` python
 m = movie.details(343611)
 
 print(m.title)
@@ -95,7 +95,7 @@ print(m.popularity)
 
 Search for movies by title.
 
-``` {.python}
+``` python
 search = movie.search('Mad Max')
 
 for res in search:
@@ -108,7 +108,7 @@ for res in search:
 
 Get the similar movies for a specific movie id.
 
-``` {.python}
+``` python
 similar = movie.similar(777)
 
 for result in similar:
@@ -118,7 +118,7 @@ for result in similar:
 
 Search for TV shows by title.
 
-``` {.python}
+``` python
 tv = TV()
 show = tv.search('Breaking Bad')
 
@@ -129,7 +129,7 @@ for result in show:
 
 Get the similar TV shows for a specific tv id.
 
-``` {.python}
+``` python
 similar = tv.similar(1396)
 
 for show in similar:
@@ -139,7 +139,7 @@ for show in similar:
 
 Get the details of TV season for a specific tv id.
 
-``` {.python}
+``` python
 season = Season()
 show_season = season.details(1396, 1)
 print(show_season.air_date)
@@ -148,7 +148,7 @@ print(len(show_season.episodes))
 
 Get the general person information for a specific id.
 
-``` {.python}
+``` python
 person = Person()
 p = person.details(12)
 
@@ -159,7 +159,7 @@ print(p.biography)
 Discover movies by different types of data like average rating, number
 of votes, genres and certifications.
 
-``` {.python}
+``` python
 # What movies are in theatres?
 
 discover = Discover()
@@ -186,7 +186,7 @@ movie = discover.discover_movies({
 Discover TV shows by different types of data like average rating, number
 of votes, genres, the network they aired on and air dates.
 
-``` {.python}
+``` python
 # What are the most popular TV shows?
 
 show = discover.discover_tv_shows({
@@ -208,12 +208,12 @@ Running Tests
 You can run the tests via the command line. You must export your TMDb
 API key as an environment variable. From the command line run:
 
-``` {.bash}
+``` bash
 $ export TMDB_API_KEY='YOUR_API_KEY'
 ```
 
 Then run:
 
-``` {.bash}
+``` bash
 $ python -m unittest discover tests/
 ```
