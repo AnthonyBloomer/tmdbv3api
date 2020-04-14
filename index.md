@@ -1,30 +1,36 @@
-# tmdbv3api
+tmdbv3api
+=========
 
-[![Build Status](https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master)](https://travis-ci.org/AnthonyBloomer/tmdbv3api)
+[![Build
+Status](https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master)](https://travis-ci.org/AnthonyBloomer/tmdbv3api)
+[![codecov](https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg)](https://codecov.io/gh/AnthonyBloomer/tmdbv3api)
 
-A lightweight Python wrapper for The Movie Database (TMDb) API. This library allows users to interact with the API and retrieve data on movies, TV shows and actors. 
+A lightweight Python library for The Movie Database (TMDb) API. The TMDb
+API is a resource for developers to integrate movie, TV show and cast
+data along with posters or movie fan art. themoviedb.org is a free and
+community edited database.
 
-Register an account:
-https://www.themoviedb.org/account/signup
+Register an account: <https://www.themoviedb.org/account/signup>
 
-Check out the API documentation: 
-https://docs.themoviedb.apiary.io
+Check out the API documentation:
+<https://developers.themoviedb.org/3/getting-started/introduction>
 
-### Install
+Install
+-------
 
-tmdbv3api is available on the Python Package Index (PyPI) at https://pypi.python.org/pypi/tmdbv3api
+tmdbv3api is available on the Python Package Index (PyPI) at
+<https://pypi.python.org/pypi/tmdbv3api>
 
 You can install tmdbv3api using pip.
 
-```
-$ pip install tmdbv3api
-```
+    $ pip install tmdbv3api
 
-### Usage
+Usage
+-----
 
 The first step is to initialize a TMDb object and set your API Key.
 
-```python
+``` {.python}
 from tmdbv3api import TMDb
 tmdb = TMDb()
 tmdb.api_key = 'YOUR_API_KEY'
@@ -32,35 +38,41 @@ tmdb.api_key = 'YOUR_API_KEY'
 
 Alternatively, you can export your API key as an environment variable.
 
-```bash
-$ export api_key='YOUR_API_KEY'
+``` {.bash}
+$ export TMDB_API_KEY='YOUR_API_KEY'
 ```
 
-Then to communicate with TMDb, create an instance of one of the objects and call that instances methods. 
-For example, to retrieve movie recommendations for a given movie id:
+Other configuration settings include defining your `language` and
+enabling `debug` mode, for example:
 
-```python
+``` {.python}
+tmdb.language = 'en'
+tmdb.debug = True
+```
+
+Then to communicate with TMDb, create an instance of one of the objects
+and call that instances methods. For example, to retrieve movie
+recommendations for a given movie id:
+
+``` {.python}
 from tmdbv3api import Movie
 
 movie = Movie()
 
-recommendations = movie.get_movie_recommendations(movie_id=111)
+recommendations = movie.recommendations(movie_id=111)
 
 for recommendation in recommendations:
     print(recommendation.title)
     print(recommendation.overview)
-
 ```
 
-The objects currently implemented are Movie, TV, Person and Discover.
+Examples
+--------
 
+Get the list of popular movies on The Movie Database. This list
+refreshes every day.
 
-### Examples
-
-Get the list of popular movies on The Movie Database. This list refreshes every day.
-
-```python
-
+``` {.python}
 movie = Movie()
 popular = movie.popular()
 
@@ -69,13 +81,12 @@ for p in popular:
     print(p.title)
     print(p.overview)
     print(p.poster_path)
-            
 ```
 
 Get the primary information about a movie.
 
-```python
-m = movie.get_movie(343611)
+``` {.python}
+m = movie.details(343611)
 
 print(m.title)
 print(m.overview)
@@ -84,7 +95,7 @@ print(m.popularity)
 
 Search for movies by title.
 
-```python
+``` {.python}
 search = movie.search('Mad Max')
 
 for res in search:
@@ -97,7 +108,7 @@ for res in search:
 
 Get the similar movies for a specific movie id.
 
-```python
+``` {.python}
 similar = movie.similar(777)
 
 for result in similar:
@@ -107,9 +118,9 @@ for result in similar:
 
 Search for TV shows by title.
 
-```python
+``` {.python}
 tv = TV()
-show = tv.search_tv('Breaking Bad')
+show = tv.search('Breaking Bad')
 
 for result in show:
     print(result.name)
@@ -118,28 +129,37 @@ for result in show:
 
 Get the similar TV shows for a specific tv id.
 
-```python
-similar = tv.similar_shows(1396)
+``` {.python}
+similar = tv.similar(1396)
 
 for show in similar:
     print(show.name)
     print(show.overview)
 ```
 
+Get the details of TV season for a specific tv id.
+
+``` {.python}
+season = Season()
+show_season = season.details(1396, 1)
+print(show_season.air_date)
+print(len(show_season.episodes))
+```
+
 Get the general person information for a specific id.
 
-```python
+``` {.python}
 person = Person()
-p = person.get_by_id(12)
+p = person.details(12)
 
 print(p.name)
 print(p.biography)
 ```
 
-Discover movies by different types of data like average rating, number of votes, genres and certifications. 
+Discover movies by different types of data like average rating, number
+of votes, genres and certifications.
 
-```python
-
+``` {.python}
 # What movies are in theatres?
 
 discover = Discover()
@@ -161,12 +181,12 @@ movie = discover.discover_movies({
     'certification.lte': 'G',
     'sort_by': 'popularity.desc'
 })
-
 ```
 
-Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates.
+Discover TV shows by different types of data like average rating, number
+of votes, genres, the network they aired on and air dates.
 
-```python
+``` {.python}
 # What are the most popular TV shows?
 
 show = discover.discover_tv_shows({
@@ -180,60 +200,20 @@ show = discover.discover_tv_shows({
     'sort_by': 'vote_average.desc',
     'vote_count.gte': 10
 })
-
 ```
 
-### Running Tests
+Running Tests
+-------------
 
-You can run the tests via the command line. You must export your TMDb API key as an environment variable. From the 
-command line run:
+You can run the tests via the command line. You must export your TMDb
+API key as an environment variable. From the command line run:
 
-```bash
-$ export api_key='YOUR_API_KEY'
+``` {.bash}
+$ export TMDB_API_KEY='YOUR_API_KEY'
 ```
 
 Then run:
 
-```bash
+``` {.bash}
 $ python -m unittest discover tests/
 ```
-
-
-
-### Supported Methods
-
-#### Movies
-- **/movie/latest** 
-- **/movie/now_playing**
-- **/movie/top_rated**
-- **/movie/upcoming**
-- **/movie/id**
-- **/movie/id/similar**
-- **/movie/id/recommendations**
-- **/movie/id/videos**
-- **/movie/id/reviews**
-- **/movie/id/lists**
-
-
-#### TV
-
-- **/tv/id**
-- **/tv/latest**
-- **/tv/id/similar** 
-- **/tv/top_rated**
-- **/tv/popular**
-
-#### People
-
-- **/person/id**
-
-#### Search
-
-- **/search/movie**
-- **/search/tv**
-- **/search/person**
-
-#### Discover
-
-- **/discover/movie**
-- **/discover/tv**
