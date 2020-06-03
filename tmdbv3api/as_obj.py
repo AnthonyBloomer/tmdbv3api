@@ -3,15 +3,13 @@
 
 class AsObj:
     def __init__(self, **entries):
-        self.__entries = entries
+        if 'name' in entries:
+            self.obj_name = entries["name"]
+        elif 'title' in entries:
+            self.obj_name = entries["title"]
+        else:
+            self.obj_name = "TMDB Obj"
         self.__dict__.update(entries)
 
     def __repr__(self):
-
-        if 'name' in self.__entries:
-            return self.__entries['name']
-
-        elif 'title' in self.__entries:
-            return self.__entries['title']
-
-        return "TMDb Obj"
+        return self.obj_name
