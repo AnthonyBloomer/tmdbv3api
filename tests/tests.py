@@ -244,7 +244,7 @@ class TMDbTests(unittest.TestCase):
     def test_company_details(self):
         c = self.company.details(1)
         self.assertTrue(hasattr(c, 'name'))
-        self.assertEqual(c.name, 'Lucasfilm')
+        self.assertEqual(c.name, 'Lucasfilm Ltd.')
 
     def test_company_movies(self):
         company = self.company.movies(1)
