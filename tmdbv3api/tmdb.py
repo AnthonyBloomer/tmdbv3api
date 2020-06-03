@@ -15,7 +15,6 @@ try:
 except ImportError:
     from backports.functools_lru_cache import lru_cache
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
