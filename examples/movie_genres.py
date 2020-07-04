@@ -2,7 +2,7 @@ from tmdbv3api import TMDb, Genre
 
 tmdb = TMDb()
 
-tmdb.api_key = ''
+tmdb.api_key = ""
 tmdb.debug = True
 
 genre = Genre()

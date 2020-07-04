@@ -3,10 +3,7 @@ from tmdbv3api.tmdb import TMDb
 
 
 class Collection(TMDb):
-    _urls = {
-        'images': '/collection/%s/images',
-        'details': '/collection/%s'
-    }
+    _urls = {"images": "/collection/%s/images", "details": "/collection/%s"}
 
     def images(self, collection_id):
         """
@@ -14,7 +11,7 @@ class Collection(TMDb):
         :param collection_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['images'] % str(collection_id), ''))
+        return AsObj(**self._call(self._urls["images"] % str(collection_id), ""))
 
     def details(self, collection_id):
         """
@@ -22,4 +19,4 @@ class Collection(TMDb):
         :param collection_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % str(collection_id), ''))
+        return AsObj(**self._call(self._urls["details"] % str(collection_id), ""))

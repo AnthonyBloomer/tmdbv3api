@@ -2,7 +2,7 @@ from tmdbv3api import TMDb, Movie
 
 tmdb = TMDb()
 
-tmdb.api_key = ''
+tmdb.api_key = ""
 
 movie = Movie()
 

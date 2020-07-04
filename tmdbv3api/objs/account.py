@@ -7,13 +7,18 @@ from tmdbv3api.tmdb import TMDb
 
 class Account(TMDb):
     _urls = {
-        'details': '/account',
-        'watchlist': '/account/%s/watchlist',
+        "details": "/account",
+        "watchlist": "/account/%s/watchlist",
     }
 
     def details(self):
-        return AsObj(**self._call(self._urls['details'], 'session_id=%s' % os.environ.get('TMDB_SESSION_ID')))
-    
+        return AsObj(
+            **self._call(
+                self._urls["details"],
+                "session_id=%s" % os.environ.get("TMDB_SESSION_ID"),
+            )
+        )
+
     def add_to_watchlist(self, account_id, media_id, media_type):
         if media_type not in ["tv", "movie"]:
             raise TMDbException("Media Type should be tv or movie.")

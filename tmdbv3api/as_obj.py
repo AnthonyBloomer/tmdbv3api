@@ -3,9 +3,9 @@
 
 class AsObj:
     def __init__(self, **entries):
-        if 'name' in entries:
+        if "name" in entries:
             self.obj_name = entries["name"]
-        elif 'title' in entries:
+        elif "title" in entries:
             self.obj_name = entries["title"]
         else:
             self.obj_name = "TMDB Obj"

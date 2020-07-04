@@ -19,15 +19,15 @@ logger = logging.getLogger(__name__)
 
 
 class TMDb(object):
-    TMDB_API_KEY = 'TMDB_API_KEY'
-    TMDB_LANGUAGE = 'TMDB_LANGUAGE'
-    TMDB_WAIT_ON_RATE_LIMIT = 'TMDB_WAIT_ON_RATE_LIMIT'
-    TMDB_DEBUG_ENABLED = 'TMDB_DEBUG_ENABLED'
-    TMDB_CACHE_ENABLED = 'TMDB_CACHE_ENABLED'
+    TMDB_API_KEY = "TMDB_API_KEY"
+    TMDB_LANGUAGE = "TMDB_LANGUAGE"
+    TMDB_WAIT_ON_RATE_LIMIT = "TMDB_WAIT_ON_RATE_LIMIT"
+    TMDB_DEBUG_ENABLED = "TMDB_DEBUG_ENABLED"
+    TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
     REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self, obj_cached=True):
-        self._base = 'http://api.themoviedb.org/3'
+        self._base = "http://api.themoviedb.org/3"
         self._remaining = 40
         self._reset = None
         self.obj_cached = obj_cached
@@ -36,15 +36,15 @@ class TMDb(object):
 
     @property
     def page(self):
-        return os.environ['page']
+        return os.environ["page"]
 
     @property
     def total_results(self):
-        return os.environ['total_results']
+        return os.environ["total_results"]
 
     @property
     def total_pages(self):
-        return os.environ['total_pages']
+        return os.environ["total_pages"]
 
     @property
     def api_key(self):
@@ -97,8 +97,8 @@ class TMDb(object):
 
     @staticmethod
     def _get_obj(result, key="results"):
-        if 'success' in result and result['success'] is False:
-            raise Exception(result['status_message'])
+        if "success" in result and result["success"] is False:
+            raise Exception(result["status_message"])
         arr = []
         if key is not None:
             [arr.append(AsObj(**res)) for res in result[key]]
@@ -114,11 +114,19 @@ class TMDb(object):
     def cache_clear(self):
         return self.cached_request.cache_clear()
 
-    def _call(self, action, append_to_response, call_cached=True, method="GET", data=None):
-        if self.api_key is None or self.api_key == '':
+    def _call(
+        self, action, append_to_response, call_cached=True, method="GET", data=None
+    ):
+        if self.api_key is None or self.api_key == "":
             raise TMDbException("No API key found.")
 
-        url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
+        url = "%s%s?api_key=%s&%s&language=%s" % (
+            self._base,
+            action,
+            self.api_key,
+            append_to_response,
+            self.language,
+        )
 
         if self.cache and self.obj_cached and call_cached and method is not "POST":
             req = self.cached_request(method, url, data)
@@ -127,11 +135,11 @@ class TMDb(object):
 
         headers = req.headers
 
-        if 'X-RateLimit-Remaining' in headers:
-            self._remaining = int(headers['X-RateLimit-Remaining'])
+        if "X-RateLimit-Remaining" in headers:
+            self._remaining = int(headers["X-RateLimit-Remaining"])
 
-        if 'X-RateLimit-Reset' in headers:
-            self._reset = int(headers['X-RateLimit-Reset'])
+        if "X-RateLimit-Reset" in headers:
+            self._reset = int(headers["X-RateLimit-Reset"])
 
         if self._remaining < 1:
             current_time = int(time.time())
@@ -142,24 +150,26 @@ class TMDb(object):
                 time.sleep(abs(sleep_time))
                 self._call(action, append_to_response, call_cached, method, data)
             else:
-                raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
+                raise TMDbException(
+                    "Rate limit reached. Try again in %d seconds." % sleep_time
+                )
 
         json = req.json()
 
-        if 'page' in json:
-            os.environ['page'] = str(json['page'])
+        if "page" in json:
+            os.environ["page"] = str(json["page"])
 
-        if 'total_results' in json:
-            os.environ['total_results'] = str(json['total_results'])
+        if "total_results" in json:
+            os.environ["total_results"] = str(json["total_results"])
 
-        if 'total_pages' in json:
-            os.environ['total_pages'] = str(json['total_pages'])
+        if "total_pages" in json:
+            os.environ["total_pages"] = str(json["total_pages"])
 
         if self.debug:
             logger.info(json)
             logger.info(self.cached_request.cache_info())
 
-        if 'errors' in json:
-            raise TMDbException(json['errors'])
+        if "errors" in json:
+            raise TMDbException(json["errors"])
 
         return json
