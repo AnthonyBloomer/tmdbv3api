@@ -7,7 +7,8 @@ from tmdbv3api.tmdb import TMDb
 
 class Account(TMDb):
     _urls = {
-        'details': '/account'
+        'details': '/account',
+        'watchlist': '/account/%s/watchlist',
     }
 
     def details(self):

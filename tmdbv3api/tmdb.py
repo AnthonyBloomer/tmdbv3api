@@ -120,7 +120,7 @@ class TMDb(object):
 
         url = "%s%s?api_key=%s&%s&language=%s" % (self._base, action, self.api_key, append_to_response, self.language)
 
-        if self.cache and self.obj_cached and call_cached:
+        if self.cache and self.obj_cached and call_cached and method is not "POST":
             req = self.cached_request(method, url, data)
         else:
             req = requests.request(method, url, data=data)
