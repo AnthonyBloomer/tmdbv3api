@@ -188,7 +188,7 @@ class TMDbTests(unittest.TestCase):
 
     def test_external_ids(self):
         show = self.tv.external_ids(1776)
-        self.assertEqual(show.imdb_id, "tt0488262")
+        self.assertEqual(show["imdb_id"], "tt0488262")
 
     def test_get_latest_tv_show(self):
         latest_tv = self.tv.latest()
