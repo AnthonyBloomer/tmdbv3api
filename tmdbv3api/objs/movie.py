@@ -9,32 +9,53 @@ except ImportError:
 
 class Movie(TMDb):
     _urls = {
-        'details': '/movie/%s',
-        'reviews': '/movie/%s/reviews',
-        'lists': '/movie/%s/lists',
-        'videos': '/movie/%s/videos',
-        'recommendations': '/movie/%s/recommendations',
-        'latest': '/movie/latest',
-        'now_playing': '/movie/now_playing',
-        'top_rated': '/movie/top_rated',
-        'upcoming': '/movie/upcoming',
-        'popular': '/movie/popular',
-        'search_movie': '/search/movie',
-        'similar': '/movie/%s/similar',
-        'credits': '/movie/%s/credits',
-        'images': '/movie/%s/images',
-        'keywords': '/movie/%s/keywords',
-        'release_dates': '/movie/%s/release_dates'
+        "details": "/movie/%s",
+        "reviews": "/movie/%s/reviews",
+        "lists": "/movie/%s/lists",
+        "videos": "/movie/%s/videos",
+        "recommendations": "/movie/%s/recommendations",
+        "latest": "/movie/latest",
+        "now_playing": "/movie/now_playing",
+        "top_rated": "/movie/top_rated",
+        "upcoming": "/movie/upcoming",
+        "popular": "/movie/popular",
+        "search_movie": "/search/movie",
+        "similar": "/movie/%s/similar",
+        "credits": "/movie/%s/credits",
+        "images": "/movie/%s/images",
+        "keywords": "/movie/%s/keywords",
+        "external": "/find/%s",
+        "external_ids": "/movie/%s/external_ids",
+        "release_dates": "/movie/%s/release_dates",
     }
 
-    def details(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations,keywords,release_dates"):
+    def keywords(self, movie_id):
+        """
+        Get the keywords associated to a movie.
+        :param movie_id:
+        :return:
+        """
+        return self._get_obj(
+            self._call(self._urls["keywords"] % movie_id, ""), "keywords"
+        )
+
+    def details(
+        self,
+        movie_id,
+        append_to_response="videos,trailers,images,casts,translations,keywords,release_dates",
+    ):
         """
         Get the primary information about a movie.
         :param movie_id:
         :param append_to_response:
         :return:
         """
-        return AsObj(**self._call(self._urls['details'] % movie_id, append_to_response))
+        return AsObj(
+            **self._call(
+                self._urls["details"] % movie_id,
+                "append_to_response=" + append_to_response,
+            )
+        )
 
     def credits(self, movie_id):
         """
@@ -42,7 +63,7 @@ class Movie(TMDb):
         :param movie_id:
         :return:
         """
-        return AsObj(**self._call(self._urls['credits'] % movie_id, ''))
+        return AsObj(**self._call(self._urls["credits"] % movie_id, ""))
 
     def reviews(self, movie_id, page=1):
         """
@@ -51,7 +72,9 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['reviews'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(
+            self._call(self._urls["reviews"] % movie_id, "page=" + str(page))
+        )
 
     def lists(self, movie_id, page=1):
         """
@@ -60,7 +83,9 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['lists'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(
+            self._call(self._urls["lists"] % movie_id, "page=" + str(page))
+        )
 
     def videos(self, id, page=1):
         """
@@ -69,7 +94,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['videos'] % id, 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls["videos"] % id, "page=" + str(page)))
 
     def recommendations(self, movie_id, page=1):
         """
@@ -78,14 +103,16 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['recommendations'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(
+            self._call(self._urls["recommendations"] % movie_id, "page=" + str(page))
+        )
 
     def latest(self):
         """
         Get the most newly created movie. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self._urls['latest'], ''))
+        return AsObj(**self._call(self._urls["latest"], ""))
 
     def now_playing(self, page=1):
         """
@@ -93,7 +120,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['now_playing'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls["now_playing"], "page=" + str(page)))
 
     def top_rated(self, page=1):
         """
@@ -101,7 +128,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['top_rated'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls["top_rated"], "page=" + str(page)))
 
     def upcoming(self, page=1):
         """
@@ -109,7 +136,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['upcoming'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls["upcoming"], "page=" + str(page)))
 
     def popular(self, page=1):
         """
@@ -117,7 +144,7 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['popular'], 'page=' + str(page)))
+        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
 
     def search(self, term, page=1):
         """
@@ -126,7 +153,12 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['search_movie'], "query=" + quote(term) + "&page=" + str(page)))
+        return self._get_obj(
+            self._call(
+                self._urls["search_movie"],
+                "query=" + quote(term) + "&page=" + str(page),
+            )
+        )
 
     def similar(self, movie_id, page=1):
         """
@@ -135,7 +167,24 @@ class Movie(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls['similar'] % movie_id, 'page=' + str(page)))
+        return self._get_obj(
+            self._call(self._urls["similar"] % movie_id, "page=" + str(page))
+        )
+
+    def external(self, external_id, external_source):
+        """
+        The find method makes it easy to search for objects in our database by an external id. For example, an IMDB ID.
+        :param external_id: str
+        :param external_source str
+        :return:
+        """
+        return self._get_obj(
+            self._call(
+                self._urls["external"] % external_id,
+                "external_source=" + external_source,
+            ),
+            key=None,
+        )
 
     def images(self, movie_id):
         """
@@ -160,3 +209,13 @@ class Movie(TMDb):
         :return:
         """
         return AsObj(**self._call(self._urls['release_dates'] % movie_id, ''))
+
+    def external_ids(self, movie_id):
+        """
+        Get the external ids for a movie.
+        :param movie_id:
+        :return:
+        """
+        return self._get_obj(
+            self._call(self._urls["external_ids"] % (str(movie_id)), ""), None
+        )

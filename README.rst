@@ -7,7 +7,7 @@ A lightweight Python library for The Movie Database (TMDb) API. The TMDb API is 
 
 Register an account: https://www.themoviedb.org/account/signup
 
-Check out the API documentation: https://docs.themoviedb.apiary.io
+Check out the API documentation: https://developers.themoviedb.org/3/getting-started/introduction
 
 Install
 ~~~~~~~
@@ -36,7 +36,7 @@ Alternatively, you can export your API key as an environment variable.
 
 .. code:: bash
 
-    $ export api_key='YOUR_API_KEY'
+    $ export TMDB_API_KEY='YOUR_API_KEY'
 
 Other configuration settings include defining your ``language`` and enabling ``debug`` mode, for example:
 
@@ -200,6 +200,38 @@ of votes, genres, the network they aired on and air dates.
         'vote_count.gte': 10
     })
 
+Login to your account and add some movie recommendations to your TMDb watchlist.
+
+.. code:: python
+
+    from tmdbv3api import Account
+    from tmdbv3api import Authentication
+    from tmdbv3api import TMDb, Movie
+
+    USERNAME = "YOUR_USERNAME"
+    PASSWORD = "YOUR_PASSWORD"
+
+    tmdb = TMDb()
+    tmdb.api_key = "YOUR_API_KEY"
+
+    auth = Authentication(username=USERNAME, password=PASSWORD)
+
+    account = Account()
+    details = account.details()
+
+    print("You are logged in as %s. Your account ID is %s." % (details.username, details.id))
+    print("This session expires at: %s" % auth.expires_at)
+
+    movie = Movie()
+
+    s = movie.search("Gangs of New York")
+    first_result = s[0]
+    recommendations = movie.recommendations(first_result.id)
+
+    for recommendation in recommendations:
+        print("Adding %s (%s) to watchlist." % (recommendation.title, recommendation.release_date))
+        account.add_to_watchlist(details.id, recommendation.id, "movie")
+
 
 Running Tests
 ~~~~~~~~~~~~~
@@ -209,7 +241,7 @@ API key as an environment variable. From the command line run:
 
 .. code:: bash
 
-    $ export api_key='YOUR_API_KEY'
+    $ export TMDB_API_KEY='YOUR_API_KEY'
 
 Then run:
 
