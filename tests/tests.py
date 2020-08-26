@@ -28,6 +28,15 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(movie, 'title'))
         self.assertTrue(hasattr(movie, 'overview'))
         self.assertTrue(hasattr(movie, 'id'))
+        self.assertTrue(hasattr(movie, 'release_dates'))
+
+    def test_get_movie_release_dates(self):
+        release_dates = self.movie.release_dates(111)
+        self.assertIsNotNone(release_dates)
+        self.assertEqual(release_dates.id, 111)
+        usa_release = release_dates.results[1]
+        self.assertEqual(usa_release.get('iso_3166_1'), 'US')
+        self.assertEqual(usa_release.get('release_dates')[0].get('certification'), 'R')
 
     def test_get_movie_reviews(self):
         search = self.movie.search("Mad Max")
@@ -197,7 +206,7 @@ class TMDbTests(unittest.TestCase):
     def test_company_details(self):
         c = self.company.details(1)
         self.assertTrue(hasattr(c, 'name'))
-        self.assertEqual(c.name, 'Lucasfilm')
+        self.assertEqual(c.name, 'Lucasfilm Ltd.')
 
     def test_company_movies(self):
         company = self.company.movies(1)
@@ -251,5 +260,3 @@ class TMDbTests(unittest.TestCase):
         for c in s:
             self.assertIsNotNone(c.name)
             self.assertIsNotNone(c.character)
-
-

@@ -23,10 +23,11 @@ class Movie(TMDb):
         'similar': '/movie/%s/similar',
         'credits': '/movie/%s/credits',
         'images': '/movie/%s/images',
-        'keywords': '/movie/%s/keywords'
+        'keywords': '/movie/%s/keywords',
+        'release_dates': '/movie/%s/release_dates'
     }
 
-    def details(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations,keywords"):
+    def details(self, movie_id, append_to_response="append_to_response=trailers,images,casts,translations,keywords,release_dates"):
         """
         Get the primary information about a movie.
         :param movie_id:
@@ -151,3 +152,11 @@ class Movie(TMDb):
         :return:
         """
         return AsObj(**self._call(self._urls['keywords'] % movie_id, ''))
+
+    def release_dates(self, movie_id):
+        """
+        Get the release date along with the certification for a movie.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['release_dates'] % movie_id, ''))
