@@ -306,7 +306,7 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_search_movies(self):
-        search = self.search.movies({"query": "Matrix", "release_year": 1999})
+        search = self.search.movies({"query": "Matrix", "year": 1999})
         self.assertTrue(len(search) > 0)
         self.assertTrue(hasattr(search[0], "id"))
 
