@@ -10,6 +10,7 @@ from .objs.genre import Genre
 from .objs.list import List
 from .objs.movie import Movie
 from .objs.person import Person
+from .objs.search import Search
 from .objs.season import Season
 from .objs.tv import TV
 from .tmdb import TMDb

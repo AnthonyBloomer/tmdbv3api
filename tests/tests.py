@@ -12,6 +12,7 @@ from tmdbv3api import (
     Company,
     Configuration,
     Genre,
+    Search,
     Season,
     List,
     Certification,
@@ -31,6 +32,7 @@ class TMDbTests(unittest.TestCase):
         self.person = Person()
         self.collection = Collection()
         self.company = Company()
+        self.search = Search()
         self.season = Season()
         self.list = List()
 
@@ -287,6 +289,41 @@ class TMDbTests(unittest.TestCase):
         self.assertIsNotNone(movie_genres)
         tv_genres = genres.tv_list()
         self.assertIsNotNone(tv_genres)
+
+    def test_search_companies(self):
+        search = self.search.companies({"query": "Sony"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_collections(self):
+        search = self.search.collections({"query": "Matrix"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_keywords(self):
+        search = self.search.keywords({"query": "alien"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_movies(self):
+        search = self.search.movies({"query": "Matrix", "year": 1999})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_multi(self):
+        search = self.search.multi({"query": "Will", "page": 1})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_people(self):
+        search = self.search.people({"query": "Will Smith"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_tv_shows(self):
+        search = self.search.tv_shows({"query": "Breaking Bad"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
 
     def test_season(self):
         s = self.season.details(1418, 1)
