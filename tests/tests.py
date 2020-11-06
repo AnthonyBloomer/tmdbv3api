@@ -12,6 +12,7 @@ from tmdbv3api import (
     Company,
     Configuration,
     Genre,
+    Network,
     Search,
     Season,
     List,
@@ -32,6 +33,7 @@ class TMDbTests(unittest.TestCase):
         self.person = Person()
         self.collection = Collection()
         self.company = Company()
+        self.network = Network()
         self.search = Search()
         self.season = Season()
         self.list = List()
@@ -276,6 +278,11 @@ class TMDbTests(unittest.TestCase):
         first = company[0]
         self.assertTrue(hasattr(first, "title"))
         self.assertTrue(hasattr(first, "overview"))
+
+    def test_network_details(self):
+        n = self.network.details(1)
+        self.assertTrue(hasattr(n, "name"))
+        self.assertEqual(n.name, "Fuji TV")
 
     def test_config(self):
         config = Configuration()

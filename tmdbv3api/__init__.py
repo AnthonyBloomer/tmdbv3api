@@ -9,6 +9,7 @@ from .objs.episode import Episode
 from .objs.genre import Genre
 from .objs.list import List
 from .objs.movie import Movie
+from .objs.network import Network
 from .objs.person import Person
 from .objs.search import Search
 from .objs.season import Season
