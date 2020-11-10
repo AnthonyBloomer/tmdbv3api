@@ -16,6 +16,7 @@ class Trending(TMDb):
     def all_day(self, page=1):
         """
         Get all daily trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["all_day"], "page={}".format(page)))
@@ -23,6 +24,7 @@ class Trending(TMDb):
     def all_week(self, page=1):
         """
         Get all weekly trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["all_week"], "page={}".format(page)))
@@ -30,6 +32,7 @@ class Trending(TMDb):
     def movie_day(self, page=1):
         """
         Get movie daily trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["movie_day"], "page={}".format(page)))
@@ -37,6 +40,7 @@ class Trending(TMDb):
     def movie_week(self, page=1):
         """
         Get movie weekly trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["movie_week"], "page={}".format(page)))
@@ -44,6 +48,7 @@ class Trending(TMDb):
     def tv_day(self, page=1):
         """
         Get tv daily trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["tv_day"], "page={}".format(page)))
@@ -51,6 +56,7 @@ class Trending(TMDb):
     def tv_week(self, page=1):
         """
         Get tv weekly trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["tv_week"], "page={}".format(page)))
@@ -58,6 +64,7 @@ class Trending(TMDb):
     def person_day(self, page=1):
         """
         Get person daily trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["person_day"], "page={}".format(page)))
@@ -65,6 +72,7 @@ class Trending(TMDb):
     def person_week(self, page=1):
         """
         Get person weekly trending
+        :param page: int
         :return:
         """
         return self._get_obj(self._call(self._urls["person_week"], "page={}".format(page)))
