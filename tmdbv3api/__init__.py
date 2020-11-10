@@ -13,5 +13,6 @@ from .objs.network import Network
 from .objs.person import Person
 from .objs.search import Search
 from .objs.season import Season
+from .objs.trending import Trending
 from .objs.tv import TV
 from .tmdb import TMDb

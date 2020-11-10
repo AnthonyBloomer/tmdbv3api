@@ -15,6 +15,7 @@ from tmdbv3api import (
     Network,
     Search,
     Season,
+    Trending,
     List,
     Certification,
 )
@@ -36,6 +37,7 @@ class TMDbTests(unittest.TestCase):
         self.network = Network()
         self.search = Search()
         self.season = Season()
+        self.trending = Trending()
         self.list = List()
 
     def test_get_tv_keywords(self):
@@ -369,6 +371,38 @@ class TMDbTests(unittest.TestCase):
         ex = self.movie.external(external_id="tt8155288", external_source="imdb_id")
         res = ex["movie_results"][0]
         self.assertTrue(res["title"] == "Happy Death Day 2U")
+
+    def test_trending_all_day(self):
+        search = self.trending.all_day()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_all_week(self):
+        search = self.trending.all_week()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_movie_day(self):
+        search = self.trending.movie_day()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_movie_week(self):
+        search = self.trending.movie_week()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_tv_day(self):
+        search = self.trending.tv_day()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_tv_week(self):
+        search = self.trending.tv_week()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_person_day(self):
+        search = self.trending.person_day()
+        self.assertTrue(len(search) > 0
+
+    def test_trending_person_week(self):
+        search = self.trending.person_week()
+        self.assertTrue(len(search) > 0
 
     def test_get_list(self):
         list = self.list.details(list_id="112870")
