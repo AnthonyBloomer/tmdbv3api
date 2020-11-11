@@ -373,36 +373,36 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(res["title"] == "Happy Death Day 2U")
 
     def test_trending_all_day(self):
-        search = self.trending.all_day()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.all_day()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_all_week(self):
-        search = self.trending.all_week()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.all_week()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_movie_day(self):
-        search = self.trending.movie_day()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.movie_day()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_movie_week(self):
-        search = self.trending.movie_week()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.movie_week()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_tv_day(self):
-        search = self.trending.tv_day()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.tv_day()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_tv_week(self):
-        search = self.trending.tv_week()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.tv_week()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_person_day(self):
-        search = self.trending.person_day()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.person_day()
+        self.assertTrue(len(trending) > 0)
 
     def test_trending_person_week(self):
-        search = self.trending.person_week()
-        self.assertTrue(len(search) > 0
+        trending = self.trending.person_week()
+        self.assertTrue(len(trending) > 0)
 
     def test_get_list(self):
         list = self.list.details(list_id="112870")
