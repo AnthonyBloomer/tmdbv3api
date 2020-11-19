@@ -70,10 +70,6 @@ class TMDbTests(unittest.TestCase):
         release_dates = self.movie.release_dates(111)
         self.assertIsNotNone(release_dates)
         self.assertEqual(release_dates.id, 111)
-        usa_release = release_dates.results[1]
-        self.assertEqual(usa_release.get('iso_3166_1'), 'US')
-        self.assertEqual(usa_release.get('release_dates')[0].get('certification'), 'R')
-
 
     def test_get_movie_reviews(self):
         search = self.movie.search("Mad Max")
