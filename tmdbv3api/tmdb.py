@@ -98,7 +98,7 @@ class TMDb(object):
     @staticmethod
     def _get_obj(result, key="results"):
         if "success" in result and result["success"] is False:
-            raise Exception(result["status_message"])
+            raise TMDbException(result["status_message"])
         arr = []
         if key is not None:
             [arr.append(AsObj(**res)) for res in result[key]]

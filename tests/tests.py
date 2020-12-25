@@ -12,7 +12,10 @@ from tmdbv3api import (
     Company,
     Configuration,
     Genre,
+    Network,
+    Search,
     Season,
+    Trending,
     List,
     Certification,
 )
@@ -31,7 +34,10 @@ class TMDbTests(unittest.TestCase):
         self.person = Person()
         self.collection = Collection()
         self.company = Company()
+        self.network = Network()
+        self.search = Search()
         self.season = Season()
+        self.trending = Trending()
         self.list = List()
 
     def test_get_tv_keywords(self):
@@ -66,10 +72,6 @@ class TMDbTests(unittest.TestCase):
         release_dates = self.movie.release_dates(111)
         self.assertIsNotNone(release_dates)
         self.assertEqual(release_dates.id, 111)
-        usa_release = release_dates.results[1]
-        self.assertEqual(usa_release.get('iso_3166_1'), 'US')
-        self.assertEqual(usa_release.get('release_dates')[0].get('certification'), 'R')
-
 
     def test_get_movie_reviews(self):
         search = self.movie.search("Mad Max")
@@ -275,6 +277,11 @@ class TMDbTests(unittest.TestCase):
         self.assertTrue(hasattr(first, "title"))
         self.assertTrue(hasattr(first, "overview"))
 
+    def test_network_details(self):
+        n = self.network.details(1)
+        self.assertTrue(hasattr(n, "name"))
+        self.assertEqual(n.name, "Fuji TV")
+
     def test_config(self):
         config = Configuration()
         info = config.info()
@@ -287,6 +294,41 @@ class TMDbTests(unittest.TestCase):
         self.assertIsNotNone(movie_genres)
         tv_genres = genres.tv_list()
         self.assertIsNotNone(tv_genres)
+
+    def test_search_companies(self):
+        search = self.search.companies({"query": "Sony"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_collections(self):
+        search = self.search.collections({"query": "Matrix"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_keywords(self):
+        search = self.search.keywords({"query": "alien"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_movies(self):
+        search = self.search.movies({"query": "Matrix", "year": 1999})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_multi(self):
+        search = self.search.multi({"query": "Will", "page": 1})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_people(self):
+        search = self.search.people({"query": "Will Smith"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
+
+    def test_search_tv_shows(self):
+        search = self.search.tv_shows({"query": "Breaking Bad"})
+        self.assertTrue(len(search) > 0)
+        self.assertTrue(hasattr(search[0], "id"))
 
     def test_season(self):
         s = self.season.details(1418, 1)
@@ -325,6 +367,38 @@ class TMDbTests(unittest.TestCase):
         ex = self.movie.external(external_id="tt8155288", external_source="imdb_id")
         res = ex["movie_results"][0]
         self.assertTrue(res["title"] == "Happy Death Day 2U")
+
+    def test_trending_all_day(self):
+        trending = self.trending.all_day()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_all_week(self):
+        trending = self.trending.all_week()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_movie_day(self):
+        trending = self.trending.movie_day()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_movie_week(self):
+        trending = self.trending.movie_week()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_tv_day(self):
+        trending = self.trending.tv_day()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_tv_week(self):
+        trending = self.trending.tv_week()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_person_day(self):
+        trending = self.trending.person_day()
+        self.assertTrue(len(trending) > 0)
+
+    def test_trending_person_week(self):
+        trending = self.trending.person_week()
+        self.assertTrue(len(trending) > 0)
 
     def test_get_list(self):
         list = self.list.details(list_id="112870")
