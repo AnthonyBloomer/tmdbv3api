@@ -68,7 +68,7 @@ class TMDbTests(unittest.TestCase):
         release_dates = self.movie.release_dates(111)
         self.assertIsNotNone(release_dates)
         self.assertEqual(release_dates.id, 111)
-        usa_release = release_dates.results[1]
+        usa_release = release_dates.results[13]
         self.assertEqual(usa_release.get('iso_3166_1'), 'US')
         self.assertEqual(usa_release.get('release_dates')[0].get('certification'), 'R')
 
