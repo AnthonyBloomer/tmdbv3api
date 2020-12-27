@@ -16,7 +16,7 @@ class CollectionTests(unittest.TestCase):
         self.tmdb.cache = False
         self.collection = Collection()
          
-    def test_collection_details(self):
+    def test_get_collection_details(self):
         details = self.collection.details(10)
         self.assertTrue(hasattr(details, "id"))
         self.assertEqual(details.id, 10)
@@ -43,7 +43,7 @@ class CollectionTests(unittest.TestCase):
             self.assertIn("vote_average", movie)
             self.assertIn("vote_count", movie)
 
-    def test_collection_images(self):
+    def test_get_collection_images(self):
         images = self.collection.images(10)
         self.assertEqual(images.id, 10)
         self.assertTrue(hasattr(images, "backdrops"))
@@ -67,7 +67,7 @@ class CollectionTests(unittest.TestCase):
             self.assertIn("vote_count", image)
             self.assertIn("width", image)
     
-    def test_collection_translations(self):
+    def test_get_collection_translations(self):
         translations = self.collection.translations(10)
         self.assertGreater(len(translations), 0)
         for translation in translations:
