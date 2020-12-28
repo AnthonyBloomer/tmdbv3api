@@ -1,21 +1,18 @@
 language: python
-
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
-
-# command to install dependencies
+- '2.7'
+- '3.4'
+- '3.5'
+- '3.6'
+- '3.7'
+- '3.8'
 install:
-  - pip install -r requirements.txt
-  - pip install codecov
-
-# command to run tests
+- pip install -r requirements.txt
+- pip install codecov
 script:
-  - coverage run -m unittest discover -s tests/
-
+- coverage run -m unittest discover -s tests/
 after_success:
-  - codecov
+- codecov
+env:
+  global:
+    secure: spALfwMzii1J0fQPFqL+S4A1FKXY5KmUA4mOiZJBMpP9nlRfSYM7/W/dQaxmVctBQ3frB7o+oA9h7NkX88M0/fQDtuFBT+rkwLyfQ2KYbfeKt5aDgua3ImtaBD+LrcHSe79hbJmDohn8yBeNAL3XRIlyLr+jbFq0ELfSGWKWZeZKlIZ30O25MOG0q5IaWd5xlgLbfbvQp72e3S1bnonv8LuuW2EdAr29f/cCXNyRP54FamEYKwPeN0IzQzNgXK4UVwNfePzMNRf6kB3CG/a3/f8FL26YeFpwCBgwTaNChrjcNL7FnJ6xWCpgVAwVzqj3rjUTZ5JVm4Sf73o9qU12b0AZ/x0oJZRs/SYNjZZcEXS7/7O2J5LY/fhayz09RY/9n//Rad4L4GvdP7sAG0HbNsQVSrkdWoR4jjR59LExyHrp3kmuLrIi6HmNCxD97o6mxYa1WLvaZ6uxCgK20lca2cvFrCSpR9fWR5gmFFqCIjEYLUAccNMO+cu2MHP61h+Opl4KP88TanLiez+RlWzfNZsVCkjrqHodgWON78cw4Jt9WeYxTOe8ET7XPg5YB+cRYMKRbZWUl9DAzCQMhAlu5RUEaQdI2hTQesd5rHuLV405feHu9LKorg5Pqyx9KYAMUVtekJ3+uOkOCrq+Und9tqneHQOl9m+IHUY8QR2TQfA=
