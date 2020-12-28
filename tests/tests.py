@@ -17,6 +17,7 @@ from tmdbv3api import (
     Season,
     Trending,
     List,
+    Keyword,
     Certification,
 )
 
@@ -39,6 +40,7 @@ class TMDbTests(unittest.TestCase):
         self.season = Season()
         self.trending = Trending()
         self.list = List()
+        self.keyword = Keyword()
 
     def test_get_tv_keywords(self):
         keywords = self.tv.keywords(1396)
@@ -264,6 +266,18 @@ class TMDbTests(unittest.TestCase):
         self.assertIsNotNone(images)
         self.assertTrue(hasattr(images, "profiles"))
         self.assertTrue(hasattr(images, "id"))
+
+    def test_keyword_details(self):
+        k = self.keyword.details(180547)
+        self.assertTrue(hasattr(k, "name"))
+        self.assertEqual(k.name, "marvel cinematic universe")
+
+    def test_keyword_movies(self):
+        keyword = self.keyword.movies(180547)
+        self.assertTrue(len(keyword) > 0)
+        first = keyword[0]
+        self.assertTrue(hasattr(first, "title"))
+        self.assertTrue(hasattr(first, "overview"))
 
     def test_company_details(self):
         c = self.company.details(1)

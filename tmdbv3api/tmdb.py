@@ -96,7 +96,7 @@ class TMDb(object):
         os.environ[self.TMDB_CACHE_ENABLED] = str(cache)
 
     @staticmethod
-    def _get_obj(result, key="results"):
+    def _get_obj(result, key="results", all_details=False):
         if "success" in result and result["success"] is False:
             raise TMDbException(result["status_message"])
         arr = []
@@ -104,7 +104,11 @@ class TMDb(object):
             [arr.append(AsObj(**res)) for res in result[key]]
         else:
             return result
-        return arr
+        if all_details is True:
+            result[key] = arr
+            return AsObj(**result)
+        else:
+            return arr
 
     @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)

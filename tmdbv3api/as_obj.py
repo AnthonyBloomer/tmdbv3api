@@ -1,8 +1,11 @@
 # encoding: utf-8
+from tmdbv3api.exceptions import TMDbException
 
 
 class AsObj:
     def __init__(self, **entries):
+        if "success" in entries and entries["success"] is False:
+            raise TMDbException(entries["status_message"])
         if "name" in entries:
             self.obj_name = entries["name"]
         elif "title" in entries:
