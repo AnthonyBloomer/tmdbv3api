@@ -7,7 +7,7 @@ tmdb.api_key = ""
 trending = Trending()
 
 # What are the TV shows trending today?
-show s= trending.tv_day()
+shows= trending.tv_day()
 
 for p in shows:
     print(p.name)
