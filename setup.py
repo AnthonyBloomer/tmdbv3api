@@ -46,7 +46,7 @@ class PublishCommand(Command):
 
 
 setup(name='tmdbv3api',
-      version='1.7.0',
+      version='1.7.1',
       description='A lightweight Python library for The Movie Database (TMDb) API.',
       long_description=long_descr,
       url='https://github.com/AnthonyBloomer/tmdbv3api',
