@@ -6,12 +6,22 @@ try:
 except ImportError:
     from urllib.parse import quote
 
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 class Movie(TMDb):
     _urls = {
         "details": "/movie/%s",
-        "reviews": "/movie/%s/reviews",
+        "alternative_titles": "/movie/%s/alternative_titles",
+        "changes": "/movie/%s/changes",
+        "credits": "/movie/%s/credits",
+        "external_ids": "/movie/%s/external_ids",
+        "images": "/movie/%s/images",
+        "keywords": "/movie/%s/keywords",
         "lists": "/movie/%s/lists",
+        "reviews": "/movie/%s/reviews",
         "videos": "/movie/%s/videos",
         "recommendations": "/movie/%s/recommendations",
         "latest": "/movie/latest",
@@ -21,23 +31,9 @@ class Movie(TMDb):
         "popular": "/movie/popular",
         "search_movie": "/search/movie",
         "similar": "/movie/%s/similar",
-        "credits": "/movie/%s/credits",
-        "images": "/movie/%s/images",
-        "keywords": "/movie/%s/keywords",
         "external": "/find/%s",
-        "external_ids": "/movie/%s/external_ids",
         "release_dates": "/movie/%s/release_dates",
     }
-
-    def keywords(self, movie_id):
-        """
-        Get the keywords associated to a movie.
-        :param movie_id:
-        :return:
-        """
-        return self._get_obj(
-            self._call(self._urls["keywords"] % movie_id, ""), "keywords"
-        )
 
     def details(
         self,
@@ -57,6 +53,37 @@ class Movie(TMDb):
             )
         )
 
+    def alternative_titles(self, movie_id, country=""):
+        """
+        Get all of the alternative titles for a movie.
+        :param movie_id:
+        :param country:
+        :return:
+        """
+        return AsObj(**self._call(self._urls["alternative_titles"] % movie_id, "country=" + country))
+
+    def changes(self, movie_id, start_date="", end_date="", page=1):
+        """
+        Get all of the alternative titles for a movie.
+        You can query up to 14 days in a single query by using the start_date and end_date query parameters.
+        :param movie_id:
+        :param start_date:
+        :param end_date:
+        :param page:
+        :return:
+        """
+        return self._get_obj(
+            self._call(
+                self._urls["changes"] % movie_id,
+                urlencode({
+                    "start_date": str(start_date),
+                    "end_date": str(end_date),
+                    "page": str(page)
+                })
+            ),
+            "changes"
+        )
+
     def credits(self, movie_id):
         """
         Get the cast and crew for a movie.
@@ -65,16 +92,34 @@ class Movie(TMDb):
         """
         return AsObj(**self._call(self._urls["credits"] % movie_id, ""))
 
-    def reviews(self, movie_id, page=1):
+    def external_ids(self, movie_id):
         """
-        Get the user reviews for a movie.
+        Get the external ids for a movie.
         :param movie_id:
-        :param page:
         :return:
         """
         return self._get_obj(
-            self._call(self._urls["reviews"] % movie_id, "page=" + str(page))
+            self._call(self._urls["external_ids"] % (str(movie_id)), ""), None
         )
+    
+    def images(self, movie_id, include_image_language=""):
+        """
+        Get the images that belong to a movie.
+        Querying images with a language parameter will filter the results. 
+        If you want to include a fallback language (especially useful for backdrops) you can use the include_image_language parameter. 
+        This should be a comma seperated value like so: include_image_language=en,null.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['images'] % movie_id, "include_image_language=" + include_image_language))
+
+    def keywords(self, movie_id):
+        """
+        Get the keywords associated to a movie.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['keywords'] % movie_id, ''))
 
     def lists(self, movie_id, page=1):
         """
@@ -87,15 +132,6 @@ class Movie(TMDb):
             self._call(self._urls["lists"] % movie_id, "page=" + str(page))
         )
 
-    def videos(self, id, page=1):
-        """
-        Get the videos that have been added to a movie.
-        :param id:
-        :param page:
-        :return:
-        """
-        return self._get_obj(self._call(self._urls["videos"] % id, "page=" + str(page)))
-
     def recommendations(self, movie_id, page=1):
         """
         Get a list of recommended movies for a movie.
@@ -106,6 +142,34 @@ class Movie(TMDb):
         return self._get_obj(
             self._call(self._urls["recommendations"] % movie_id, "page=" + str(page))
         )
+
+    def release_dates(self, movie_id):
+        """
+        Get the release date along with the certification for a movie.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls['release_dates'] % movie_id, ''))
+
+    def reviews(self, movie_id, page=1):
+        """
+        Get the user reviews for a movie.
+        :param movie_id:
+        :param page:
+        :return:
+        """
+        return self._get_obj(
+            self._call(self._urls["reviews"] % movie_id, "page=" + str(page))
+        )
+
+    def videos(self, id, page=1):
+        """
+        Get the videos that have been added to a movie.
+        :param id:
+        :param page:
+        :return:
+        """
+        return self._get_obj(self._call(self._urls["videos"] % id, "page=" + str(page)))
 
     def latest(self):
         """
@@ -184,38 +248,4 @@ class Movie(TMDb):
                 "external_source=" + external_source,
             ),
             key=None,
-        )
-
-    def images(self, movie_id):
-        """
-        Get the images that belong to a movie.
-        :param movie_id:
-        :return:
-        """
-        return AsObj(**self._call(self._urls['images'] % movie_id, ''))
-
-    def keywords(self, movie_id):
-        """
-        Get the keywords associated to a movie.
-        :param movie_id:
-        :return:
-        """
-        return AsObj(**self._call(self._urls['keywords'] % movie_id, ''))
-
-    def release_dates(self, movie_id):
-        """
-        Get the release date along with the certification for a movie.
-        :param movie_id:
-        :return:
-        """
-        return AsObj(**self._call(self._urls['release_dates'] % movie_id, ''))
-
-    def external_ids(self, movie_id):
-        """
-        Get the external ids for a movie.
-        :param movie_id:
-        :return:
-        """
-        return self._get_obj(
-            self._call(self._urls["external_ids"] % (str(movie_id)), ""), None
         )
