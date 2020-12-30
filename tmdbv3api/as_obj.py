@@ -2,6 +2,7 @@
 import sys
 from tmdbv3api.exceptions import TMDbException
 
+
 class AsObj:
     def __init__(self, **entries):
         if "success" in entries and entries["success"] is False:
