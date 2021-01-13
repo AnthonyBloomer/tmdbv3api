@@ -12,8 +12,6 @@ class AsObj:
                 value = [AsObj(**item) if isinstance(item, dict) else item for item in value]
             if isinstance(value, dict):
                 value = AsObj(**value)
-            if key == "name" or key == "title":
-                self.obj_name = entries[key]
             setattr(self, key, value)
 
     def __delitem__(self, key):
@@ -29,7 +27,7 @@ class AsObj:
         return len(self.__dict__)
 
     def __repr__(self):
-        return self.obj_name
+        return str(self.__dict__)
 
     def __setitem__(self, key, value):
         return setattr(self, key, value)
