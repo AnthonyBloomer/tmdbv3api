@@ -163,12 +163,12 @@ class AsObjTests(TestCase):
 
     def test_dict_obj_items(self):
         items = AsObj(**self.entries).items()
-        self.assertEqual(len(items), 5)
+        self.assertEqual(len(items), 4)
         self.assertIn(('title', 'images'), items)
 
     def test_dict_obj_keys(self):
         keys = AsObj(**self.entries).keys()
-        self.assertEqual(len(keys), 5)
+        self.assertEqual(len(keys), 4)
         self.assertIn('title', keys)
 
     def test_dict_obj_pop(self):
@@ -195,7 +195,7 @@ class AsObjTests(TestCase):
 
     def test_dict_obj_values(self):
         values = AsObj(**self.entries).values()
-        self.assertEqual(len(values), 5)
+        self.assertEqual(len(values), 4)
         self.assertIn('images', values)
 
         
