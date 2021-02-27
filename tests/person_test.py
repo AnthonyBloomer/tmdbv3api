@@ -48,21 +48,21 @@ class PersonTests(unittest.TestCase):
         self.assertTrue(hasattr(images, "id"))
 
     def test_get_person_movie_credits(self):
-        movie_credits = self.person.images(2888)
+        movie_credits = self.person.movie_credits(2888)
         self.assertIsNotNone(movie_credits)
         self.assertTrue(hasattr(movie_credits, "cast"))
         self.assertTrue(hasattr(movie_credits, "crew"))
         self.assertTrue(hasattr(movie_credits, "id"))
 
     def test_get_person_tv_credits(self):
-        tv_credits = self.person.images(2888)
+        tv_credits = self.person.tv_credits(2888)
         self.assertIsNotNone(tv_credits)
         self.assertTrue(hasattr(tv_credits, "cast"))
         self.assertTrue(hasattr(tv_credits, "crew"))
         self.assertTrue(hasattr(tv_credits, "id"))
 
     def test_get_person_combined_credits(self):
-        combined_credits = self.person.images(2888)
+        combined_credits = self.person.combined_credits(2888)
         self.assertIsNotNone(combined_credits)
         self.assertTrue(hasattr(combined_credits, "cast"))
         self.assertTrue(hasattr(combined_credits, "crew"))
