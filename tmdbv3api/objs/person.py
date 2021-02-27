@@ -14,6 +14,9 @@ class Person(TMDb):
         "popular": "/person/popular",
         "latest": "/person/latest",
         "images": "/person/%s/images",
+        "movie_credits": "/person/%s/movie_credits",
+        "tv_credits": "/person/%s/tv_credits",
+        "combined_credits": "/person/%s/combined_credits",
     }
 
     def details(self, person_id, append_to_response="videos,images"):
@@ -65,3 +68,24 @@ class Person(TMDb):
         :return:
         """
         return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
+
+    def movie_credits(self, person_id):
+        """
+        Get the movie credits for a person.
+        :return:
+        """
+        return AsObj(**self._call(self._urls["movie_credits"] % str(person_id), ""))
+
+    def tv_credits(self, person_id):
+        """
+        Get the TV show credits for a person.
+        :return:
+        """
+        return AsObj(**self._call(self._urls["tv_credits"] % str(person_id), ""))
+
+    def combined_credits(self, person_id):
+        """
+        Get the movie and TV credits together in a single response.
+        :return:
+        """
+        return AsObj(**self._call(self._urls["combined_credits"] % str(person_id), ""))
