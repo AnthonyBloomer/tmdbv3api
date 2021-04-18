@@ -99,16 +99,10 @@ class TMDb(object):
     def _get_obj(result, key="results", all_details=False):
         if "success" in result and result["success"] is False:
             raise TMDbException(result["status_message"])
-        arr = []
-        if key is not None:
-            [arr.append(AsObj(**res)) for res in result[key]]
-        else:
-            return result
-        if all_details is True:
-            result[key] = arr
+        if all_details is True or key is None:
             return AsObj(**result)
         else:
-            return arr
+            return [AsObj(**res) for res in result[key]]
 
     @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
