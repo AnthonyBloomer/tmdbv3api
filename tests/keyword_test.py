@@ -19,7 +19,6 @@ class KeywordTests(unittest.TestCase):
     def test_get_keyword_details(self):
         details = self.keyword.details(180547)
         self.assertTrue(hasattr(details, "name"))
-        self.assertEqual(details.name, "marvel cinematic universe")
 
     def test_get_keyword_movies(self):
         movies = self.keyword.movies(180547)

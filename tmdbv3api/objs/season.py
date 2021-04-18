@@ -72,7 +72,7 @@ class Season(TMDb):
         """
         return self._get_obj(
             self._call(self._urls["credits"] % (str(tv_id), str(season_num)), ""),
-            "cast",
+            None,
         )
 
     def external_ids(self, tv_id, season_num):
