@@ -45,6 +45,12 @@ class SeasonTests(unittest.TestCase):
 
     def test_get_season_credits(self):
         credits = self.season.credits(1418, 1)
-        for credit in credits:
-            self.assertTrue(hasattr(credit, "name"))
-            self.assertTrue(hasattr(credit, "character"))
+        self.assertIn("cast", credits)
+        self.assertTrue(hasattr(credits, "crew"))
+        self.assertTrue(hasattr(credits, "id"))
+        for person in credits.cast:
+            self.assertTrue(hasattr(person, "name"))
+            self.assertTrue(hasattr(person, "character"))
+        for person in credits.crew:
+            self.assertTrue(hasattr(person, "name"))
+            self.assertTrue(hasattr(person, "department"))
