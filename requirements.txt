@@ -13,5 +13,5 @@ pylint==1.9.3
 requests==2.21.0
 singledispatch==3.4.0.3
 six==1.11.0
-urllib3==1.24.2
+urllib3==1.26.5
 wrapt==1.10.11
