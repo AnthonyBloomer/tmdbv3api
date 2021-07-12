@@ -27,6 +27,7 @@ class TMDb(object):
     REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self, obj_cached=True):
+        self._session = requests.Session()
         self._base = "https://api.themoviedb.org/3"
         self._remaining = 40
         self._reset = None
@@ -126,10 +127,10 @@ class TMDb(object):
             self.language,
         )
 
-        if self.cache and self.obj_cached and call_cached and method is not "POST":
+        if self.cache and self.obj_cached and call_cached and method != "POST":
             req = self.cached_request(method, url, data)
         else:
-            req = requests.request(method, url, data=data)
+            req = self._session.request(method, url, data=data)
 
         headers = req.headers
 
