@@ -26,8 +26,8 @@ class TMDb(object):
     TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
     REQUEST_CACHE_MAXSIZE = None
 
-    def __init__(self, obj_cached=True):
-        self._session = requests.Session()
+    def __init__(self, obj_cached=True, session=None):
+        self._session = requests.Session() if session is None else session
         self._base = "https://api.themoviedb.org/3"
         self._remaining = 40
         self._reset = None
