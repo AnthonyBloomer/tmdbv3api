@@ -5,8 +5,8 @@ from tmdbv3api.tmdb import TMDb
 class Season(TMDb):
     _urls = {
         "details": "/tv/%s/season/%s",
-        "changes": "/tv/season/%s/changes",
         "account_states": "/tv/%s/season/%s/account_states",
+        "changes": "/tv/season/%s/changes",
         "credits": "/tv/%s/season/%s/credits",
         "external_ids": "/tv/%s/season/%s/external_ids",
         "images": "/tv/%s/season/%s/images",
@@ -33,6 +33,20 @@ class Season(TMDb):
             )
         )
 
+    def account_states(self, tv_id, season_num):
+        """
+        Get all of the user ratings for the season's episodes.
+        :param tv_id:
+        :param season_num:
+        :return:
+        """
+        return self._get_obj(
+            self._call(
+                self._urls["account_states"] % (str(tv_id), str(season_num)), ""
+            ),
+            None,
+        )
+
     def changes(
         self, season_id, append_to_response="videos,trailers,images,casts,translations"
     ):
@@ -47,20 +61,6 @@ class Season(TMDb):
                 self._urls["changes"] % str(season_id),
                 "append_to_response=" + append_to_response,
             )
-        )
-
-    def account_states(self, tv_id, season_num):
-        """
-        Get all of the user ratings for the season's episodes.
-        :param tv_id:
-        :param season_num:
-        :return:
-        """
-        return self._get_obj(
-            self._call(
-                self._urls["account_states"] % (str(tv_id), str(season_num)), ""
-            ),
-            None,
         )
 
     def credits(self, tv_id, season_num):

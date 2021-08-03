@@ -22,18 +22,18 @@ class Movie(TMDb):
         "images": "/movie/%s/images",
         "keywords": "/movie/%s/keywords",
         "lists": "/movie/%s/lists",
-        "reviews": "/movie/%s/reviews",
-        "videos": "/movie/%s/videos",
         "recommendations": "/movie/%s/recommendations",
+        "release_dates": "/movie/%s/release_dates",
+        "reviews": "/movie/%s/reviews",
+        "similar": "/movie/%s/similar",
+        "videos": "/movie/%s/videos",
         "latest": "/movie/latest",
         "now_playing": "/movie/now_playing",
+        "popular": "/movie/popular",
         "top_rated": "/movie/top_rated",
         "upcoming": "/movie/upcoming",
-        "popular": "/movie/popular",
         "search_movie": "/search/movie",
-        "similar": "/movie/%s/similar",
         "external": "/find/%s",
-        "release_dates": "/movie/%s/release_dates",
     }
 
     def details(
@@ -164,6 +164,17 @@ class Movie(TMDb):
             self._call(self._urls["reviews"] % movie_id, "page=" + str(page))
         )
 
+    def similar(self, movie_id, page=1):
+        """
+        Get a list of similar movies.
+        :param movie_id:
+        :param page:
+        :return:
+        """
+        return self._get_obj(
+            self._call(self._urls["similar"] % movie_id, "page=" + str(page))
+        )
+
     def videos(self, id, page=1):
         """
         Get the videos that have been added to a movie.
@@ -188,6 +199,14 @@ class Movie(TMDb):
         """
         return self._get_obj(self._call(self._urls["now_playing"], "page=" + str(page)))
 
+    def popular(self, page=1):
+        """
+        Get a list of the current popular movies on TMDb. This list updates daily.
+        :param page:
+        :return:
+        """
+        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
+
     def top_rated(self, page=1):
         """
         Get the top rated movies on TMDb.
@@ -204,14 +223,6 @@ class Movie(TMDb):
         """
         return self._get_obj(self._call(self._urls["upcoming"], "page=" + str(page)))
 
-    def popular(self, page=1):
-        """
-        Get a list of the current popular movies on TMDb. This list updates daily.
-        :param page:
-        :return:
-        """
-        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
-
     def search(self, term, page=1):
         """
         Search for movies.
@@ -224,17 +235,6 @@ class Movie(TMDb):
                 self._urls["search_movie"],
                 "query=" + quote(term) + "&page=" + str(page),
             )
-        )
-
-    def similar(self, movie_id, page=1):
-        """
-        Get a list of similar movies.
-        :param movie_id:
-        :param page:
-        :return:
-        """
-        return self._get_obj(
-            self._call(self._urls["similar"] % movie_id, "page=" + str(page))
         )
 
     def external(self, external_id, external_source):
