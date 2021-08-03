@@ -6,6 +6,7 @@ from .objs.company import Company
 from .objs.configuration import Configuration
 from .objs.discover import Discover
 from .objs.episode import Episode
+from .objs.find import Find
 from .objs.genre import Genre
 from .objs.keyword import Keyword
 from .objs.list import List
