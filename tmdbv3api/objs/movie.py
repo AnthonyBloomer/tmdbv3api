@@ -1,3 +1,4 @@
+import warnings
 from tmdbv3api.tmdb import TMDb
 from tmdbv3api.as_obj import AsObj
 
@@ -243,6 +244,8 @@ class Movie(TMDb):
         :param external_source str
         :return:
         """
+        warnings.warn("external method is deprecated use tmdbv3api.Find().find(external_id, external_source)",
+                      DeprecationWarning)
         return self._get_obj(
             self._call(
                 self._urls["external"] % external_id,
