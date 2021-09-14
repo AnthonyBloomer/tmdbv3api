@@ -1,5 +1,6 @@
-from tmdbv3api.as_obj import AsObj
+import warnings
 from tmdbv3api.tmdb import TMDb
+from .search import Search
 
 try:
     from urllib import quote
@@ -22,34 +23,27 @@ class TV(TMDb):
         "on_the_air": "/tv/on_the_air",
         "popular": "/tv/popular",
         "top_rated": "/tv/top_rated",
-        "search_tv": "/search/tv",
     }
 
-    def details(
-        self, show_id, append_to_response="videos,trailers,images,credits,translations"
-    ):
+    def details(self, tv_id, append_to_response="videos,trailers,images,credits,translations"):
         """
         Get the primary TV show details by id.
-        :param show_id:
-        :param append_to_response:
+        :param tv_id: int
+        :param append_to_response: str
         :return:
         """
-        return AsObj(
-            **self._call(
-                self._urls["details"] % str(show_id),
-                "append_to_response=" + append_to_response,
-            )
+        return self._request_obj(
+            self._urls["details"] % tv_id,
+            params="append_to_response=%s" % append_to_response,
         )
 
-    def external_ids(self, id):
+    def external_ids(self, tv_id):
         """
         Get the external ids for a TV show.
-        :param id:
+        :param tv_id: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["external_ids"] % (str(id)), ""), None
-        )
+        return self._request_obj(self._urls["external_ids"] % tv_id)
 
     def keywords(self, tv_id):
         """
@@ -57,60 +51,75 @@ class TV(TMDb):
         :param tv_id: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["keywords"] % tv_id, ""))
+        return self._request_obj(
+            self._urls["keywords"] % tv_id,
+            key="results"
+        )
 
     def recommendations(self, tv_id, page=1):
         """
         Get the list of TV show recommendations for this item.
-        :param tv_id:
-        :param page:
+        :param tv_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["recommendations"] % tv_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["recommendations"] % tv_id,
+            params="page=%s" % page,
+            key="results"
         )
 
     def reviews(self, tv_id, page=1):
         """
         Get the reviews for a TV show.
-        :param page: int
         :param tv_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["reviews"] % tv_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["reviews"] % tv_id,
+            params="page=%s" % page,
+            key="results"
         )
 
     def screened_theatrically(self, tv_id):
         """
         Get a list of seasons or episodes that have been screened in a film festival or theatre.
-        :param tv_id:
+        :param tv_id: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["screened_theatrically"] % tv_id, "")
+        return self._request_obj(
+            self._urls["screened_theatrically"] % tv_id,
+            key="results"
         )
 
     def similar(self, tv_id, page=1):
         """
         Get the primary TV show details by id.
-        :param tv_id:
-        :param page:
+        :param tv_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["similar"] % str(tv_id), "page=" + str(page))
+        return self._request_obj(
+            self._urls["similar"] % tv_id,
+            params="page=%s" % page,
+            key="results"
         )
 
-    def videos(self, tv_id, page=1):
+    def videos(self, tv_id, include_video_language=None, page=1):
         """
         Get the videos that have been added to a TV show.
-        :param tv_id:
-        :param page:
+        :param tv_id: int
+        :param include_video_language: str
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["videos"] % tv_id, "page=" + str(page))
+        params = "page=%s" % page
+        if include_video_language:
+            params += "&include_video_language=%s" % include_video_language
+        return self._request_obj(
+            self._urls["videos"] % tv_id,
+            params=params
         )
 
     def latest(self):
@@ -118,17 +127,19 @@ class TV(TMDb):
         Get the most newly created TV show. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self._urls["latest"], ""))
+        return self._request_obj(self._urls["latest"])
 
     def airing_today(self, page=1):
         """
         Get a list of TV shows that are airing today.
         This query is purely day based as we do not currently support airing times.
-        :param page:
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["airing_today"], "page=" + str(page))
+        return self._request_obj(
+            self._urls["airing_today"],
+            params="page=%s" % page,
+            key="results"
         )
 
     def on_the_air(self, page=1):
@@ -137,7 +148,11 @@ class TV(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls["on_the_air"], "page=" + str(page)))
+        return self._request_obj(
+            self._urls["on_the_air"],
+            params="page=%s" % page,
+            key="results"
+        )
 
     def popular(self, page=1):
         """
@@ -145,7 +160,11 @@ class TV(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
+        return self._request_obj(
+            self._urls["popular"],
+            params="page=%s" % page,
+            key="results"
+        )
 
     def top_rated(self, page=1):
         """
@@ -153,7 +172,11 @@ class TV(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(self._call(self._urls["top_rated"], "page=" + str(page)))
+        return self._request_obj(
+            self._urls["top_rated"],
+            params="page=%s" % page,
+            key="results"
+        )
 
     def search(self, term, page=1):
         """
@@ -162,8 +185,6 @@ class TV(TMDb):
         :param page:
         :return:
         """
-        return self._get_obj(
-            self._call(
-                self._urls["search_tv"], "query=" + quote(term) + "&page=" + str(page)
-            )
-        )
+        warnings.warn("search method is deprecated use tmdbv3api.Search().tv_shows(term)",
+                      DeprecationWarning)
+        return Search().tv_shows(term, page=page)

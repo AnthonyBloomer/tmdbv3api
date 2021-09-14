@@ -1,6 +1,3 @@
-import os
-
-from tmdbv3api.exceptions import TMDbException
 from tmdbv3api.tmdb import TMDb
 
 
@@ -24,41 +21,31 @@ class Authentication(TMDb):
         """
         Create a temporary request token that can be used to validate a TMDb user login.
         """
-        resp = self._call(self._urls["create_request_token"], "")
-        self.expires_at = resp["expires_at"]
-        return resp["request_token"]
+        response = self._request_obj(self._urls["create_request_token"])
+        self.expires_at = response.expires_at
+        return response.request_token
 
     def _create_session(self):
         """
         You can use this method to create a fully valid session ID once a user has validated the request token.
         """
-        data = {"request_token": self.request_token}
-
-        req = self._call(
-            action=self._urls["create_session"],
-            append_to_response="",
+        response = self._request_obj(
+            self._urls["create_session"],
             method="POST",
-            data=data,
+            data={"request_token": self.request_token}
         )
-
-        os.environ["TMDB_SESSION_ID"] = req["session_id"]
+        self.session_id = response.session_id
 
     def _authorise_request_token_with_login(self):
         """
         This method allows an application to validate a request token by entering a username and password.
         """
-        data = {
-            "username": self.username,
-            "password": self.password,
-            "request_token": self.request_token,
-        }
-
-        resp = self._call(
-            action=self._urls["validate_with_login"],
-            append_to_response="",
+        self._request_obj(
+            self._urls["validate_with_login"],
             method="POST",
-            data=data,
+            data={
+                "username": self.username,
+                "password": self.password,
+                "request_token": self.request_token,
+            }
         )
-
-        if "success" not in resp:
-            raise TMDbException(resp["status_message"])

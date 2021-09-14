@@ -1,9 +1,12 @@
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.as_obj import AsObj
 
 
 class Network(TMDb):
-    _urls = {"details": "/network/%s"}
+    _urls = {
+        "details": "/network/%s",
+        "alternative_names": "/network/%s/alternative_names",
+        "images": "/network/%s"
+    }
 
     def details(self, network_id):
         """
@@ -11,4 +14,4 @@ class Network(TMDb):
         :param network_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["details"] % str(network_id), ""))
+        return self._request_obj(self._urls["details"] % network_id)

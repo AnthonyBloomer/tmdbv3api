@@ -1,10 +1,6 @@
+import warnings
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.as_obj import AsObj
-
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
+from .search import Search
 
 
 class Person(TMDb):
@@ -26,33 +22,34 @@ class Person(TMDb):
         :param person_id: int
         :return:
         """
-        return AsObj(
-            **self._call(
-                self._urls["details"] % str(person_id),
-                "append_to_response=" + append_to_response,
-            )
+        return self._request_obj(
+            self._urls["details"] % person_id,
+            params="append_to_response=%s" % append_to_response
         )
 
     def movie_credits(self, person_id):
         """
         Get the movie credits for a person.
+        :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["movie_credits"] % str(person_id), ""))
+        return self._request_obj(self._urls["movie_credits"] % person_id)
 
     def tv_credits(self, person_id):
         """
         Get the TV show credits for a person.
+        :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["tv_credits"] % str(person_id), ""))
+        return self._request_obj(self._urls["tv_credits"] % person_id)
 
     def combined_credits(self, person_id):
         """
         Get the movie and TV credits together in a single response.
+        :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["combined_credits"] % str(person_id), ""))
+        return self._request_obj(self._urls["combined_credits"] % person_id)
 
     def images(self, person_id):
         """
@@ -60,21 +57,29 @@ class Person(TMDb):
         :param person_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["images"] % str(person_id), ""))
+        return self._request_obj(
+            self._urls["images"] % person_id,
+            key="profiles"
+        )
 
     def latest(self):
         """
         Get the most newly created person. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self._urls["latest"], ""))
+        return self._request_obj(self._urls["latest"])
 
     def popular(self, page=1):
         """
         Get the list of popular people on TMDb. This list updates daily.
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
+        return self._request_obj(
+            self._urls["popular"],
+            params="page=%s" % page,
+            key="results"
+        )
 
     def search(self, term, page=1):
         """
@@ -83,9 +88,6 @@ class Person(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(
-                self._urls["search_people"],
-                "query=" + quote(term) + "&page=" + str(page),
-            )
-        )
+        warnings.warn("search method is deprecated use tmdbv3api.Search().people(params)",
+                      DeprecationWarning)
+        return Search().people(term, page=page)

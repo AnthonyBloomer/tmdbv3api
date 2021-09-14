@@ -1,5 +1,4 @@
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.as_obj import AsObj
 
 
 class Company(TMDb):
@@ -8,7 +7,7 @@ class Company(TMDb):
         "alternative_names": "/company/%s/alternative_names",
         "images": "/company/%s/images",
         "movies": "/company/%s/movies"
-        }
+    }
 
     def details(self, company_id):
         """
@@ -16,7 +15,7 @@ class Company(TMDb):
         :param company_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["details"] % str(company_id), ""))
+        return self._request_obj(self._urls["details"] % company_id)
 
     def alternative_names(self, company_id):
         """
@@ -24,20 +23,25 @@ class Company(TMDb):
         :param company_id: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["alternative_names"] % str(company_id), ""))
-    
+        return self._request_obj(self._urls["alternative_names"] % company_id, key="results")
+
     def images(self, company_id):
         """
         Get the alternative names of a company.
         :param company_id: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["images"] % str(company_id), ""), "logos")
+        return self._request_obj(self._urls["images"] % company_id, key="logos")
 
-    def movies(self, company_id):
+    def movies(self, company_id, page=1):
         """
         Get the movies of a company by id.
         :param company_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["movies"] % str(company_id), ""))
+        return self._request_obj(
+            self._urls["movies"] % company_id,
+            params="page=%s" % page,
+            key="results"
+        )

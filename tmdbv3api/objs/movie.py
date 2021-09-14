@@ -1,16 +1,8 @@
 import warnings
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.as_obj import AsObj
+from .find import Find
+from .search import Search
 
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
-
-try:
-    from urllib import urlencode
-except ImportError:
-    from urllib.parse import urlencode
 
 class Movie(TMDb):
     _urls = {
@@ -32,210 +24,254 @@ class Movie(TMDb):
         "popular": "/movie/popular",
         "top_rated": "/movie/top_rated",
         "upcoming": "/movie/upcoming",
-        "search_movie": "/search/movie",
-        "external": "/find/%s",
     }
 
-    def details(
-        self,
-        movie_id,
-        append_to_response="videos,trailers,images,casts,translations,keywords,release_dates",
-    ):
+    def details(self, movie_id, append_to_response="videos,trailers,images,casts,translations,keywords,release_dates"):
         """
         Get the primary information about a movie.
-        :param movie_id:
-        :param append_to_response:
+        :param movie_id: int
+        :param append_to_response: str
         :return:
         """
-        return AsObj(
-            **self._call(
-                self._urls["details"] % movie_id,
-                "append_to_response=" + append_to_response,
-            )
+        return self._request_obj(
+            self._urls["details"] % movie_id,
+            params="append_to_response=%s" % append_to_response
         )
 
-    def alternative_titles(self, movie_id, country=""):
+    def alternative_titles(self, movie_id, country=None):
         """
         Get all of the alternative titles for a movie.
-        :param movie_id:
-        :param country:
+        :param movie_id: int
+        :param country: str
         :return:
         """
-        return AsObj(**self._call(self._urls["alternative_titles"] % movie_id, "country=" + country))
+        return self._request_obj(
+            self._urls["alternative_titles"] % movie_id,
+            params="country=%s" % country if country else "",
+            key="titles"
+        )
 
-    def changes(self, movie_id, start_date="", end_date="", page=1):
+    def changes(self, movie_id, start_date=None, end_date=None, page=1):
         """
-        Get all of the alternative titles for a movie.
+        Get the changes for a movie. By default only the last 24 hours are returned.
         You can query up to 14 days in a single query by using the start_date and end_date query parameters.
-        :param movie_id:
-        :param start_date:
-        :param end_date:
-        :param page:
+        :param movie_id: int
+        :param start_date: str
+        :param end_date: str
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(
-                self._urls["changes"] % movie_id,
-                urlencode({
-                    "start_date": str(start_date),
-                    "end_date": str(end_date),
-                    "page": str(page)
-                })
-            ),
-            "changes"
+        params = "page=%s" % page
+        if start_date:
+            params += "&start_date=%s" % start_date
+        if end_date:
+            params += "&end_date=%s" % end_date
+        return self._request_obj(
+            self._urls["changes"] % movie_id,
+            params=params,
+            key="changes"
         )
 
     def credits(self, movie_id):
         """
         Get the cast and crew for a movie.
-        :param movie_id:
+        :param movie_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls["credits"] % movie_id, ""))
+        return self._request_obj(self._urls["credits"] % movie_id)
 
     def external_ids(self, movie_id):
         """
         Get the external ids for a movie.
-        :param movie_id:
+        :param movie_id: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["external_ids"] % (str(movie_id)), ""), None
-        )
+        return self._request_obj(self._urls["external_ids"] % movie_id)
     
-    def images(self, movie_id, include_image_language=""):
+    def images(self, movie_id, include_image_language=None):
         """
         Get the images that belong to a movie.
         Querying images with a language parameter will filter the results. 
-        If you want to include a fallback language (especially useful for backdrops) you can use the include_image_language parameter. 
-        This should be a comma seperated value like so: include_image_language=en,null.
-        :param movie_id:
-        :param include_image_language:
+        If you want to include a fallback language (especially useful for backdrops)
+        you can use the include_image_language parameter.
+        This should be a comma separated value like so: include_image_language=en,null.
+        :param movie_id: int
+        :param include_image_language: str
         :return:
         """
-        return AsObj(**self._call(self._urls['images'] % movie_id, "include_image_language=" + include_image_language))
+        return self._request_obj(
+            self._urls["images"] % movie_id,
+            params="include_image_language=%s" % include_image_language if include_image_language else ""
+        )
 
     def keywords(self, movie_id):
         """
         Get the keywords associated to a movie.
-        :param movie_id:
+        :param movie_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['keywords'] % movie_id, ''))
+        return self._request_obj(
+            self._urls["keywords"] % movie_id,
+            key="keywords"
+        )
 
     def lists(self, movie_id, page=1):
         """
         Get a list of lists that this movie belongs to.
-        :param movie_id:
-        :param page:
+        :param movie_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["lists"] % movie_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["lists"] % movie_id,
+            params="page=%s" % page,
+            key="results"
         )
 
     def recommendations(self, movie_id, page=1):
         """
         Get a list of recommended movies for a movie.
-        :param movie_id:
-        :param page:
+        :param movie_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["recommendations"] % movie_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["recommendations"] % movie_id,
+            params="page=%s" % page,
+            key="results"
         )
 
     def release_dates(self, movie_id):
         """
         Get the release date along with the certification for a movie.
-        :param movie_id:
+        :param movie_id: int
         :return:
         """
-        return AsObj(**self._call(self._urls['release_dates'] % movie_id, ''))
+        return self._request_obj(
+            self._urls["release_dates"] % movie_id,
+            key="results"
+        )
 
     def reviews(self, movie_id, page=1):
         """
         Get the user reviews for a movie.
-        :param movie_id:
-        :param page:
+        :param movie_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["reviews"] % movie_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["reviews"] % movie_id,
+            params="page=%s" % page,
+            key="results"
         )
 
     def similar(self, movie_id, page=1):
         """
         Get a list of similar movies.
-        :param movie_id:
-        :param page:
+        :param movie_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(self._urls["similar"] % movie_id, "page=" + str(page))
+        return self._request_obj(
+            self._urls["similar"] % movie_id,
+            params="page=%s" % page,
+            key="results"
         )
 
-    def videos(self, id, page=1):
+    def videos(self, movie_id, page=1):
         """
         Get the videos that have been added to a movie.
-        :param id:
-        :param page:
+        :param movie_id: int
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["videos"] % id, "page=" + str(page)))
+        return self._request_obj(
+            self._urls["videos"] % movie_id,
+            params="page=%s" % page,
+            key="results"
+        )
 
     def latest(self):
         """
         Get the most newly created movie. This is a live response and will continuously change.
         :return:
         """
-        return AsObj(**self._call(self._urls["latest"], ""))
+        return self._request_obj(self._urls["latest"])
 
-    def now_playing(self, page=1):
+    def now_playing(self, region=None, page=1):
         """
         Get a list of movies in theatres.
-        :param page:
+        :param region: str
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["now_playing"], "page=" + str(page)))
+        params = "page=%s" % page
+        if region:
+            params += "&region=%s" % region
+        return self._request_obj(
+            self._urls["now_playing"],
+            params=params,
+            key="results"
+        )
 
-    def popular(self, page=1):
+    def popular(self, region=None, page=1):
         """
         Get a list of the current popular movies on TMDb. This list updates daily.
-        :param page:
+        :param region: str
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
+        params = "page=%s" % page
+        if region:
+            params += "&region=%s" % region
+        return self._request_obj(
+            self._urls["popular"],
+            params=params,
+            key="results"
+        )
 
-    def top_rated(self, page=1):
+    def top_rated(self, region=None, page=1):
         """
         Get the top rated movies on TMDb.
-        :param page:
+        :param region: str
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["top_rated"], "page=" + str(page)))
+        params = "page=%s" % page
+        if region:
+            params += "&region=%s" % region
+        return self._request_obj(
+            self._urls["top_rated"],
+            params=params,
+            key="results"
+        )
 
-    def upcoming(self, page=1):
+    def upcoming(self, region=None, page=1):
         """
         Get a list of upcoming movies in theatres.
-        :param page:
+        :param region: str
+        :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["upcoming"], "page=" + str(page)))
+        params = "page=%s" % page
+        if region:
+            params += "&region=%s" % region
+        return self._request_obj(
+            self._urls["upcoming"],
+            params=params,
+            key="results"
+        )
 
     def search(self, term, page=1):
         """
         Search for movies.
-        :param term:
-        :param page:
+        :param term: str
+        :param page: int
         :return:
         """
-        return self._get_obj(
-            self._call(
-                self._urls["search_movie"],
-                "query=" + quote(term) + "&page=" + str(page),
-            )
-        )
+        warnings.warn("search method is deprecated use tmdbv3api.Search().movies(term)",
+                      DeprecationWarning)
+        return Search().movies(term, page=page)
 
     def external(self, external_id, external_source):
         """
@@ -246,10 +282,4 @@ class Movie(TMDb):
         """
         warnings.warn("external method is deprecated use tmdbv3api.Find().find(external_id, external_source)",
                       DeprecationWarning)
-        return self._get_obj(
-            self._call(
-                self._urls["external"] % external_id,
-                "external_source=" + external_source,
-            ),
-            key=None,
-        )
+        return Find().find(external_id, external_source)

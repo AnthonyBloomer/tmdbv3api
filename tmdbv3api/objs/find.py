@@ -2,7 +2,9 @@ from tmdbv3api.tmdb import TMDb
 
 
 class Find(TMDb):
-    _urls = {"find": "/find/%s"}
+    _urls = {
+        "find": "/find/%s"
+    }
 
     def find(self, external_id, external_source):
         """
@@ -11,12 +13,9 @@ class Find(TMDb):
         :param external_source str
         :return:
         """
-        return self._get_obj(
-            self._call(
-                self._urls["find"] % external_id.replace("/", "%2F"),
-                "external_source=" + external_source,
-            ),
-            key=None,
+        return self._request_obj(
+            self._urls["find"] % external_id.replace("/", "%2F"),
+            params="external_source=" + external_source
         )
 
     def find_by_imdb_id(self, imdb_id):
@@ -30,7 +29,7 @@ class Find(TMDb):
     def find_by_tvdb_id(self, tvdb_id):
         """
         The find method makes it easy to search for objects in our database by a TVDB ID.
-        :param tvdb_id: str
+        :param tvdb_id: int
         :return:
         """
         return self.find(tvdb_id, "tvdb_id")

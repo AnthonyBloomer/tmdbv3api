@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 class TMDb(object):
     TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_LANGUAGE = "TMDB_LANGUAGE"
+    TMDB_SESSION_ID = "TMDB_SESSION_ID"
     TMDB_WAIT_ON_RATE_LIMIT = "TMDB_WAIT_ON_RATE_LIMIT"
     TMDB_DEBUG_ENABLED = "TMDB_DEBUG_ENABLED"
     TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
@@ -64,6 +65,16 @@ class TMDb(object):
         os.environ[self.TMDB_LANGUAGE] = language
 
     @property
+    def session_id(self):
+        if not os.environ.get(self.TMDB_SESSION_ID):
+            raise TMDbException("Must Authenticate to create a session run Authentication(username, password)")
+        return os.environ.get(self.TMDB_SESSION_ID)
+
+    @session_id.setter
+    def session_id(self, session_id):
+        os.environ[self.TMDB_SESSION_ID] = session_id
+
+    @property
     def wait_on_rate_limit(self):
         if os.environ.get(self.TMDB_WAIT_ON_RATE_LIMIT) == "False":
             return False
@@ -97,25 +108,33 @@ class TMDb(object):
         os.environ[self.TMDB_CACHE_ENABLED] = str(cache)
 
     @staticmethod
-    def _get_obj(result, key="results", all_details=False):
-        if "success" in result and result["success"] is False:
-            raise TMDbException(result["status_message"])
-        if all_details is True or key is None:
-            return AsObj(**result)
-        else:
-            return [AsObj(**res) for res in result[key]]
-
-    @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
-    def cached_request(method, url, data):
-        return requests.request(method, url, data=data)
+    def cached_request(method, url, data, json):
+        return requests.request(method, url, data=data, json=json)
 
     def cache_clear(self):
         return self.cached_request.cache_clear()
 
-    def _call(
-        self, action, append_to_response, call_cached=True, method="GET", data=None
-    ):
+    def _request_obj(self, action, params="", call_cached=True, method="GET", data=None, json=None, key=None):
+        response = self._request(
+            action,
+            params=params,
+            call_cached=call_cached,
+            method=method,
+            data=data,
+            json=json
+        )
+
+        if "success" in response and response["success"] is False:
+            raise TMDbException(response["status_message"])
+        if isinstance(response, list):
+            return [AsObj(**res) if isinstance(res, (dict, list)) else res for res in response]
+        elif key is None:
+            return AsObj(**response)
+        else:
+            return [AsObj(**res) for res in response[key]]
+
+    def _request(self, action, params="", call_cached=True, method="GET", data=None, json=None):
         if self.api_key is None or self.api_key == "":
             raise TMDbException("No API key found.")
 
@@ -123,14 +142,14 @@ class TMDb(object):
             self._base,
             action,
             self.api_key,
-            append_to_response,
+            params,
             self.language,
         )
 
         if self.cache and self.obj_cached and call_cached and method != "POST":
-            req = self.cached_request(method, url, data)
+            req = self.cached_request(method, url, data, json)
         else:
-            req = self._session.request(method, url, data=data)
+            req = self._session.request(method, url, data=data, json=json)
 
         headers = req.headers
 
@@ -147,11 +166,9 @@ class TMDb(object):
             if self.wait_on_rate_limit:
                 logger.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(abs(sleep_time))
-                self._call(action, append_to_response, call_cached, method, data)
+                return self._request(action, params, call_cached, method, data, json)
             else:
-                raise TMDbException(
-                    "Rate limit reached. Try again in %d seconds." % sleep_time
-                )
+                raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
         json = req.json()
 
