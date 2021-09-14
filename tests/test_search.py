@@ -17,36 +17,36 @@ class SearchTests(unittest.TestCase):
         self.search = Search()
 
     def test_get_search_companies(self):
-        search = self.search.companies({"query": "Sony"})
+        search = self.search.companies("Sony")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_collections(self):
-        search = self.search.collections({"query": "Matrix"})
+        search = self.search.collections("Matrix")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_keywords(self):
-        search = self.search.keywords({"query": "alien"})
+        search = self.search.keywords("alien")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_movies(self):
-        search = self.search.movies({"query": "Matrix", "year": 1999})
+        search = self.search.movies("Matrix", year=1999)
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_multi(self):
-        search = self.search.multi({"query": "Will", "page": 1})
+        search = self.search.multi("Will")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_people(self):
-        search = self.search.people({"query": "Will Smith"})
+        search = self.search.people("Will Smith")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))
 
     def test_get_search_tv_shows(self):
-        search = self.search.tv_shows({"query": "Breaking Bad"})
+        search = self.search.tv_shows("Breaking Bad")
         self.assertGreater(len(search), 0)
         self.assertTrue(hasattr(search[0], "id"))

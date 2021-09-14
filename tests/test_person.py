@@ -42,10 +42,9 @@ class PersonTests(unittest.TestCase):
         self.assertTrue(hasattr(latest, "id"))
 
     def test_get_person_images(self):
-        images = self.person.images(11)
-        self.assertIsNotNone(images)
-        self.assertTrue(hasattr(images, "profiles"))
-        self.assertTrue(hasattr(images, "id"))
+        for image in self.person.images(11):
+            self.assertTrue(hasattr(image, "file_path"))
+            self.assertTrue(hasattr(image, "height"))
 
     def test_get_person_movie_credits(self):
         movie_credits = self.person.movie_credits(2888)

@@ -17,7 +17,7 @@ class ListTests(unittest.TestCase):
         self.list = List()
 
     def test_get_list_details(self):
-        list = self.list.details(list_id="112870")
-        self.assertGreater(len(list), 10)
-        self.assertTrue(hasattr(list[0], "id"))
-        self.assertTrue(hasattr(list[0], "title")) 
+        list = self.list.details(112870)
+        self.assertGreater(len(list.items), 10)
+        self.assertTrue(hasattr(list.items[0], "id"))
+        self.assertTrue(hasattr(list.items[0], "title"))

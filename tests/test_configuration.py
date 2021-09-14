@@ -17,7 +17,7 @@ class ConfigurationTests(unittest.TestCase):
         self.configuration = Configuration()
 
     def test_configuration_info(self):
-        info = self.configuration.info()
+        info = self.configuration.api_configuration()
         self.assertTrue(hasattr(info, "images"))
         self.assertTrue(hasattr(info, "change_keys"))
         self.assertIn("base_url", info.images)
@@ -27,7 +27,6 @@ class ConfigurationTests(unittest.TestCase):
         self.assertIn("poster_sizes", info.images)
         self.assertIn("profile_sizes", info.images)
         self.assertIn("still_sizes", info.images)
-        
 
     def test_configuration_countries(self):
         countries = self.configuration.countries()

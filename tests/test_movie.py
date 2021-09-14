@@ -32,9 +32,8 @@ class MovieTests(unittest.TestCase):
 
     def test_get_movie_alternative_titles(self):
         alternative_titles = self.movie.alternative_titles(111)
-        self.assertEqual(alternative_titles.id, 111)
-        self.assertGreater(len(alternative_titles.titles), 0)
-        for title in alternative_titles.titles:
+        self.assertGreater(len(alternative_titles), 0)
+        for title in alternative_titles:
             self.assertIn('iso_3166_1', title)
             self.assertIn('title', title)
             self.assertIn('type', title)
@@ -74,8 +73,7 @@ class MovieTests(unittest.TestCase):
             self.assertIn("file_path", image)
 
     def test_get_movie_keywords(self):
-        keywords = self.movie.keywords(111)
-        for keyword in keywords.keywords:
+        for keyword in self.movie.keywords(111):
             self.assertIn("id", keyword)
             self.assertIn("name", keyword)
 
@@ -93,9 +91,9 @@ class MovieTests(unittest.TestCase):
             self.assertTrue(hasattr(movie, "id"))
 
     def test_get_movie_release_dates(self):
-        release_dates = self.movie.release_dates(111)
-        self.assertIsNotNone(release_dates)
-        self.assertEqual(release_dates.id, 111)
+        for release_date in self.movie.release_dates(111):
+            self.assertIn("iso_3166_1", release_date)
+            self.assertIn("release_dates", release_date)
 
     def test_get_movie_reviews(self):
         reviews = self.movie.reviews(111)
