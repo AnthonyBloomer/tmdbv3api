@@ -7,6 +7,7 @@ from .search import Search
 class Movie(TMDb):
     _urls = {
         "details": "/movie/%s",
+        "account_states": "/movie/%s/account_states",
         "alternative_titles": "/movie/%s/alternative_titles",
         "changes": "/movie/%s/changes",
         "credits": "/movie/%s/credits",
@@ -18,7 +19,11 @@ class Movie(TMDb):
         "release_dates": "/movie/%s/release_dates",
         "reviews": "/movie/%s/reviews",
         "similar": "/movie/%s/similar",
+        "translations": "/movie/%s/translations",
         "videos": "/movie/%s/videos",
+        "watch_providers": "/movie/%s/watch/providers",
+        "rate_movie": "/movie/%s/rating",
+        "delete_rating": "/movie/%s/rating",
         "latest": "/movie/latest",
         "now_playing": "/movie/now_playing",
         "popular": "/movie/popular",
@@ -36,6 +41,18 @@ class Movie(TMDb):
         return self._request_obj(
             self._urls["details"] % movie_id,
             params="append_to_response=%s" % append_to_response
+        )
+
+    def account_states(self, movie_id):
+        """
+        Grab the following account states for a session:
+        Movie rating, If it belongs to your watchlist, or If it belongs to your favourite list.
+        :param movie_id: int
+        :return:
+        """
+        return self._request_obj(
+            self._urls["account_states"] % movie_id,
+            params="session_id=%s" % self.session_id
         )
 
     def alternative_titles(self, movie_id, country=None):
@@ -178,6 +195,17 @@ class Movie(TMDb):
             key="results"
         )
 
+    def translations(self, movie_id):
+        """
+        Get a list of translations that have been created for a movie.
+        :param movie_id: int
+        :return:
+        """
+        return self._request_obj(
+            self._urls["translations"] % movie_id,
+            key="translations"
+        )
+
     def videos(self, movie_id, page=1):
         """
         Get the videos that have been added to a movie.
@@ -189,6 +217,41 @@ class Movie(TMDb):
             self._urls["videos"] % movie_id,
             params="page=%s" % page,
             key="results"
+        )
+
+    def watch_providers(self, movie_id):
+        """
+        You can query this method to get a list of the availabilities per country by provider.
+        :param movie_id: int
+        :return:
+        """
+        return self._request_obj(
+            self._urls["watch_providers"] % movie_id,
+            key="results"
+        )
+
+    def rate_movie(self, movie_id, rating):
+        """
+        Rate a movie.
+        :param movie_id: int
+        :param rating: float
+        """
+        self._request_obj(
+            self._urls["rate_movie"] % movie_id,
+            params="session_id=%s" % self.session_id,
+            method="POST",
+            json={"value": rating}
+        )
+
+    def delete_rating(self, movie_id):
+        """
+        Remove your rating for a movie.
+        :param movie_id: int
+        """
+        self._request_obj(
+            self._urls["delete_rating"] % movie_id,
+            params="session_id=%s" % self.session_id,
+            method="DELETE"
         )
 
     def latest(self):

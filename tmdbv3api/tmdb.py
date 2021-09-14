@@ -65,6 +65,10 @@ class TMDb(object):
         os.environ[self.TMDB_LANGUAGE] = language
 
     @property
+    def has_session(self):
+        return True if os.environ.get(self.TMDB_SESSION_ID) else False
+
+    @property
     def session_id(self):
         if not os.environ.get(self.TMDB_SESSION_ID):
             raise TMDbException("Must Authenticate to create a session run Authentication(username, password)")

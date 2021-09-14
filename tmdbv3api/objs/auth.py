@@ -6,6 +6,7 @@ class Authentication(TMDb):
         "create_request_token": "/authentication/token/new",
         "validate_with_login": "/authentication/token/validate_with_login",
         "create_session": "/authentication/session/new",
+        "delete_session": "/authentication/session",
     }
 
     def __init__(self, username, password):
@@ -49,3 +50,15 @@ class Authentication(TMDb):
                 "request_token": self.request_token,
             }
         )
+
+    def delete_session(self):
+        """
+        If you would like to delete (or "logout") from a session, call this method with a valid session ID.
+        """
+        if self.has_session:
+            self._request_obj(
+                self._urls["delete_session"],
+                method="DELETE",
+                json={"session_id": self.session_id}
+            )
+            self.session_id = ""
