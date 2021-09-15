@@ -1,7 +1,29 @@
 tmdbv3api
 =========
 
-|Build Status| |codecov|
+.. image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
+    :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
+    :alt: Build Status
+
+.. image:: https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/AnthonyBloomer/tmdbv3api
+    :alt: codecov
+
+.. image:: https://img.shields.io/github/v/release/AnthonyBloomer/tmdbv3api
+    :target: https://github.com/AnthonyBloomer/tmdbv3api/releases
+    :alt: GitHub release (latest by date)
+
+.. image:: https://img.shields.io/pypi/v/tmdbv3api
+    :target: https://pypi.org/project/tmdbv3api/
+    :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/dm/tmdbv3api.svg
+    :target: https://pypi.org/project/tmdbv3api/
+    :alt: Downloads
+
+.. image:: https://img.shields.io/github/commits-since/AnthonyBloomer/tmdbv3api/latest
+    :target: https://github.com/AnthonyBloomer/tmdbv3api/commits/master
+    :alt: GitHub commits since latest release (by date) for a branch
 
 A lightweight Python library for The Movie Database (TMDb) API. The TMDb API is a resource for developers to integrate movie, TV show and cast data along with posters or movie fan art. themoviedb.org is a free and community edited database.
 
@@ -248,9 +270,4 @@ Then run:
 .. code:: bash
 
     $ python -m unittest discover tests/
-
-
-.. |Build Status| image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
-   :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
-.. |codecov| image:: https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/AnthonyBloomer/tmdbv3api
+8/
