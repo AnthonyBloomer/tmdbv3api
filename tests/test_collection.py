@@ -25,8 +25,8 @@ class CollectionTests(unittest.TestCase):
         self.assertTrue(hasattr(details, "poster_path"))
         self.assertTrue(hasattr(details, "backdrop_path"))
         self.assertTrue(hasattr(details, "parts"))
-        self.assertGreater(len(details.parts), 0)
-        for movie in details.parts:
+        self.assertGreater(len(details), 0)
+        for movie in details:
             self.assertIn("adult", movie)
             self.assertIn("backdrop_path", movie)
             self.assertIn("genre_ids", movie)
@@ -69,6 +69,7 @@ class CollectionTests(unittest.TestCase):
     
     def test_get_collection_translations(self):
         translations = self.collection.translations(10)
+        self.assertEqual(translations.id, 10)
         self.assertGreater(len(translations), 0)
         for translation in translations:
             self.assertTrue(hasattr(translation, "iso_3166_1"))

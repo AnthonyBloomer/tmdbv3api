@@ -16,7 +16,7 @@ class ConfigurationTests(unittest.TestCase):
         self.tmdb.cache = False
         self.configuration = Configuration()
 
-    def test_configuration_info(self):
+    def test_api_configuration(self):
         info = self.configuration.api_configuration()
         self.assertTrue(hasattr(info, "images"))
         self.assertTrue(hasattr(info, "change_keys"))

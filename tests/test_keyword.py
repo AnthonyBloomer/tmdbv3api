@@ -18,11 +18,13 @@ class KeywordTests(unittest.TestCase):
 
     def test_get_keyword_details(self):
         details = self.keyword.details(180547)
+        self.assertEqual(details.id, 180547)
         self.assertTrue(hasattr(details, "name"))
 
     def test_get_keyword_movies(self):
         movies = self.keyword.movies(180547)
+        self.assertEqual(movies.id, 180547)
         self.assertGreater(len(movies), 0)
-        for movie in  movies:
+        for movie in movies:
             self.assertTrue(hasattr(movie, "title"))
             self.assertTrue(hasattr(movie, "overview"))

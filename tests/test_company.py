@@ -26,9 +26,11 @@ class CompanyTests(unittest.TestCase):
         self.assertTrue(hasattr(details, "name"))
         self.assertTrue(hasattr(details, "origin_country"))
         self.assertTrue(hasattr(details, "parent_company"))
+        self.assertEqual(details.id, 1)
 
     def test_get_company_alternative_names(self):
         alternative_names = self.company.alternative_names(1)
+        self.assertEqual(alternative_names.id, 1)
         self.assertGreater(len(alternative_names), 0)
         for alternative_name in alternative_names:
             self.assertTrue(hasattr(alternative_name, "name"))
@@ -36,6 +38,7 @@ class CompanyTests(unittest.TestCase):
 
     def test_get_company_images(self):
         images = self.company.images(1)
+        self.assertEqual(images.id, 1)
         self.assertGreater(len(images), 0)
         for image in images:
             self.assertTrue(hasattr(image, "aspect_ratio"))

@@ -19,8 +19,11 @@ class CertificationTests(unittest.TestCase):
     def test_get_certification_movie_list(self):
         movie_certifications = self.certification.movie_list()
         self.assertTrue(hasattr(movie_certifications, "certifications"))
+        for cert in movie_certifications:
+            self.assertTrue(hasattr(cert, "certifications"))
 
     def test_get_certification_tv_list(self):
         tv_certifications = self.certification.tv_list()
         self.assertTrue(hasattr(tv_certifications, "certifications"))
-    
+        for cert in tv_certifications:
+            self.assertTrue(hasattr(cert, "certifications"))

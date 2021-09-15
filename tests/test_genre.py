@@ -19,7 +19,9 @@ class GenreTests(unittest.TestCase):
     def test_get_genre_movie_list(self):
         movie_genres = self.genre.movie_list()
         self.assertGreater(len(movie_genres), 0)
+        self.assertIn("id", movie_genres[0])
 
     def test_get_genre_tv_list(self):
         tv_genres = self.genre.tv_list()
-        self.assertGreater(len(tv_genres), 0)  
+        self.assertGreater(len(tv_genres), 0)
+        self.assertIn("id", tv_genres[0])
