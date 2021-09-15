@@ -18,7 +18,7 @@ class List(TMDb):
         :param list_id: int
         :return:
         """
-        return self._request_obj(self._urls["details"] % list_id)
+        return self._request_obj(self._urls["details"] % list_id, key="items")
 
     def check_item_status(self, list_id, movie_id):
         """

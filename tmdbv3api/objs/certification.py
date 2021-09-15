@@ -12,11 +12,11 @@ class Certification(TMDb):
         Get an up to date list of the officially supported movie certifications on TMDB.
         :return:
         """
-        return self._request_obj(self._urls["movie_list"])
+        return self._request_obj(self._urls["movie_list"], key="certifications")
 
     def tv_list(self):
         """
         Get an up to date list of the officially supported TV show certifications on TMDB.
         :return:
         """
-        return self._request_obj(self._urls["tv_list"])
+        return self._request_obj(self._urls["tv_list"], key="certifications")

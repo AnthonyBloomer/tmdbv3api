@@ -14,7 +14,7 @@ class Collection(TMDb):
         :param collection_id: int
         :return:
         """
-        return self._request_obj(self._urls["details"] % collection_id)
+        return self._request_obj(self._urls["details"] % collection_id, key="parts")
 
     def images(self, collection_id):
         """

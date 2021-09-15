@@ -122,23 +122,10 @@ class TMDb(object):
         return self.cached_request.cache_clear()
 
     def _request_obj(self, action, params="", call_cached=True, method="GET", data=None, json=None, key=None):
-        response = self._request(
-            action,
-            params=params,
-            call_cached=call_cached,
-            method=method,
-            data=data,
-            json=json
+        return AsObj(
+            self._request(action, params=params, call_cached=call_cached, method=method, data=data, json=json),
+            key=key
         )
-
-        if "success" in response and response["success"] is False:
-            raise TMDbException(response["status_message"])
-        if isinstance(response, list):
-            return [AsObj(**res) if isinstance(res, (dict, list)) else res for res in response]
-        elif key is None:
-            return AsObj(**response)
-        else:
-            return [AsObj(**res) for res in response[key]]
 
     def _request(self, action, params="", call_cached=True, method="GET", data=None, json=None):
         if self.api_key is None or self.api_key == "":
