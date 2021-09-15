@@ -270,4 +270,3 @@ Then run:
 .. code:: bash
 
     $ python -m unittest discover tests/
-8/
