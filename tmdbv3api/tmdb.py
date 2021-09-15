@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class TMDb(object):
+    _session = None
     TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_LANGUAGE = "TMDB_LANGUAGE"
     TMDB_SESSION_ID = "TMDB_SESSION_ID"
@@ -28,7 +29,8 @@ class TMDb(object):
     REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self, obj_cached=True, session=None):
-        self._session = requests.Session() if session is None else session
+        if self.__class__._session is None or session is not None:
+            self.__class__._session = requests.Session() if session is None else session
         self._base = "https://api.themoviedb.org/3"
         self._remaining = 40
         self._reset = None
@@ -153,7 +155,7 @@ class TMDb(object):
         if self.cache and self.obj_cached and call_cached and method != "POST":
             req = self.cached_request(method, url, data, json)
         else:
-            req = self._session.request(method, url, data=data, json=json)
+            req = self.__class__._session.request(method, url, data=data, json=json)
 
         headers = req.headers
 
