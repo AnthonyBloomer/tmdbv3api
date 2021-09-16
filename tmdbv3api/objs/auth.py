@@ -33,7 +33,7 @@ class Authentication(TMDb):
         response = self._request_obj(
             self._urls["create_session"],
             method="POST",
-            data={"request_token": self.request_token}
+            json={"request_token": self.request_token}
         )
         self.session_id = response.session_id
 
@@ -44,7 +44,7 @@ class Authentication(TMDb):
         self._request_obj(
             self._urls["validate_with_login"],
             method="POST",
-            data={
+            json={
                 "username": self.username,
                 "password": self.password,
                 "request_token": self.request_token,

@@ -15,7 +15,7 @@ class ListTests(unittest.TestCase):
         self.tmdb.debug = True
         self.tmdb.wait_on_rate_limit = True
         self.tmdb.cache = False
-        self.auth = Authentication(os.environ['TMDB_USERNAME'], os.environ['TMDB_PASSWORD'])
+        Authentication(os.environ['TMDB_USERNAME'], os.environ['TMDB_PASSWORD'])
         self.list = List()
 
     def test_get_list_details(self):

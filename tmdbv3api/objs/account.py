@@ -43,7 +43,8 @@ class Account(TMDb):
         """
         return self._request_obj(
             self._urls["created_lists"] % self.account_id,
-            params="session_id=%s&page=%s" % (self.session_id, page)
+            params="session_id=%s&page=%s" % (self.session_id, page),
+            key="results"
         )
 
     def _get_list(self, url, asc_sort=True, page=1):
