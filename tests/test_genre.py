@@ -10,7 +10,7 @@ class GenreTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
         self.tmdb.api_key = os.environ['TMDB_API_KEY']
-        self.tmdb.language = "en-US"
+        self.tmdb.language = "en"
         self.tmdb.debug = True
         self.tmdb.wait_on_rate_limit = True
         self.tmdb.cache = False
@@ -18,10 +18,10 @@ class GenreTests(unittest.TestCase):
 
     def test_get_genre_movie_list(self):
         movie_genres = self.genre.movie_list()
-        self.assertGreater(len(movie_genres), 0)
+        self.assertGreater(len(movie_genres.genres), 0)
         self.assertIn("id", movie_genres[0])
 
     def test_get_genre_tv_list(self):
         tv_genres = self.genre.tv_list()
-        self.assertGreater(len(tv_genres), 0)
+        self.assertGreater(len(tv_genres.genres), 0)
         self.assertIn("id", tv_genres[0])

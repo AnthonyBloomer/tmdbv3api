@@ -3,7 +3,7 @@
 import os
 import unittest
 
-from tmdbv3api import TMDb, List, Authentication
+from tmdbv3api import TMDb, List
 from tmdbv3api.exceptions import TMDbException
 
 
@@ -11,24 +11,27 @@ class ListTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
         self.tmdb.api_key = os.environ['TMDB_API_KEY']
-        self.tmdb.language = "en-US"
+        self.tmdb.language = "en"
         self.tmdb.debug = True
         self.tmdb.wait_on_rate_limit = True
         self.tmdb.cache = False
-        Authentication(os.environ['TMDB_USERNAME'], os.environ['TMDB_PASSWORD'])
         self.list = List()
+        self.test_list_id = 112870
+        self.test_movie_id = 540111
+        self.test_movie_id_fail = 111
 
     def test_get_list_details(self):
-        details = self.list.details(112870)
-        self.assertEqual(details.id, "112870")
-        self.assertGreater(len(details), 10)
+        details = self.list.details(self.test_list_id)
+        self.assertEqual(details.id, str(self.test_list_id))
+        self.assertTrue(hasattr(details, "items"))
+        self.assertGreater(len(details.items), 10)
         self.assertTrue(hasattr(details[0], "id"))
         self.assertTrue(hasattr(details[0], "title"))
 
     def test_get_list_check_item_status(self):
-        self.list.check_item_status(112870, 540111)
-        self.assertTrue(self.list.check_item_status(112870, 540111))
-        self.assertFalse(self.list.check_item_status(112870, 111))
+        self.list.check_item_status(self.test_list_id, self.test_movie_id)
+        self.assertTrue(self.list.check_item_status(self.test_list_id, self.test_movie_id))
+        self.assertFalse(self.list.check_item_status(self.test_list_id, self.test_movie_id_fail))
 
     def test_post_list_methods(self):
         # create_list
@@ -36,20 +39,20 @@ class ListTests(unittest.TestCase):
         self.assertGreater(int(list_id), 10)
 
         # add_movie
-        self.list.add_movie(list_id, 540111)
+        self.list.add_movie(list_id, self.test_movie_id)
         details = self.list.details(list_id)
         self.assertEqual(details.id, str(list_id))
-        self.assertEqual(details[0].id, 540111)
+        self.assertEqual(details[0].id, self.test_movie_id)
 
         # remove_movie
-        self.list.remove_movie(list_id, 540111)
+        self.list.remove_movie(list_id, self.test_movie_id)
         details = self.list.details(list_id)
         self.assertEqual(len(details.items), 0)
 
         # clear_list
-        self.list.add_movie(list_id, 540111)
+        self.list.add_movie(list_id, self.test_movie_id)
         details = self.list.details(list_id)
-        self.assertEqual(details[0].id, 540111)
+        self.assertEqual(details[0].id, self.test_movie_id)
         self.list.clear_list(list_id)
         details = self.list.details(list_id)
         self.assertEqual(len(details.items), 0)

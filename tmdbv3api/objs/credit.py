@@ -1,7 +1,7 @@
 from tmdbv3api.tmdb import TMDb
 
 
-class Credits(TMDb):
+class Credit(TMDb):
     _urls = {
         "details": "/credit/%s"
     }

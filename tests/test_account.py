@@ -3,22 +3,23 @@
 import os
 import time
 import unittest
+import assert_helper
 
 from tmdbv3api import TMDb, Account, Movie, TV, Episode
 
 
 class CertificationTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ["TMDB_API_KEY"]
-        self.tmdb.language = "en-US"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = assert_helper.setup()
         self.account = Account()
         self.movie = Movie()
         self.tv = TV()
         self.episode = Episode()
+        self.test_movie_id = 843906
+        self.test_show_id = 69050
+        self.test_season = 5
+        self.test_episode = 1
+        self.test_rating = 8.5
 
     def test_get_account_details(self):
         details = self.account.details()
@@ -46,9 +47,7 @@ class CertificationTests(unittest.TestCase):
         self.assertIn("poster_path", lists[0])
 
     def assert_movies(self, movies):
-        self.assertTrue(hasattr(movies, "page"))
-        self.assertTrue(hasattr(movies, "total_pages"))
-        self.assertTrue(hasattr(movies, "total_results"))
+        assert_helper.assert_pagination(self, movies)
         self.assertIn("adult", movies[0])
         self.assertIn("backdrop_path", movies[0])
         self.assertIn("genre_ids", movies[0])
@@ -65,9 +64,7 @@ class CertificationTests(unittest.TestCase):
         self.assertIn("vote_count", movies[0])
 
     def assert_tv_shows(self, shows):
-        self.assertTrue(hasattr(shows, "page"))
-        self.assertTrue(hasattr(shows, "total_pages"))
-        self.assertTrue(hasattr(shows, "total_results"))
+        assert_helper.assert_pagination(self, shows)
         self.assertIn("backdrop_path", shows[0])
         self.assertIn("genre_ids", shows[0])
         self.assertIn("id", shows[0])
@@ -83,66 +80,64 @@ class CertificationTests(unittest.TestCase):
         self.assertIn("vote_count", shows[0])
 
     def test_get_account_favorite_movies(self):
-        self.account.mark_as_favorite(843906, "movie")
-        states = self.movie.account_states(843906)
+        self.account.mark_as_favorite(self.test_movie_id, "movie")
+        states = self.movie.account_states(self.test_movie_id)
         self.assertTrue(states.favorite)
 
         self.assert_movies(self.account.favorite_movies())
 
-        self.account.unmark_as_favorite(843906, "movie")
-        states = self.movie.account_states(843906)
+        self.account.unmark_as_favorite(self.test_movie_id, "movie")
+        states = self.movie.account_states(self.test_movie_id)
         self.assertFalse(states.favorite)
 
     def test_get_account_favorite_tv_shows(self):
-        self.account.mark_as_favorite(69050, "tv")
-        states = self.tv.account_states(69050)
+        self.account.mark_as_favorite(self.test_show_id, "tv")
+        states = self.tv.account_states(self.test_show_id)
         self.assertTrue(states.favorite)
 
         self.assert_tv_shows(self.account.favorite_tv_shows())
 
-        self.account.unmark_as_favorite(69050, "tv")
-        states = self.tv.account_states(69050)
+        self.account.unmark_as_favorite(self.test_show_id, "tv")
+        states = self.tv.account_states(self.test_show_id)
         self.assertFalse(states.favorite)
 
     def test_get_account_rated_movies(self):
-        self.movie.rate_movie(843906, 8.5)
+        self.movie.rate_movie(self.test_movie_id, self.test_rating)
         time.sleep(2)
-        states = self.movie.account_states(843906)
+        states = self.movie.account_states(self.test_movie_id)
         self.assertFalse(isinstance(states.rated, bool))
-        self.assertEqual(states.rated.value, 8.5)
+        self.assertEqual(states.rated.value, self.test_rating)
 
         self.assert_movies(self.account.rated_movies())
 
-        self.movie.delete_rating(843906)
+        self.movie.delete_rating(self.test_movie_id)
         time.sleep(2)
-        states = self.movie.account_states(843906)
+        states = self.movie.account_states(self.test_movie_id)
         self.assertFalse(states.rated)
 
     def test_get_account_rated_tv_shows(self):
-        self.tv.rate_tv_show(69050, 8.5)
+        self.tv.rate_tv_show(self.test_show_id, self.test_rating)
         time.sleep(2)
-        states = self.tv.account_states(69050)
+        states = self.tv.account_states(self.test_show_id)
         self.assertFalse(isinstance(states.rated, bool))
-        self.assertEqual(states.rated.value, 8.5)
+        self.assertEqual(states.rated.value, self.test_rating)
 
         self.assert_tv_shows(self.account.rated_tv_shows())
 
-        self.tv.delete_rating(69050)
+        self.tv.delete_rating(self.test_show_id)
         time.sleep(2)
-        states = self.tv.account_states(69050)
+        states = self.tv.account_states(self.test_show_id)
         self.assertFalse(states.rated)
 
     def test_get_account_rated_episodes(self):
-        self.episode.rate_tv_episode(69050, 5, 1, 8.5)
+        self.episode.rate_tv_episode(self.test_show_id, self.test_season, self.test_episode, self.test_rating)
         time.sleep(2)
-        states = self.episode.account_states(69050, 5, 1)
+        states = self.episode.account_states(self.test_show_id, self.test_season, self.test_episode)
         self.assertFalse(isinstance(states.rated, bool))
-        self.assertEqual(states.rated.value, 8.5)
+        self.assertEqual(states.rated.value, self.test_rating)
 
         episodes = self.account.rated_episodes()
-        self.assertTrue(hasattr(episodes, "page"))
-        self.assertTrue(hasattr(episodes, "total_pages"))
-        self.assertTrue(hasattr(episodes, "total_results"))
+        assert_helper.assert_pagination(self, episodes)
         self.assertIn("air_date", episodes[0])
         self.assertIn("episode_number", episodes[0])
         self.assertIn("id", episodes[0])
@@ -156,36 +151,29 @@ class CertificationTests(unittest.TestCase):
         self.assertIn("vote_count", episodes[0])
         self.assertIn("rating", episodes[0])
 
-        self.episode.delete_rating(69050, 5, 1)
+        self.episode.delete_rating(self.test_show_id, self.test_season, self.test_episode)
         time.sleep(2)
-        states = self.episode.account_states(69050, 5, 1)
+        states = self.episode.account_states(self.test_show_id, self.test_season, self.test_episode)
         self.assertFalse(states.rated)
 
     def test_get_account_movie_watchlist(self):
-        self.account.add_to_watchlist(843906, "movie")
-        states = self.movie.account_states(843906)
+        self.account.add_to_watchlist(self.test_movie_id, "movie")
+        states = self.movie.account_states(self.test_movie_id)
         self.assertTrue(states.watchlist)
 
         self.assert_movies(self.account.movie_watchlist())
 
-        self.account.remove_from_watchlist(843906, "movie")
-        states = self.movie.account_states(843906)
+        self.account.remove_from_watchlist(self.test_movie_id, "movie")
+        states = self.movie.account_states(self.test_movie_id)
         self.assertFalse(states.watchlist)
 
     def test_get_account_show_watchlist(self):
-        self.account.add_to_watchlist(69050, "tv")
-        states = self.tv.account_states(69050)
+        self.account.add_to_watchlist(self.test_show_id, "tv")
+        states = self.tv.account_states(self.test_show_id)
         self.assertTrue(states.watchlist)
 
         self.assert_tv_shows(self.account.tv_show_watchlist())
 
-        self.account.remove_from_watchlist(69050, "tv")
-        states = self.tv.account_states(69050)
+        self.account.remove_from_watchlist(self.test_show_id, "tv")
+        states = self.tv.account_states(self.test_show_id)
         self.assertFalse(states.watchlist)
-
-
-
-
-
-
-

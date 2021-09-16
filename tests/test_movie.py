@@ -9,12 +9,13 @@ from tmdbv3api import TMDb, Movie
 class MovieTests(unittest.TestCase):
     def setUp(self):
         self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['TMDB_API_KEY']
+        self.tmdb.api_key = os.environ["TMDB_API_KEY"]
         self.tmdb.language = "en"
         self.tmdb.debug = True
         self.tmdb.wait_on_rate_limit = True
         self.tmdb.cache = False
         self.movie = Movie()
+        self.test_movie_id = 111
 
     def test_get_movie_repr(self):
         search = self.movie.search("Mad Max")
@@ -23,87 +24,104 @@ class MovieTests(unittest.TestCase):
             self.assertNotEqual(str(result), "TMDB Obj")
 
     def test_get_movie_details(self):
-        movie = self.movie.details(111)
-        self.assertIsNotNone(movie)
-        self.assertEqual(movie.id, 111)
-        self.assertTrue(hasattr(movie, 'title'))
-        self.assertTrue(hasattr(movie, 'overview'))
-        self.assertTrue(hasattr(movie, 'release_dates'))
+        movie = self.movie.details(self.test_movie_id)
+        self.assertTrue(hasattr(movie, "id"))
+        self.assertEqual(movie.id, self.test_movie_id)
+        self.assertTrue(hasattr(movie, "title"))
+        self.assertTrue(hasattr(movie, "overview"))
+        self.assertTrue(hasattr(movie, "release_dates"))
 
     def test_get_movie_alternative_titles(self):
-        alternative_titles = self.movie.alternative_titles(111)
-        self.assertGreater(len(alternative_titles), 0)
+        alternative_titles = self.movie.alternative_titles(self.test_movie_id)
+        self.assertGreater(len(alternative_titles.titles), 0)
         for title in alternative_titles:
-            self.assertIn('iso_3166_1', title)
-            self.assertIn('title', title)
-            self.assertIn('type', title)
+            self.assertIn("iso_3166_1", title)
+            self.assertIn("title", title)
+            self.assertIn("type", title)
+
+    def asset_changes(self, changes):
+        self.assertTrue(hasattr(changes, "changes"))
+        self.assertGreater(len(changes.changes), 0)
+        for change in changes:
+            self.assertTrue(hasattr(change, "key"))
+            self.assertTrue(hasattr(change, "items"))
 
     def test_get_movie_changes(self):
-        changes = self.movie.changes(111, start_date="2016-08-29", end_date="2016-09-10")
-        self.assertIsNotNone(changes)
-        changes = self.movie.changes(111, start_date="2016-08-29")
-        self.assertIsNotNone(changes)
-        changes = self.movie.changes(111, end_date="2016-09-10")
-        self.assertIsNotNone(changes)
-        changes = self.movie.changes(111, page=2)
-        self.assertIsNotNone(changes)
+        self.asset_changes(self.movie.changes(self.test_movie_id, start_date="2016-08-29", end_date="2016-09-10"))
+        self.asset_changes(self.movie.changes(self.test_movie_id, start_date="2016-08-29"))
+        self.asset_changes(self.movie.changes(self.test_movie_id, end_date="2016-09-10"))
+        self.asset_changes(self.movie.changes(self.test_movie_id, page=2))
 
     def test_get_movie_credits(self):
-        credits = self.movie.credits(111)
-        self.assertEqual(credits.id, 111)
+        credits = self.movie.credits(self.test_movie_id)
+        self.assertTrue(hasattr(credits, "id"))
+        self.assertEqual(credits.id, self.test_movie_id)
         self.assertTrue(hasattr(credits, "cast"))
         self.assertTrue(hasattr(credits, "crew"))
 
     def test_get_movie_external_ids(self):
-        external_ids = self.movie.external_ids(111)
-        self.assertIn("imdb_id", external_ids)
-        self.assertIn("facebook_id", external_ids)
-        self.assertIn("instagram_id", external_ids)
-        self.assertIn("twitter_id", external_ids)
-        self.assertIn("id", external_ids)
+        external = self.movie.external_ids(self.test_movie_id)
+        self.assertTrue(hasattr(external, "id"))
+        self.assertEqual(external.id, self.test_movie_id)
+        self.assertTrue(hasattr(external, "imdb_id"))
+        self.assertEqual(external.imdb_id, "tt0086250")
+        self.assertTrue(hasattr(external, "facebook_id"))
+        self.assertTrue(hasattr(external, "instagram_id"))
+        self.assertTrue(hasattr(external, "twitter_id"))
 
     def test_get_movie_images(self):
-        images = self.movie.images(111, include_image_language="en,null")
-        self.assertEqual(images.id, 111)
+        images = self.movie.images(self.test_movie_id, include_image_language="en,null")
+        self.assertTrue(hasattr(images, "id"))
+        self.assertEqual(images.id, self.test_movie_id)
         self.assertGreater(len(images.backdrops), 0)
         self.assertGreater(len(images.posters), 0)
+        self.assertGreater(len(images.logos), 0)
         for image in images.backdrops:
-            self.assertIn("file_path", image)
+            self.assertTrue(hasattr(image, "file_path"))
         for image in images.posters:
-            self.assertIn("file_path", image)
+            self.assertTrue(hasattr(image, "file_path"))
+        for image in images.logos:
+            self.assertTrue(hasattr(image, "file_path"))
 
     def test_get_movie_keywords(self):
-        for keyword in self.movie.keywords(111):
+        keywords = self.movie.keywords(self.test_movie_id)
+        self.assertGreater(len(keywords.keywords), 0)
+        for keyword in keywords:
             self.assertIn("id", keyword)
             self.assertIn("name", keyword)
 
     def test_get_movie_lists(self):
-        lists = self.movie.lists(111)
-        self.assertGreater(len(lists), 0)
+        lists = self.movie.lists(self.test_movie_id)
+        self.assertTrue(hasattr(lists, "page"))
+        self.assertTrue(hasattr(lists, "total_pages"))
+        self.assertTrue(hasattr(lists, "total_results"))
+        self.assertTrue(hasattr(lists, "results"))
+        self.assertGreater(len(lists.results), 0)
         for list in lists:
+            self.assertTrue(hasattr(list, "id"))
             self.assertTrue(hasattr(list, "description"))
             self.assertTrue(hasattr(list, "name"))
 
     def test_get_movie_recommendations(self):
-        recommendations = self.movie.recommendations(111)
+        recommendations = self.movie.recommendations(self.test_movie_id)
         self.assertGreater(len(recommendations), 0)
         for movie in recommendations:
             self.assertTrue(hasattr(movie, "id"))
 
     def test_get_movie_release_dates(self):
-        for release_date in self.movie.release_dates(111):
+        for release_date in self.movie.release_dates(self.test_movie_id):
             self.assertIn("iso_3166_1", release_date)
             self.assertIn("release_dates", release_date)
 
     def test_get_movie_reviews(self):
-        reviews = self.movie.reviews(111)
+        reviews = self.movie.reviews(self.test_movie_id)
         self.assertGreater(len(reviews), 0)
         for review in reviews:
             self.assertTrue(hasattr(review, "id"))
             self.assertTrue(hasattr(review, "content"))
 
     def test_get_movie_videos(self):
-        videos = self.movie.videos(111)
+        videos = self.movie.videos(self.test_movie_id)
         self.assertGreater(len(videos), 0)
         for video in videos:
             self.assertTrue(hasattr(video, "id"))
@@ -144,7 +162,7 @@ class MovieTests(unittest.TestCase):
             self.assertTrue(hasattr(movie, "id"))
 
     def test_get_movie_similar(self):
-        similar = self.movie.similar(111)
+        similar = self.movie.similar(self.test_movie_id)
         self.assertGreater(len(similar), 0)
         for movie in similar:
             self.assertTrue(hasattr(movie, "id"))

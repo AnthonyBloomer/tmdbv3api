@@ -15,17 +15,18 @@ class CollectionTests(unittest.TestCase):
         self.tmdb.wait_on_rate_limit = True
         self.tmdb.cache = False
         self.collection = Collection()
+        self.test_collection_id = 10
          
     def test_get_collection_details(self):
-        details = self.collection.details(10)
+        details = self.collection.details(self.test_collection_id)
         self.assertTrue(hasattr(details, "id"))
-        self.assertEqual(details.id, 10)
+        self.assertEqual(details.id, self.test_collection_id)
         self.assertTrue(hasattr(details, "name"))
         self.assertTrue(hasattr(details, "overview"))
         self.assertTrue(hasattr(details, "poster_path"))
         self.assertTrue(hasattr(details, "backdrop_path"))
         self.assertTrue(hasattr(details, "parts"))
-        self.assertGreater(len(details), 0)
+        self.assertGreater(len(details.parts), 0)
         for movie in details:
             self.assertIn("adult", movie)
             self.assertIn("backdrop_path", movie)
@@ -44,8 +45,8 @@ class CollectionTests(unittest.TestCase):
             self.assertIn("vote_count", movie)
 
     def test_get_collection_images(self):
-        images = self.collection.images(10)
-        self.assertEqual(images.id, 10)
+        images = self.collection.images(self.test_collection_id)
+        self.assertEqual(images.id, self.test_collection_id)
         self.assertTrue(hasattr(images, "backdrops"))
         self.assertTrue(hasattr(images, "posters"))
         self.assertGreater(len(images.backdrops), 0)
@@ -68,9 +69,9 @@ class CollectionTests(unittest.TestCase):
             self.assertIn("width", image)
     
     def test_get_collection_translations(self):
-        translations = self.collection.translations(10)
-        self.assertEqual(translations.id, 10)
-        self.assertGreater(len(translations), 0)
+        translations = self.collection.translations(self.test_collection_id)
+        self.assertEqual(translations.id, self.test_collection_id)
+        self.assertGreater(len(translations.translations), 0)
         for translation in translations:
             self.assertTrue(hasattr(translation, "iso_3166_1"))
             self.assertTrue(hasattr(translation, "iso_639_1"))
