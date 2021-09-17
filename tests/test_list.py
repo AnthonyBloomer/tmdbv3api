@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
+import util
 
-from tmdbv3api import TMDb, List
+from tmdbv3api import List
 from tmdbv3api.exceptions import TMDbException
 
 
 class ListTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['TMDB_API_KEY']
-        self.tmdb.language = "en"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = util.setup()
         self.list = List()
         self.test_list_id = 112870
         self.test_movie_id = 540111
@@ -22,11 +17,9 @@ class ListTests(unittest.TestCase):
 
     def test_get_list_details(self):
         details = self.list.details(self.test_list_id)
+        util.assertAttrs(self, details, util.list_attributes + ["created_by", "items"])
         self.assertEqual(details.id, str(self.test_list_id))
-        self.assertTrue(hasattr(details, "items"))
-        self.assertGreater(len(details.items), 10)
-        self.assertTrue(hasattr(details[0], "id"))
-        self.assertTrue(hasattr(details[0], "title"))
+        util.assertListAttrs(self, details, "items", util.movie_attributes)
 
     def test_get_list_check_item_status(self):
         self.list.check_item_status(self.test_list_id, self.test_movie_id)

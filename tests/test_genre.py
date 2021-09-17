@@ -1,27 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
+import util
 
-from tmdbv3api import TMDb, Genre
+from tmdbv3api import Genre
 
 
 class GenreTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['TMDB_API_KEY']
-        self.tmdb.language = "en"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = util.setup()
         self.genre = Genre()
 
     def test_get_genre_movie_list(self):
         movie_genres = self.genre.movie_list()
-        self.assertGreater(len(movie_genres.genres), 0)
-        self.assertIn("id", movie_genres[0])
+        util.assertListAttrs(self, movie_genres, "genres", ["id", "name"])
 
     def test_get_genre_tv_list(self):
         tv_genres = self.genre.tv_list()
-        self.assertGreater(len(tv_genres.genres), 0)
-        self.assertIn("id", tv_genres[0])
+        util.assertListAttrs(self, tv_genres, "genres", ["id", "name"])

@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
+import util
 
-from tmdbv3api import TMDb, Movie
+from tmdbv3api import Movie
 
 
 class MovieTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ["TMDB_API_KEY"]
-        self.tmdb.language = "en"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = util.setup()
         self.movie = Movie()
         self.test_movie_id = 111
 

@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import assert_helper
+import util
 
 from tmdbv3api import Change
 
 
 class ChangesTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = assert_helper.setup()
+        self.tmdb = util.setup()
         self.change = Change()
 
+    def assert_changes(self, changes):
+        util.assertAttrs(self, changes, util.pagination_attributes)
+        util.assertAttrs(self, changes[0], ["id", "adult"])
+
     def test_get_changes_movie_changes(self):
-        assert_helper.assert_pagination(self, self.change.movie_change_list())
+        self.assert_changes(self.change.movie_change_list())
 
     def test_get_changes_tv_changes(self):
-        assert_helper.assert_pagination(self, self.change.tv_change_list())
+        self.assert_changes(self.change.tv_change_list())
 
     def test_get_changes_person_changes(self):
-        assert_helper.assert_pagination(self, self.change.person_change_list())
+        self.assert_changes(self.change.person_change_list())

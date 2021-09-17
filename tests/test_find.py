@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
+import util
 
-from tmdbv3api import TMDb, Find
+from tmdbv3api import Find
 
 
 class FindTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ["TMDB_API_KEY"]
-        self.tmdb.language = "en"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = util.setup()
         self.find = Find()
         
     def test_find_by_imdb_id(self):
