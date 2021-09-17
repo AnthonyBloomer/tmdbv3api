@@ -16,7 +16,7 @@ class CollectionTests(unittest.TestCase):
         details = self.collection.details(self.test_collection_id)
         util.assertAttrs(self, details, ["id", "name", "overview", "poster_path", "backdrop_path", "parts"])
         self.assertEqual(details.id, self.test_collection_id)
-        util.assertListAttrs(self, details, "parts", util.movie_attributes)
+        util.assertListAttrs(self, details, "parts", util.movie_attributes + ["genre_ids"])
 
     def test_get_collection_images(self):
         images = self.collection.images(self.test_collection_id)
@@ -25,9 +25,9 @@ class CollectionTests(unittest.TestCase):
         self.assertGreater(len(images.backdrops), 0)
         self.assertGreater(len(images.posters), 0)
         for image in images.backdrops:
-            util.assertAttrs(self, image, util.image_attributes)
+            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
         for image in images.posters:
-            util.assertAttrs(self, image, util.image_attributes)
+            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
     
     def test_get_collection_translations(self):
         translations = self.collection.translations(self.test_collection_id)

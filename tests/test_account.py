@@ -37,7 +37,7 @@ class CertificationTests(unittest.TestCase):
 
         movies = self.account.favorite_movies()
         util.assertAttrs(self, movies, util.pagination_attributes)
-        util.assertListAttrs(self, movies, "results", util.movie_attributes)
+        util.assertListAttrs(self, movies, "results", util.movie_attributes + ["genre_ids"])
 
         self.account.unmark_as_favorite(self.test_movie_id, "movie")
         states = self.movie.account_states(self.test_movie_id)
@@ -65,7 +65,7 @@ class CertificationTests(unittest.TestCase):
 
         rated = self.account.rated_movies()
         util.assertAttrs(self, rated, util.pagination_attributes)
-        util.assertListAttrs(self, rated, "results", util.movie_attributes + ["rating"])
+        util.assertListAttrs(self, rated, "results", util.movie_attributes + ["rating", "genre_ids"])
 
         self.movie.delete_rating(self.test_movie_id)
         time.sleep(2)
@@ -97,7 +97,7 @@ class CertificationTests(unittest.TestCase):
 
         rated = self.account.rated_episodes()
         util.assertAttrs(self, rated, util.pagination_attributes)
-        util.assertListAttrs(self, rated, "results", util.episode_attributes + ["rating"])
+        util.assertListAttrs(self, rated, "results", util.episode_attributes + ["show_id", "rating"])
 
         self.episode.delete_rating(self.test_show_id, self.test_season, self.test_episode)
         time.sleep(2)
@@ -111,7 +111,7 @@ class CertificationTests(unittest.TestCase):
 
         watchlist = self.account.movie_watchlist()
         util.assertAttrs(self, watchlist, util.pagination_attributes)
-        util.assertListAttrs(self, watchlist, "results", util.movie_attributes)
+        util.assertListAttrs(self, watchlist, "results", util.movie_attributes + ["genre_ids"])
 
         self.account.remove_from_watchlist(self.test_movie_id, "movie")
         states = self.movie.account_states(self.test_movie_id)

@@ -33,4 +33,4 @@ class CompanyTests(unittest.TestCase):
     def test_get_company_movies(self):
         movies = self.company.movies(self.test_company_id)
         util.assertAttrs(self, movies, util.pagination_attributes)
-        util.assertListAttrs(self, movies, "results", util.movie_attributes)
+        util.assertListAttrs(self, movies, "results", util.movie_attributes + ["genre_ids"])

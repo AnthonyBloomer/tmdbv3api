@@ -42,7 +42,7 @@ class EpisodeTests(unittest.TestCase):
         images = self.episode.images(self.test_show_id, self.test_season, self.test_episode)
         util.assertAttrs(self, images, ["id", "stills"])
         self.assertEqual(images.id, self.test_episode_id)
-        util.assertListAttrs(self, images, "stills", util.image_attributes)
+        util.assertListAttrs(self, images, "stills", util.image_attributes + ["iso_639_1"])
 
     def test_get_episode_translations(self):
         translations = self.episode.translations(self.test_show_id, self.test_season, self.test_episode)

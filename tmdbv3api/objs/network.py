@@ -5,7 +5,7 @@ class Network(TMDb):
     _urls = {
         "details": "/network/%s",
         "alternative_names": "/network/%s/alternative_names",
-        "images": "/network/%s"
+        "images": "/network/%s/images"
     }
 
     def details(self, network_id):

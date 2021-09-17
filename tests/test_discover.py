@@ -20,7 +20,7 @@ class DiscoverTests(unittest.TestCase):
         })
         util.assertAttrs(self, discover, util.pagination_attributes)
         self.assertGreater(len(discover.results), 0)
-        util.assertAttrs(self, discover[0], util.movie_attributes)
+        util.assertAttrs(self, discover[0], util.movie_attributes + ["genre_ids"])
         self.assertGreaterEqual(discover[0].vote_average, 8)
         self.assertIn(28, discover[0].genre_ids)
 

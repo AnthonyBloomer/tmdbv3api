@@ -19,4 +19,7 @@ class GroupTests(unittest.TestCase):
         ])
         self.assertEqual(details.id, self.test_group_id)
         util.assertAttrs(self, details.network, ["id", "logo_path", "name", "origin_country"])
-        util.assertListAttrs(self, details, "groups", ["id", "name", "order", "episodes", "locked"])
+        self.assertTrue(hasattr(details, "groups"))
+        self.assertGreater(len(details.groups), 0)
+        for group in details.groups:
+            util.assertAttrs(self, group, ["id", "name", "order", "episodes", "locked"])

@@ -19,7 +19,7 @@ class ListTests(unittest.TestCase):
         details = self.list.details(self.test_list_id)
         util.assertAttrs(self, details, util.list_attributes + ["created_by", "items"])
         self.assertEqual(details.id, str(self.test_list_id))
-        util.assertListAttrs(self, details, "items", util.movie_attributes)
+        util.assertListAttrs(self, details, "items", util.movie_attributes + ["genre_ids"])
 
     def test_get_list_check_item_status(self):
         self.list.check_item_status(self.test_list_id, self.test_movie_id)
