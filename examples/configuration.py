@@ -5,7 +5,7 @@ tmdb.api_key = ""
 
 configuration = Configuration()
 
-info = configuration.info()
+info = configuration.api_configuration()
 
 print('Change keys: ' + ', '.join(info.change_keys))
 print('Base url: ' + info.images["base_url"])

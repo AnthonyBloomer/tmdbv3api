@@ -14,9 +14,9 @@ print(details.id)
 print(details.name)
 print(details.overview)
 print(details.poster_path)
-for part in details.parts:
-    print(part["id"])
-    print(part["title"])
+for item in details:
+    print(item["id"])
+    print(item["title"])
 
 # Get collection images 
 # If tmdb.language is 'en-US' will not work. Set tmdb.language to 'en'
