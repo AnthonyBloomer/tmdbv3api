@@ -258,14 +258,35 @@ Login to your account and add some movie recommendations to your TMDb watchlist.
 Running Tests
 ~~~~~~~~~~~~~
 
-You can run the tests via the command line. You must export your TMDb
-API key as an environment variable. From the command line run:
+You can run the tests via the command line. You must export your TMDb API key and Session ID  as an environment variables.
+
+Your Session ID can be obtained by running ``Authentication(username, password).session_id``
+
+Mac
+++++++++++++++++++++++++
 
 .. code:: bash
 
     $ export TMDB_API_KEY='YOUR_API_KEY'
+    $ export TMDB_SESSION_ID='YOUR_SESSION_ID'
 
-Then run:
+Windows (Command Prompt)
+++++++++++++++++++++++++
+
+.. code:: bash
+
+    $ setx TMDB_API_KEY "YOUR_API_KEY"
+    $ setx TMDB_SESSION_ID "YOUR_SESSION_ID"
+
+Windows (PowerShell)
+++++++++++++++++++++++++
+
+.. code:: bash
+
+    $ $Env:TMDB_API_KEY="YOUR_API_KEY"
+    $ $Env:TMDB_SESSION_ID="YOUR_SESSION_ID"
+
+After you've set up your environmental variables then run:
 
 .. code:: bash
 
