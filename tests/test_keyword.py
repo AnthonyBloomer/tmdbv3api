@@ -14,13 +14,11 @@ class KeywordTests(unittest.TestCase):
 
     def test_get_keyword_details(self):
         details = self.keyword.details(self.test_keyword_id)
+        util.assertAttrs(self, details, ["id", "name"])
         self.assertEqual(details.id, self.test_keyword_id)
-        self.assertTrue(hasattr(details, "name"))
 
     def test_get_keyword_movies(self):
         movies = self.keyword.movies(self.test_keyword_id)
+        util.assertAttrs(self, movies, util.pagination_attributes)
         self.assertEqual(movies.id, self.test_keyword_id)
-        self.assertGreater(len(movies.results), 0)
-        for movie in movies:
-            self.assertTrue(hasattr(movie, "title"))
-            self.assertTrue(hasattr(movie, "overview"))
+        util.assertListAttrs(self, movies, "results", util.movie_attributes + ["genre_ids"])

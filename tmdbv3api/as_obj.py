@@ -10,8 +10,6 @@ class AsObj:
         self._dict_key = dict_key
         self._dict_key_name = dict_key_name
         self._obj_list = []
-        if "success" in self._json and self._json["success"] is False:
-            raise TMDbException(self._json["status_message"])
         self._list_only = False
         if isinstance(self._json, list):
             self._obj_list = [AsObj(o) if isinstance(o, (dict, list)) else o for o in self._json]

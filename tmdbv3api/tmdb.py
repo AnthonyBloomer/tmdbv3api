@@ -122,12 +122,6 @@ class TMDb(object):
         return self.cached_request.cache_clear()
 
     def _request_obj(self, action, params="", call_cached=True, method="GET", data=None, json=None, key=None):
-        return AsObj(
-            self._request(action, params=params, call_cached=call_cached, method=method, data=data, json=json),
-            key=key
-        )
-
-    def _request(self, action, params="", call_cached=True, method="GET", data=None, json=None):
         if self.api_key is None or self.api_key == "":
             raise TMDbException("No API key found.")
 
@@ -159,7 +153,7 @@ class TMDb(object):
             if self.wait_on_rate_limit:
                 logger.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(abs(sleep_time))
-                return self._request(action, params, call_cached, method, data, json)
+                return self._request_obj(action, params, call_cached, method, data, json, key)
             else:
                 raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
@@ -181,4 +175,7 @@ class TMDb(object):
         if "errors" in json:
             raise TMDbException(json["errors"])
 
-        return json
+        if "success" in json and json["success"] is False:
+            raise TMDbException(json["status_message"])
+
+        return AsObj(json, key=key)

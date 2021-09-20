@@ -22,12 +22,8 @@ class CollectionTests(unittest.TestCase):
         images = self.collection.images(self.test_collection_id)
         util.assertAttrs(self, images, ["id", "backdrops", "posters"])
         self.assertEqual(images.id, self.test_collection_id)
-        self.assertGreater(len(images.backdrops), 0)
-        self.assertGreater(len(images.posters), 0)
-        for image in images.backdrops:
-            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
-        for image in images.posters:
-            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
+        util.assertListAttrs(self, images, "backdrops", util.image_attributes + ["iso_639_1"])
+        util.assertListAttrs(self, images, "posters", util.image_attributes + ["iso_639_1"])
     
     def test_get_collection_translations(self):
         translations = self.collection.translations(self.test_collection_id)

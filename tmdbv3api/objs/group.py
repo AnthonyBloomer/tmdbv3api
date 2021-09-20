@@ -12,4 +12,4 @@ class Group(TMDb):
         :param group_id: int
         :return:
         """
-        return self._request_obj(self._urls["details"] % group_id)
+        return self._request_obj(self._urls["details"] % group_id, key="groups")

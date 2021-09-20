@@ -1,52 +1,38 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
+import util
 
-from tmdbv3api import TMDb, Search
+from tmdbv3api import Search
 
 
 class SearchTests(unittest.TestCase):
     def setUp(self):
-        self.tmdb = TMDb()
-        self.tmdb.api_key = os.environ['TMDB_API_KEY']
-        self.tmdb.language = "en"
-        self.tmdb.debug = True
-        self.tmdb.wait_on_rate_limit = True
-        self.tmdb.cache = False
+        self.tmdb = util.setup()
         self.search = Search()
 
+    def assert_search(self, search):
+        util.assertAttrs(self, search, util.pagination_attributes)
+        self.assertGreater(len(search.results), 0)
+        self.assertTrue(hasattr(search.results[0], "id"))
+
     def test_get_search_companies(self):
-        search = self.search.companies("Sony")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.companies("Sony"))
 
     def test_get_search_collections(self):
-        search = self.search.collections("Matrix")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.collections("Matrix"))
 
     def test_get_search_keywords(self):
-        search = self.search.keywords("alien")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.keywords("alien"))
 
     def test_get_search_movies(self):
-        search = self.search.movies("Matrix", year=1999)
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.movies("Matrix", year=1999))
 
     def test_get_search_multi(self):
-        search = self.search.multi("Will")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.multi("Will"))
 
     def test_get_search_people(self):
-        search = self.search.people("Will Smith")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.people("Will Smith"))
 
     def test_get_search_tv_shows(self):
-        search = self.search.tv_shows("Breaking Bad")
-        self.assertGreater(len(search), 0)
-        self.assertTrue(hasattr(search[0], "id"))
+        self.assert_search(self.search.tv_shows("Breaking Bad"))

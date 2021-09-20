@@ -19,6 +19,8 @@ class MovieTests(unittest.TestCase):
 
     def test_get_movie_alternative_titles(self):
         alternative_titles = self.movie.alternative_titles(self.test_movie_id)
+        util.assertAttrs(self, alternative_titles, ["id"])
+        self.assertEqual(alternative_titles.id, self.test_movie_id)
         util.assertListAttrs(self, alternative_titles, "titles", util.alt_titles_attributes)
 
     def asset_changes(self, changes):
@@ -42,18 +44,12 @@ class MovieTests(unittest.TestCase):
         self.assertEqual(external.imdb_id, "tt0086250")
 
     def test_get_movie_images(self):
-        images = self.movie.images(self.test_movie_id, include_image_language="en,null")
-        util.assertAttrs(self, images, ["id", "backdrops", "posters", "logos"])
+        images = self.movie.images(self.test_movie_id)
+        util.assertAttrs(self, images, ["id"])
         self.assertEqual(images.id, self.test_movie_id)
-        self.assertGreater(len(images.backdrops), 0)
-        self.assertGreater(len(images.posters), 0)
-        self.assertGreater(len(images.logos), 0)
-        for image in images.backdrops:
-            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
-        for image in images.posters:
-            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
-        for image in images.logos:
-            util.assertAttrs(self, image, util.image_attributes + ["iso_639_1"])
+        util.assertListAttrs(self, images, "backdrops", util.image_attributes + ["iso_639_1"])
+        util.assertListAttrs(self, images, "posters", util.image_attributes + ["iso_639_1"])
+        util.assertListAttrs(self, images, "logos", util.image_attributes + ["iso_639_1"])
 
     def test_get_movie_keywords(self):
         keywords = self.movie.keywords(self.test_movie_id)
@@ -90,6 +86,7 @@ class MovieTests(unittest.TestCase):
     def test_get_movie_translations(self):
         translations = self.movie.translations(self.test_movie_id)
         util.assertAttrs(self, translations, ["id", "translations"])
+        self.assertEqual(translations.id, self.test_movie_id)
         util.assertListAttrs(self, translations, "translations", util.translation_attributes)
 
     def test_get_movie_videos(self):

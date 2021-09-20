@@ -14,12 +14,7 @@ class GroupTests(unittest.TestCase):
 
     def test_get_group_details(self):
         details = self.group.details(self.test_group_id)
-        util.assertAttrs(self, details, [
-            "id", "description", "episode_count", "group_count", "groups", "name", "network", "type"
-        ])
+        util.assertAttrs(self, details, util.episode_group_attributes)
         self.assertEqual(details.id, self.test_group_id)
         util.assertAttrs(self, details.network, ["id", "logo_path", "name", "origin_country"])
-        self.assertTrue(hasattr(details, "groups"))
-        self.assertGreater(len(details.groups), 0)
-        for group in details.groups:
-            util.assertAttrs(self, group, ["id", "name", "order", "episodes", "locked"])
+        util.assertListAttrs(self, details, "groups", ["id", "name", "order", "episodes", "locked"])

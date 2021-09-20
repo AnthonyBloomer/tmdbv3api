@@ -21,21 +21,15 @@ class ConfigurationTests(unittest.TestCase):
 
     def test_configuration_countries(self):
         countries = self.configuration.countries()
-        self.assertGreater(len(countries), 0)
-        for country in countries:
-            util.assertAttrs(self, country, ["iso_3166_1", "english_name"])
+        util.assertListAttrs(self, countries, None, ["iso_3166_1", "english_name"])
 
     def test_configuration_jobs(self):
         jobs = self.configuration.jobs()
-        self.assertGreater(len(jobs), 0)
-        for job in jobs:
-            util.assertAttrs(self, job, ["department", "jobs"])
+        util.assertListAttrs(self, jobs, None, ["department", "jobs"])
 
     def test_configuration_languages(self):
         languages = self.configuration.languages()
-        self.assertGreater(len(languages), 0)
-        for language in languages:
-            util.assertAttrs(self, language, ["iso_639_1", "english_name", "name"])
+        util.assertListAttrs(self, languages, None, ["iso_639_1", "english_name", "name"])
 
     def test_configuration_primary_translations(self):
         primary_translations = self.configuration.primary_translations()
@@ -44,6 +38,4 @@ class ConfigurationTests(unittest.TestCase):
     
     def test_configuration_timezones(self):
         timezones = self.configuration.timezones()
-        self.assertGreater(len(timezones), 0)
-        for timezone in timezones:
-            util.assertAttrs(self, timezone, ["iso_3166_1", "zones"])
+        util.assertListAttrs(self, timezones, None, ["iso_3166_1", "zones"])
