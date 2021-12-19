@@ -74,3 +74,8 @@ class TvTests(unittest.TestCase):
         top_rated = self.tv.top_rated()
         self.assertGreater(len(top_rated), 0)
         self.assertTrue(hasattr(top_rated[0], "id"))
+
+    def test_get_watch_providers(self):
+        watch_providers = self.tv.watch_providers(1396)
+        self.assertTrue(hasattr(watch_providers, "id"))
+        self.assertTrue(hasattr(watch_providers, "results"))
