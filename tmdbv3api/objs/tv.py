@@ -23,6 +23,7 @@ class TV(TMDb):
         "external_ids": "/tv/%s/external_ids",
         "reviews": "/tv/%s/reviews",
         "keywords": "/tv/%s/keywords",
+        "watch_providers": "/tv/%s/watch/providers",
     }
 
     def details(
@@ -167,3 +168,11 @@ class TV(TMDb):
         return self._get_obj(
             self._call(self._urls["reviews"] % tv_id, "page=" + str(page))
         )
+
+    def watch_providers(self, tv_id):
+        """
+        Get the Watch Providers for a TV show.
+        :param movie_id:
+        :return:
+        """
+        return AsObj(**self._call(self._urls["watch_providers"] % tv_id, ""))

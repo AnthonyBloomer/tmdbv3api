@@ -158,3 +158,8 @@ class MovieTests(unittest.TestCase):
             self.assertIn("id", movie)
             external_ids = self.movie.external_ids(movie["id"])
             self.assertEqual(external_ids["imdb_id"], "tt8155288")
+
+    def test_get_watch_providers(self):
+        watch_providers = self.movie.watch_providers(111)
+        self.assertTrue(hasattr(watch_providers, "id"))
+        self.assertTrue(hasattr(watch_providers, 'results'))
