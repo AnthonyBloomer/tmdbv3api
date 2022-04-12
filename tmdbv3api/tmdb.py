@@ -24,6 +24,7 @@ class TMDb(object):
     TMDB_WAIT_ON_RATE_LIMIT = "TMDB_WAIT_ON_RATE_LIMIT"
     TMDB_DEBUG_ENABLED = "TMDB_DEBUG_ENABLED"
     TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
+    TMDB_PROXIES = "TMDB_PROXIES"
     REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self, obj_cached=True, session=None):
@@ -50,6 +51,18 @@ class TMDb(object):
     @property
     def api_key(self):
         return os.environ.get(self.TMDB_API_KEY)
+    
+    @property
+    def proxies(self):
+        proxy = os.environ.get(self.TMDB_PROXIES)
+        if not proxy is None:
+            proxy = eval(proxy)
+        return proxy
+
+    @proxies.setter
+    def proxies(self, proxies):
+        if not proxies is None:
+            os.environ[self.TMDB_PROXIES] = str(proxies)
 
     @api_key.setter
     def api_key(self, api_key):
@@ -107,8 +120,8 @@ class TMDb(object):
 
     @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
-    def cached_request(method, url, data):
-        return requests.request(method, url, data=data)
+    def cached_request(method, url, data, self):
+        return requests.request(method, url, data=data, proxies=self.proxies)
 
     def cache_clear(self):
         return self.cached_request.cache_clear()
@@ -128,9 +141,9 @@ class TMDb(object):
         )
 
         if self.cache and self.obj_cached and call_cached and method != "POST":
-            req = self.cached_request(method, url, data)
+            req = self.cached_request(method, url, data, self)
         else:
-            req = self._session.request(method, url, data=data)
+            req = self._session.request(method, url, data=data,proxies=self.proxies)
 
         headers = req.headers
 
