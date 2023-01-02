@@ -213,17 +213,20 @@ class Movie(TMDb):
         """
         return self._get_obj(self._call(self._urls["popular"], "page=" + str(page)))
 
-    def search(self, term, page=1):
+    def search(self, term, page=1, adult=False, year=None):
         """
         Search for movies.
         :param term:
         :param page:
+        :param adult:
+        :param year:
         :return:
         """
+        adultRes = "true" if adult else "false"
         return self._get_obj(
             self._call(
                 self._urls["search_movie"],
-                "query=" + quote(term) + "&page=" + str(page),
+                f"query={quote(term)}&page={str(page)}&include_adult={adultRes}&year={year}",
             )
         )
 
