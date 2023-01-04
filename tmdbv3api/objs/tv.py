@@ -49,16 +49,18 @@ class TV(TMDb):
         """
         return AsObj(**self._call(self._urls["latest"], ""))
 
-    def search(self, term, page=1):
+    def search(self, term, page=1, adult=False):
         """
         Search for a TV show.
         :param term:
         :param page:
+        :param adult:
         :return:
         """
+        adultRes = "true" if adult else "false"
         return self._get_obj(
             self._call(
-                self._urls["search_tv"], "query=" + quote(term) + "&page=" + str(page)
+                self._urls["search_tv"], f"query={quote(term)}&page={str(page)}&include_adult={adultRes}"
             )
         )
 
