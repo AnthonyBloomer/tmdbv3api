@@ -1,6 +1,6 @@
 from tmdbv3api import Account
 from tmdbv3api import Authentication
-from tmdbv3api import TMDb, Movie
+from tmdbv3api import TMDb, Search, Movie
 
 USERNAME = "YOUR_USERNAME"
 PASSWORD = "YOUR_PASSWORD"
@@ -18,9 +18,10 @@ print(
 )
 print("This session expires at: %s" % auth.expires_at)
 
+search = Search()
 movie = Movie()
 
-s = movie.search("Gangs of New York")
+s = search.movies("Gangs of New York")
 first_result = s[0]
 recommendations = movie.recommendations(first_result.id)
 

@@ -19,8 +19,10 @@ logger = logging.getLogger(__name__)
 
 
 class TMDb(object):
+    _session = None
     TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_LANGUAGE = "TMDB_LANGUAGE"
+    TMDB_SESSION_ID = "TMDB_SESSION_ID"
     TMDB_WAIT_ON_RATE_LIMIT = "TMDB_WAIT_ON_RATE_LIMIT"
     TMDB_DEBUG_ENABLED = "TMDB_DEBUG_ENABLED"
     TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
@@ -28,7 +30,8 @@ class TMDb(object):
     REQUEST_CACHE_MAXSIZE = None
 
     def __init__(self, obj_cached=True, session=None):
-        self._session = requests.Session() if session is None else session
+        if self.__class__._session is None or session is not None:
+            self.__class__._session = requests.Session() if session is None else session
         self._base = "https://api.themoviedb.org/3"
         self._remaining = 40
         self._reset = None
@@ -55,13 +58,13 @@ class TMDb(object):
     @property
     def proxies(self):
         proxy = os.environ.get(self.TMDB_PROXIES)
-        if not proxy is None:
+        if proxy is not None:
             proxy = eval(proxy)
         return proxy
 
     @proxies.setter
     def proxies(self, proxies):
-        if not proxies is None:
+        if proxies is not None:
             os.environ[self.TMDB_PROXIES] = str(proxies)
 
     @api_key.setter
@@ -75,6 +78,20 @@ class TMDb(object):
     @language.setter
     def language(self, language):
         os.environ[self.TMDB_LANGUAGE] = language
+
+    @property
+    def has_session(self):
+        return True if os.environ.get(self.TMDB_SESSION_ID) else False
+
+    @property
+    def session_id(self):
+        if not os.environ.get(self.TMDB_SESSION_ID):
+            raise TMDbException("Must Authenticate to create a session run Authentication(username, password)")
+        return os.environ.get(self.TMDB_SESSION_ID)
+
+    @session_id.setter
+    def session_id(self, session_id):
+        os.environ[self.TMDB_SESSION_ID] = session_id
 
     @property
     def wait_on_rate_limit(self):
@@ -110,25 +127,14 @@ class TMDb(object):
         os.environ[self.TMDB_CACHE_ENABLED] = str(cache)
 
     @staticmethod
-    def _get_obj(result, key="results", all_details=False):
-        if "success" in result and result["success"] is False:
-            raise TMDbException(result["status_message"])
-        if all_details is True or key is None:
-            return AsObj(**result)
-        else:
-            return [AsObj(**res) for res in result[key]]
-
-    @staticmethod
     @lru_cache(maxsize=REQUEST_CACHE_MAXSIZE)
-    def cached_request(method, url, data, self):
-        return requests.request(method, url, data=data, proxies=self.proxies)
+    def cached_request(method, url, data, json, proxies):
+        return requests.request(method, url, data=data, json=json, proxies=proxies)
 
     def cache_clear(self):
         return self.cached_request.cache_clear()
 
-    def _call(
-        self, action, append_to_response, call_cached=True, method="GET", data=None
-    ):
+    def _request_obj(self, action, params="", call_cached=True, method="GET", data=None, json=None, key=None):
         if self.api_key is None or self.api_key == "":
             raise TMDbException("No API key found.")
 
@@ -136,14 +142,14 @@ class TMDb(object):
             self._base,
             action,
             self.api_key,
-            append_to_response,
+            params,
             self.language,
         )
 
         if self.cache and self.obj_cached and call_cached and method != "POST":
-            req = self.cached_request(method, url, data, self)
+            req = self.cached_request(method, url, data, json, self.proxies)
         else:
-            req = self._session.request(method, url, data=data,proxies=self.proxies)
+            req = self.__class__._session.request(method, url, data=data, json=json, proxies=self.proxies)
 
         headers = req.headers
 
@@ -160,11 +166,9 @@ class TMDb(object):
             if self.wait_on_rate_limit:
                 logger.warning("Rate limit reached. Sleeping for: %d" % sleep_time)
                 time.sleep(abs(sleep_time))
-                self._call(action, append_to_response, call_cached, method, data)
+                return self._request_obj(action, params, call_cached, method, data, json, key)
             else:
-                raise TMDbException(
-                    "Rate limit reached. Try again in %d seconds." % sleep_time
-                )
+                raise TMDbException("Rate limit reached. Try again in %d seconds." % sleep_time)
 
         json = req.json()
 
@@ -184,4 +188,7 @@ class TMDb(object):
         if "errors" in json:
             raise TMDbException(json["errors"])
 
-        return json
+        if "success" in json and json["success"] is False:
+            raise TMDbException(json["status_message"])
+
+        return AsObj(json, key=key)

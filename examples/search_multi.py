@@ -6,7 +6,7 @@ tmdb.api_key = ""
 
 search = Search()
 
-results = search.multi({"query": "Will", "page": 1})
+results = search.multi("Will")
 
 for result in results:
     print(result.media_type)

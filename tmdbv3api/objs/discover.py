@@ -7,21 +7,24 @@ except ImportError:
 
 
 class Discover(TMDb):
-    _urls = {"movies": "/discover/movie", "tv": "/discover/tv"}
+    _urls = {
+        "movies": "/discover/movie",
+        "tv": "/discover/tv"
+    }
 
     def discover_movies(self, params):
         """
         Discover movies by different types of data like average rating, number of votes, genres and certifications.
-        :param params:
+        :param params: dict
         :return:
         """
-        return self._get_obj(self._call(self._urls["movies"], urlencode(params)))
+        return self._request_obj(self._urls["movies"], urlencode(params), key="results")
 
     def discover_tv_shows(self, params):
         """
         Discover TV shows by different types of data like average rating, number of votes, genres,
         the network they aired on and air dates.
-        :param params:
+        :param params: dict
         :return:
         """
-        return self._get_obj(self._call(self._urls["tv"], urlencode(params)))
+        return self._request_obj(self._urls["tv"], urlencode(params), key="results")

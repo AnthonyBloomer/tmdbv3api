@@ -1,5 +1,4 @@
 from tmdbv3api.tmdb import TMDb
-from tmdbv3api.as_obj import AsObj
 
 
 class Certification(TMDb):
@@ -9,7 +8,15 @@ class Certification(TMDb):
     }
 
     def movie_list(self):
-        return AsObj(**self._call(self._urls["movie_list"], ""))
+        """
+        Get an up to date list of the officially supported movie certifications on TMDB.
+        :return:
+        """
+        return self._request_obj(self._urls["movie_list"], key="certifications")
 
     def tv_list(self):
-        return AsObj(**self._call(self._urls["tv_list"], ""))
+        """
+        Get an up to date list of the officially supported TV show certifications on TMDB.
+        :return:
+        """
+        return self._request_obj(self._urls["tv_list"], key="certifications")

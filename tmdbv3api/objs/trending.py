@@ -2,16 +2,13 @@ from tmdbv3api.tmdb import TMDb
 
 
 class Trending(TMDb):
-    _urls = {
-        "all_day": "/trending/all/day",
-        "all_week": "/trending/all/week",
-        "movie_day": "/trending/movie/day",
-        "movie_week": "/trending/movie/week",
-        "tv_day": "/trending/tv/day",
-        "tv_week": "/trending/tv/week",
-        "person_day": "/trending/person/day",
-        "person_week": "/trending/person/week"
-    }
+    _urls = {"trending": "/trending/%s/%s"}
+
+    def _trending(self, media_type="all", time_window="day", page=1):
+        return self._request_obj(
+            self._urls["trending"] % (media_type, time_window),
+            params="page=%s" % page
+        )
 
     def all_day(self, page=1):
         """
@@ -19,7 +16,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["all_day"], "page={}".format(page)))
+        return self._trending(media_type="all", time_window="day", page=page)
 
     def all_week(self, page=1):
         """
@@ -27,7 +24,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["all_week"], "page={}".format(page)))
+        return self._trending(media_type="all", time_window="week", page=page)
 
     def movie_day(self, page=1):
         """
@@ -35,7 +32,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["movie_day"], "page={}".format(page)))
+        return self._trending(media_type="movie", time_window="day", page=page)
 
     def movie_week(self, page=1):
         """
@@ -43,7 +40,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["movie_week"], "page={}".format(page)))
+        return self._trending(media_type="movie", time_window="week", page=page)
 
     def tv_day(self, page=1):
         """
@@ -51,7 +48,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["tv_day"], "page={}".format(page)))
+        return self._trending(media_type="tv", time_window="day", page=page)
 
     def tv_week(self, page=1):
         """
@@ -59,7 +56,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["tv_week"], "page={}".format(page)))
+        return self._trending(media_type="tv", time_window="week", page=page)
 
     def person_day(self, page=1):
         """
@@ -67,7 +64,7 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["person_day"], "page={}".format(page)))
+        return self._trending(media_type="person", time_window="day", page=page)
 
     def person_week(self, page=1):
         """
@@ -75,4 +72,4 @@ class Trending(TMDb):
         :param page: int
         :return:
         """
-        return self._get_obj(self._call(self._urls["person_week"], "page={}".format(page)))
+        return self._trending(media_type="person", time_window="week", page=page)

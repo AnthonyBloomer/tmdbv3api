@@ -4,9 +4,9 @@ tmdb = TMDb()
 
 tmdb.api_key = ""
 
-tv = TV()
+search = Search()
 
-show = tv.search("Breaking Bad")
+show = search.tv_shows("Breaking Bad")
 
 for result in show:
     print(result.name)

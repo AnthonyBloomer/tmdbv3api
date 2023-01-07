@@ -1,7 +1,29 @@
 tmdbv3api
 =========
 
-|Build Status| |codecov|
+.. image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
+    :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
+    :alt: Build Status
+
+.. image:: https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/AnthonyBloomer/tmdbv3api
+    :alt: codecov
+
+.. image:: https://img.shields.io/github/v/release/AnthonyBloomer/tmdbv3api
+    :target: https://github.com/AnthonyBloomer/tmdbv3api/releases
+    :alt: GitHub release (latest by date)
+
+.. image:: https://img.shields.io/pypi/v/tmdbv3api
+    :target: https://pypi.org/project/tmdbv3api/
+    :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/dm/tmdbv3api.svg
+    :target: https://pypi.org/project/tmdbv3api/
+    :alt: Downloads
+
+.. image:: https://img.shields.io/github/commits-since/AnthonyBloomer/tmdbv3api/latest
+    :target: https://github.com/AnthonyBloomer/tmdbv3api/commits/master
+    :alt: GitHub commits since latest release (by date) for a branch
 
 A lightweight Python library for The Movie Database (TMDb) API. The TMDb API is a resource for developers to integrate movie, TV show and cast data along with posters or movie fan art. themoviedb.org is a free and community edited database.
 
@@ -236,21 +258,36 @@ Login to your account and add some movie recommendations to your TMDb watchlist.
 Running Tests
 ~~~~~~~~~~~~~
 
-You can run the tests via the command line. You must export your TMDb
-API key as an environment variable. From the command line run:
+You can run the tests via the command line. You must export your TMDb API key and Session ID  as an environment variables.
+
+Your Session ID can be obtained by running ``Authentication(username, password).session_id``
+
+Mac
+++++++++++++++++++++++++
 
 .. code:: bash
 
     $ export TMDB_API_KEY='YOUR_API_KEY'
+    $ export TMDB_SESSION_ID='YOUR_SESSION_ID'
 
-Then run:
+Windows (Command Prompt)
+++++++++++++++++++++++++
+
+.. code:: bash
+
+    $ setx TMDB_API_KEY "YOUR_API_KEY"
+    $ setx TMDB_SESSION_ID "YOUR_SESSION_ID"
+
+Windows (PowerShell)
+++++++++++++++++++++++++
+
+.. code:: bash
+
+    $ $Env:TMDB_API_KEY="YOUR_API_KEY"
+    $ $Env:TMDB_SESSION_ID="YOUR_SESSION_ID"
+
+After you've set up your environmental variables then run:
 
 .. code:: bash
 
     $ python -m unittest discover tests/
-
-
-.. |Build Status| image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
-   :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
-.. |codecov| image:: https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/AnthonyBloomer/tmdbv3api

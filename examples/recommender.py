@@ -1,6 +1,6 @@
 # Simple program that takes a movie name as an argument and finds movie recommendations for the user.
 
-from tmdbv3api import TMDb, Movie
+from tmdbv3api import TMDb, Movie, Search
 from argparse import ArgumentParser
 
 tmdb = TMDb()
@@ -9,7 +9,8 @@ tmdb.api_key = ""
 
 def search(query, limit):
     movie = Movie()
-    s = movie.search(query)
+    search = Search()
+    s = search.movies(query)
     first_result = s[0]
     recommendations = movie.recommendations(first_result.id)
     recommendations = (
