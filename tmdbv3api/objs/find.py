@@ -29,7 +29,7 @@ class Find(TMDb):
     def find_by_tvdb_id(self, tvdb_id):
         """
         The find method makes it easy to search for objects in our database by a TVDB ID.
-        :param tvdb_id: int
+        :param tvdb_id: str
         :return:
         """
         return self.find(tvdb_id, "tvdb_id")
