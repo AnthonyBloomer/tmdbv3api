@@ -241,7 +241,8 @@ class TV(TMDb):
             params += "&include_video_language=%s" % include_video_language
         return self._request_obj(
             self._urls["videos"] % tv_id,
-            params=params
+            params=params,
+            key="results"
         )
 
     def watch_providers(self, tv_id):
