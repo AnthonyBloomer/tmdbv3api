@@ -67,6 +67,11 @@ Other configuration settings include defining your ``language`` and enabling ``d
     tmdb.language = 'en'
     tmdb.debug = True
 
+These settings are shared by every object in the process, which is what lets you
+configure one ``TMDb()`` and then construct ``Movie()``, ``TV()`` and the rest
+without repeating yourself. Environment variables provide the defaults, and
+``TMDb.reset()`` clears anything set at runtime.
+
 Then to communicate with TMDb, create an instance of one of the objects
 and call that instances methods. For example, to retrieve movie
 recommendations for a given movie id:
