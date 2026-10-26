@@ -1,4 +1,5 @@
 import os
+import unittest
 
 from tmdbv3api import TMDb
 
@@ -30,6 +31,13 @@ video_attributes = ["iso_639_1", "iso_3166_1", "name", "key", "published_at", "s
 episode_group_attributes = ["id", "description", "episode_count", "group_count", "name", "type", "network"]
 
 def setup():
+    """Configure a TMDb client for tests that hit the live API.
+
+    Skips the calling test when no API key is available, so the offline test
+    suite can still be run (and run in CI) without credentials.
+    """
+    if not os.environ.get("TMDB_API_KEY"):
+        raise unittest.SkipTest("TMDB_API_KEY is not set, skipping live API test")
     tmdb = TMDb()
     tmdb.api_key = os.environ["TMDB_API_KEY"]
     tmdb.language = "en"
