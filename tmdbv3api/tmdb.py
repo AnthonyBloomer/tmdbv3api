@@ -7,18 +7,15 @@ import time
 import requests
 import requests.exceptions
 
+from functools import lru_cache
+
 from .as_obj import AsObj
 from .exceptions import TMDbException
-
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
 
 logger = logging.getLogger(__name__)
 
 
-class TMDb(object):
+class TMDb:
     _session = None
     TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_LANGUAGE = "TMDB_LANGUAGE"
