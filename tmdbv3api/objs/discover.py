@@ -1,9 +1,6 @@
-from tmdbv3api.tmdb import TMDb
+from urllib.parse import urlencode
 
-try:
-    from urllib import urlencode
-except ImportError:
-    from urllib.parse import urlencode
+from tmdbv3api.tmdb import TMDb
 
 
 class Discover(TMDb):
