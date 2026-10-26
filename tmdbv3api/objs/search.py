@@ -69,7 +69,7 @@ class Search(TMDb):
         """
         params = "query=%s&page=%s" % (quote(term), page)
         if adult is not None:
-            params += "&include_adult=%s" % "true" if adult else "false"
+            params += "&include_adult=%s" % ("true" if adult else "false")
         if region is not None:
             params += "&region=%s" % quote(region)
         if year is not None:
@@ -94,7 +94,7 @@ class Search(TMDb):
         """
         params = "query=%s&page=%s" % (quote(term), page)
         if adult is not None:
-            params += "&include_adult=%s" % "true" if adult else "false"
+            params += "&include_adult=%s" % ("true" if adult else "false")
         if region is not None:
             params += "&region=%s" % quote(region)
         return self._request_obj(
@@ -114,7 +114,7 @@ class Search(TMDb):
         """
         params = "query=%s&page=%s" % (quote(term), page)
         if adult is not None:
-            params += "&include_adult=%s" % "true" if adult else "false"
+            params += "&include_adult=%s" % ("true" if adult else "false")
         if region is not None:
             params += "&region=%s" % quote(region)
         return self._request_obj(
@@ -134,7 +134,7 @@ class Search(TMDb):
         """
         params = "query=%s&page=%s" % (quote(term), page)
         if adult is not None:
-            params += "&include_adult=%s" % "true" if adult else "false"
+            params += "&include_adult=%s" % ("true" if adult else "false")
         if release_year is not None:
             params += "&first_air_date_year=%s" % release_year
         return self._request_obj(
