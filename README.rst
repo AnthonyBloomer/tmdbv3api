@@ -116,14 +116,32 @@ Search for movies by title.
 
 .. code:: python
 
-    search = movie.search('Mad Max')
+    from tmdbv3api import Search
 
-    for res in search:
+    search = Search()
+    results = search.movies('Mad Max')
+
+    for res in results:
         print(res.id)
         print(res.title)
         print(res.overview)
         print(res.poster_path)
         print(res.vote_average)
+
+Search terms and filters are passed as arguments, not as a dictionary:
+
+.. code:: python
+
+    results = search.movies('Matrix', year=1999)   # correct
+    results = search.movies({'query': 'Matrix'})   # TypeError
+
+If nothing matches, the results are empty rather than an error:
+
+.. code:: python
+
+    results = search.movies('something not found')
+    len(results)        # 0
+    list(results)       # []
 
 Get the similar movies for a specific movie id.
 
@@ -254,6 +272,46 @@ Login to your account and add some movie recommendations to your TMDb watchlist.
         print("Adding %s (%s) to watchlist." % (recommendation.title, recommendation.release_date))
         account.add_to_watchlist(details.id, recommendation.id, "movie")
 
+
+Pagination
+~~~~~~~~~~
+
+TMDb paginates most list and search endpoints: a response contains at most 20
+items, and you can request at most 500 pages (10,000 items) per query. Methods
+that paginate accept a ``page`` argument, and the response exposes ``page``,
+``total_pages`` and ``total_results``, so you need to loop to get everything.
+
+.. code:: python
+
+    company = Company()
+
+    movies = []
+    page = 1
+    while True:
+        results = company.movies(882, page=page)
+        movies.extend(results)
+        if page >= int(results['total_pages']):
+            break
+        page += 1
+
+Caching
+~~~~~~~
+
+Responses are cached in memory using an LRU cache that holds the most recent
+128 requests. To change the size, set the ``TMDB_REQUEST_CACHE_MAXSIZE``
+environment variable before importing the library (``0`` means unlimited, which
+means memory use grows with the number of distinct requests).
+
+.. code:: bash
+
+    $ export TMDB_REQUEST_CACHE_MAXSIZE=512
+
+You can also empty the cache at any time, or turn caching off completely:
+
+.. code:: python
+
+    tmdb.cache_clear()
+    tmdb.cache = False
 
 Running Tests
 ~~~~~~~~~~~~~

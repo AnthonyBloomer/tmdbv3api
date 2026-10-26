@@ -5,12 +5,13 @@ from .exceptions import TMDbException
 
 class AsObj:
     def __init__(self, json=None, key=None, dict_key=False, dict_key_name=None):
-        self._json = json if json else {}
+        self._json = {} if json is None else json
         self._key = key
         self._dict_key = dict_key
         self._dict_key_name = dict_key_name
         self._obj_list = []
         self._list_only = False
+        self._keyed_list = False
         if isinstance(self._json, list):
             self._obj_list = [AsObj(o) if isinstance(o, (dict, list)) else o for o in self._json]
             self._list_only = True
@@ -26,6 +27,7 @@ class AsObj:
                     if self._key and key == self._key:
                         final = AsObj(value, dict_key=isinstance(value, dict), dict_key_name=key)
                         self._obj_list = final
+                        self._keyed_list = True
                     else:
                         final = AsObj(value)
                 else:
@@ -37,20 +39,32 @@ class AsObj:
     def _dict(self):
         return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
 
+    @property
+    def _is_list(self):
+        """True when this object wraps a list of results, even an empty one."""
+        return self._list_only or self._keyed_list
+
     def __delitem__(self, key):
+        if isinstance(key, (int, slice)):
+            if not self._is_list:
+                raise TypeError("%r object does not contain a list of results" % type(self).__name__)
+            del self._obj_list[key]
+            return None
         return delattr(self, key)
 
     def __getitem__(self, key):
-        if isinstance(key, int) and self._obj_list:
+        if isinstance(key, (int, slice)):
+            if not self._is_list:
+                raise TypeError("%r object does not contain a list of results" % type(self).__name__)
             return self._obj_list[key]
         else:
             return getattr(self, key)
 
     def __iter__(self):
-        return (o for o in self._obj_list) if self._obj_list else iter(self._dict())
+        return (o for o in self._obj_list) if self._is_list else iter(self._dict())
 
     def __len__(self):
-        return len(self._obj_list) if self._obj_list else len(self._dict())
+        return len(self._obj_list) if self._is_list else len(self._dict())
 
     def __repr__(self):
         return str(self._obj_list) if self._list_only else str(self._dict())
