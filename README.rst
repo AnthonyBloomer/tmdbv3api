@@ -1,13 +1,9 @@
 tmdbv3api
 =========
 
-.. image:: https://travis-ci.org/AnthonyBloomer/tmdbv3api.svg?branch=master
-    :target: https://travis-ci.org/AnthonyBloomer/tmdbv3api
-    :alt: Build Status
-
-.. image:: https://codecov.io/gh/AnthonyBloomer/tmdbv3api/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/AnthonyBloomer/tmdbv3api
-    :alt: codecov
+.. image:: https://github.com/AnthonyBloomer/tmdbv3api/actions/workflows/tests.yml/badge.svg
+    :target: https://github.com/AnthonyBloomer/tmdbv3api/actions/workflows/tests.yml
+    :alt: Tests
 
 .. image:: https://img.shields.io/github/v/release/AnthonyBloomer/tmdbv3api
     :target: https://github.com/AnthonyBloomer/tmdbv3api/releases
@@ -349,3 +345,6 @@ After you've set up your environmental variables then run:
 .. code:: bash
 
     $ python -m unittest discover tests/
+
+The same command works without credentials: tests that call the live API skip
+themselves when ``TMDB_API_KEY`` is unset, leaving the offline suite to run.
