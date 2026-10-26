@@ -27,7 +27,9 @@ class TMDb(object):
     TMDB_DEBUG_ENABLED = "TMDB_DEBUG_ENABLED"
     TMDB_CACHE_ENABLED = "TMDB_CACHE_ENABLED"
     TMDB_PROXIES = "TMDB_PROXIES"
-    REQUEST_CACHE_MAXSIZE = None
+    # Bounded by default: an unbounded cache keeps every response alive for the
+    # lifetime of the process. Set TMDB_REQUEST_CACHE_MAXSIZE to change it.
+    REQUEST_CACHE_MAXSIZE = int(os.environ.get("TMDB_REQUEST_CACHE_MAXSIZE", 128)) or None
 
     def __init__(self, obj_cached=True, session=None):
         if self.__class__._session is None or session is not None:

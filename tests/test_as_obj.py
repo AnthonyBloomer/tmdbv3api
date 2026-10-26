@@ -98,6 +98,42 @@ class AsObjTests(TestCase):
         self.assertEqual(len(AsObj({'a': 1, 'b': 2})), 2)
         self.assertEqual(len(AsObj()), 0)
 
+    def test_empty_results(self):
+        # https://github.com/AnthonyBloomer/tmdbv3api/issues/128
+        empty = AsObj({'page': 1, 'results': [], 'total_pages': 1, 'total_results': 0}, key='results')
+        self.assertEqual(len(empty), 0)
+        self.assertEqual(list(empty), [])
+        self.assertEqual(len(empty.results), 0)
+        self.assertTrue(empty.results._list_only)
+        with self.assertRaises(IndexError):
+            empty[0]
+        self.assertEqual(empty[0:5], [])
+
+    def test_non_empty_results(self):
+        results = AsObj({'page': 1, 'results': [{'id': 1}, {'id': 2}], 'total_pages': 1, 'total_results': 2},
+                        key='results')
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results[0]['id'], 1)
+        self.assertEqual([r['id'] for r in results], [1, 2])
+
+    def test_dict_obj__getitem__slice(self):
+        dict_obj = AsObj(self.entries)
+        self.assertEqual(dict_obj['formats'][0:1], ['.jpg'])
+        self.assertEqual(len(dict_obj['results'][:1]), 1)
+        with self.assertRaises(TypeError):
+            dict_obj[0]
+
+    def test_dict_obj__delitem__slice(self):
+        # https://github.com/AnthonyBloomer/tmdbv3api/issues/124
+        results = AsObj({'results': [{'id': 1}, {'id': 2}, {'id': 3}]}, key='results')
+        del results[1:]
+        self.assertEqual(len(results), 1)
+        formats = AsObj(['.jpg', '.png'])
+        del formats[0]
+        self.assertEqual(list(formats), ['.png'])
+        with self.assertRaises(TypeError):
+            del AsObj({'a': 1})[0]
+
     def test_dict_obj__getitem__(self):
         dict_obj = AsObj(self.entries)
         self.assertEqual(dict_obj['title'], 'images')
