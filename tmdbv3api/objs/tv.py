@@ -1,11 +1,8 @@
 import warnings
+from urllib.parse import quote
+
 from tmdbv3api.tmdb import TMDb
 from .search import Search
-
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
 
 
 class TV(TMDb):

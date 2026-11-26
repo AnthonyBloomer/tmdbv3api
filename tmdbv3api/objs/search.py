@@ -1,9 +1,6 @@
-from tmdbv3api.tmdb import TMDb
+from urllib.parse import quote
 
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
+from tmdbv3api.tmdb import TMDb
 
 
 class Search(TMDb):
